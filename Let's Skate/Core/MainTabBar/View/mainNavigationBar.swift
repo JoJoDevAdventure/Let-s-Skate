@@ -23,7 +23,10 @@ class mainNavigationBar: UITabBarController {
             vcs.append(vc)
         }
         setViewControllers(vcs, animated: true)
-        tabBar.tintColor = .label
+        tabBar.backgroundColor = UIColor().DarkMainColor()
+        tabBar.tintColor = .white
+        tabBar.barTintColor = UIColor().DarkMainColor()
+        
     }
     
 }

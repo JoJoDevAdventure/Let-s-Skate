@@ -7,22 +7,31 @@
 
 import UIKit
 
-class SideMenuView: UIView {
+protocol SideMenuViewDelegate : AnyObject {
+    func SideMenuViewDidTapProfileButton()
+    func SideMenuViewDidTapSettingButton()
+    func SideMenuViewDidTapLogOut()
+}
+
+final class SideMenuView: UIView {
+    
+    weak var delegate: SideMenuViewDelegate?
     
     // MARK: - Properties
     private let container: UIView = {
         let container = UIView()
         container.transform = container.transform.rotated(by: -0.01)
-        container.backgroundColor = .label
+        container.backgroundColor = UIColor().DarkMainColor()
         return container
     }()
     
     private let fullnameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 22, weight: .bold)
-        label.text = "Joseph Bhl"
+        label.text = "Youssef Bhl"
         label.textColor = .systemBackground
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
         return label
     }()
     
@@ -32,17 +41,43 @@ class SideMenuView: UIView {
         label.text = "@youssefbhl2727"
         label.textColor = .systemBackground
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
         return label
     }()
     
     private let profilePic = ProfileRoundedImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
+    
+    private let profileButton: sideViewButtonView = {
+        let button = sideViewButtonView()
+        button.configureButton(with: "person", "Profile")
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.alpha = 0
+        return button
+    }()
+    
+    private let settingButton: sideViewButtonView = {
+        let button = sideViewButtonView()
+        button.configureButton(with: "gear", "Settings")
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.alpha = 0
+        return button
+    }()
+    
+    private let logoutButton: sideViewButtonView = {
+        let button = sideViewButtonView()
+        button.configureButton(with: "iphone.and.arrow.forward", "Log out")
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.alpha = 0
+        return button
+    }()
     
     // MARK: - Life cycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupSubviews()
         setupConstraints()
-        backgroundColor = .label
+        setupGestureReconizer()
+        backgroundColor = UIColor().DarkMainColor()
     }
     
     required init?(coder: NSCoder) {
@@ -56,6 +91,9 @@ class SideMenuView: UIView {
         container.addSubview(fullnameLabel)
         container.addSubview(profilePic)
         container.addSubview(usernameLabel)
+        container.addSubview(profileButton)
+        container.addSubview(settingButton)
+        container.addSubview(logoutButton)
     }
     
     override func layoutSubviews() {
@@ -71,7 +109,7 @@ class SideMenuView: UIView {
         
         let usernameConstraints = [
             usernameLabel.centerXAnchor.constraint(equalTo: fullnameLabel.centerXAnchor),
-            usernameLabel.topAnchor.constraint(equalTo: fullnameLabel.bottomAnchor, constant: 10)
+            usernameLabel.topAnchor.constraint(equalTo: fullnameLabel.bottomAnchor, constant: 6)
         ]
         NSLayoutConstraint.activate(usernameConstraints)
         
@@ -83,12 +121,73 @@ class SideMenuView: UIView {
         ]
         NSLayoutConstraint.activate(profilePicConstraints)
         
-
+        let profileButtonConstraints = [
+            profileButton.centerXAnchor.constraint(equalTo: fullnameLabel.centerXAnchor),
+            profileButton.topAnchor.constraint(equalTo: profilePic.bottomAnchor, constant: 40),
+            profileButton.widthAnchor.constraint(equalToConstant: 200),
+            profileButton.heightAnchor.constraint(equalToConstant: 50)
+        ]
+        NSLayoutConstraint.activate(profileButtonConstraints)
+        
+        let settingButtonConstraints = [
+            settingButton.centerXAnchor.constraint(equalTo: fullnameLabel.centerXAnchor),
+            settingButton.topAnchor.constraint(equalTo: profileButton.bottomAnchor, constant: 20),
+            settingButton.widthAnchor.constraint(equalToConstant: 200),
+            settingButton.heightAnchor.constraint(equalToConstant: 50)
+        ]
+        NSLayoutConstraint.activate(settingButtonConstraints)
+        
+        let logoutButtonConstraints = [
+            logoutButton.centerXAnchor.constraint(equalTo: fullnameLabel.centerXAnchor),
+            logoutButton.topAnchor.constraint(equalTo: settingButton.bottomAnchor, constant: 20),
+            logoutButton.widthAnchor.constraint(equalToConstant: 200),
+            logoutButton.heightAnchor.constraint(equalToConstant: 50)
+        ]
+        NSLayoutConstraint.activate(logoutButtonConstraints)
+    }
+    
+    private func setupGestureReconizer() {
+        profileButton.isUserInteractionEnabled = true
+        profileButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapProfileButton)))
+        settingButton.isUserInteractionEnabled = true
+        settingButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapSettingButton)))
+        logoutButton.isUserInteractionEnabled = true
+        logoutButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapLogoutButton)))
     }
     
     // MARK: - Functions
     
-
+    public func sideMenuDidApear() {
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {[weak self] in
+            self?.profileButton.alpha = 1
+        }
+        
+        UIView.animate(withDuration: 0.2, delay: 0.1, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {[weak self] in
+            self?.settingButton.alpha = 1
+        }
+        
+        UIView.animate(withDuration: 0.2, delay: 0.2, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {[weak self] in
+            self?.logoutButton.alpha = 1
+        }
+    }
+    
+    public func sideMenuDisapear() {
+        profileButton.alpha = 0
+        settingButton.alpha = 0
+        logoutButton.alpha = 0
+    }
+    
+    @objc func didTapProfileButton() {
+        delegate?.SideMenuViewDidTapProfileButton()
+    }
+    
+    @objc func didTapSettingButton() {
+        delegate?.SideMenuViewDidTapSettingButton()
+    }
+    
+    @objc func didTapLogoutButton() {
+        delegate?.SideMenuViewDidTapLogOut()
+    }
     
     // MARK: - Extensions
     

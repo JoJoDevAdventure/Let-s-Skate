@@ -20,17 +20,18 @@ class ProfileRoundedImageView: UIImageView {
 
     func setupImageView() {
         image = UIImage(systemName: "person")
-        tintColor = .label
+        tintColor = .white
         contentMode = .scaleToFill
         clipsToBounds = true
-        layer.borderWidth = 1
-        layer.borderColor = UIColor.label.cgColor
+        layer.borderWidth = 3
+        layer.borderColor = UIColor().DarkMainColor().cgColor
         let height = frame.height
         let width = frame.width
         let min = height > width ? width : height
         layer.cornerRadius = min/2
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .gray
+        isUserInteractionEnabled = true
     }
-
+    
 }

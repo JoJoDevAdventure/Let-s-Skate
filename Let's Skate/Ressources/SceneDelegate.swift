@@ -16,7 +16,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = mainNavigationBar()
+        let loginService: LoginService = AuthManager()
+        let viewModel = LoginViewModel(loginService: loginService)
+        let verificationService : UserVerificationService = AuthManager()
+//        if verificationService.checkIfUserIsLoggedIn() == false {
+//            window?.rootViewController = SignInViewController(viewModel: viewModel)
+//        } else {
+//            window?.rootViewController = mainNavigationBar()
+//        }
+        window?.rootViewController = SignInViewController(viewModel: viewModel)
+        window?.backgroundColor = UIColor().DarkMainColor()
+        window?.safeAreaLayoutGuide.owningView?.backgroundColor = UIColor().DarkMainColor()
         window?.makeKeyAndVisible()
     }
 

@@ -7,9 +7,21 @@
 
 import UIKit
 
+protocol FeedTableViewCellDelegate: AnyObject {
+    
+    func FeedTableViewCellShowProfile()
+    func FeedTableViewCellDidTapLike()
+    func FeedTableViewCellDidTapComment()
+    func FeedTableViewCellDidTapShare()
+    func FeedTableViewCellDidTapSeeMore()
+    
+}
+
 class FeedTableViewCell: UITableViewCell {
     
     // MARK: - Properties
+    
+    weak var delegate: FeedTableViewCellDelegate?
     
     static let identifier = "FeedTableViewCell"
     
@@ -19,6 +31,8 @@ class FeedTableViewCell: UITableViewCell {
         label.backgroundColor = .gray
         label.text = "xxxxxxxxxxxxxxxxx"
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.isUserInteractionEnabled = true
+        label.textColor = .black
         return label
     }()
     
@@ -36,6 +50,8 @@ class FeedTableViewCell: UITableViewCell {
     private let likeButton: UnderFeedButton = {
         let button = UnderFeedButton()
         button.setupButton(with: "heart")
+        button.isEnabled = true
+        button.isUserInteractionEnabled = true
         return button
     }()
     
@@ -65,6 +81,7 @@ class FeedTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "xxxxxxxxxxxxxxxx xxxx xxxxxx xxxx  xxx xx xxxxxxxx xxxxxxxxx xx xx xxxxxxx xxxx xxxxxxxx xxx xxxxxx xxx xx xxxxxxx xxxxxxxx xx xxxxxxx x xxxxx xxx x xxx x xxxxxxxxxx xxxxxxxx xxxxxxxxx xx xx xxxxxxx xxxx xxxxxxxx xxx xxxxxx xxx xx xxxxxxx xxxxxxxx xx xxxxxxx x xxxxx xxx x xxx x xxxxxxxxx x xxxxxxxx xxxxxxxxx xx xx xxxxxxx xxxx xxxxxxxx xxx xxxxxx xxx xx xxxxxxx xxxxxxxx xx xxxxxxx x xxxxx xxx x xxx x xxxxxxxxx"
         label.accessibilityScroll(.down)
+        label.textColor = .black
         label.isScrollEnabled = true
         
         return label
@@ -74,6 +91,10 @@ class FeedTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.isUserInteractionEnabled = true
+        backgroundColor = UIColor().lightMainColor()
+        setupActions()
+        setupGestures()
         setupSubViews()
         setupConstraints()
     }
@@ -114,7 +135,7 @@ class FeedTableViewCell: UITableViewCell {
         
         let nicknameLabelConstraints = [
             nickNameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10),
-            nickNameLabel.topAnchor.constraint(equalTo: profileImageView.topAnchor, constant: 10)
+            nickNameLabel.topAnchor.constraint(equalTo: profileImageView.topAnchor, constant: 15)
         ]
         NSLayoutConstraint.activate(nicknameLabelConstraints)
         
@@ -152,8 +173,36 @@ class FeedTableViewCell: UITableViewCell {
         
     }
     
+    private func setupActions() {
+        likeButton.addAction(UIAction(handler: {[weak self] _ in
+            self?.delegate?.FeedTableViewCellDidTapLike()
+        }), for: .touchUpInside)
+        
+        commentButton.addAction(UIAction(handler: {[weak self] _ in
+            self?.delegate?.FeedTableViewCellDidTapComment()
+        }), for: .touchUpInside)
+        
+        shareButton.addAction(UIAction(handler: {[weak self] _ in
+            self?.delegate?.FeedTableViewCellDidTapShare()
+        }), for: .touchUpInside)
+        
+        moreButton.addAction(UIAction(handler: {[weak self] _ in
+            self?.delegate?.FeedTableViewCellDidTapSeeMore()
+        }), for: .touchUpInside)
+    }
     
+    private func setupGestures() {
+        let showProfileTap = UITapGestureRecognizer(target: self, action: #selector(didTapProfile))
+        profileImageView.isUserInteractionEnabled = true
+        profileImageView.addGestureRecognizer(showProfileTap)
+        nickNameLabel.isUserInteractionEnabled = true
+        nickNameLabel.addGestureRecognizer(showProfileTap)
+    }
+
     
+    @objc func didTapProfile() {
+        delegate?.FeedTableViewCellShowProfile()
+    }
     
     // MARK: - Functions
     

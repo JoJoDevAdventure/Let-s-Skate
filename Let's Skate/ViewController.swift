@@ -8,12 +8,27 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    // MARK: - Properties
+    
+    
+    // MARK: - Life cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
+    
+    
 
+    
+    // MARK: - Set up
+    
+    
+    
+    // MARK: - Functions
+    
+    
 
 }
 
+// MARK: - Extensions

@@ -13,7 +13,7 @@ class UnderFeedButton: UIButton {
         let buttonImage = UIImage(systemName: imageName, withConfiguration: UIImage.SymbolConfiguration(pointSize: 30))
         setImage(buttonImage, for: .normal)
         translatesAutoresizingMaskIntoConstraints  = false
-        tintColor = .label
+        tintColor = UIColor().DarkMainColor()
     }
     
 }
