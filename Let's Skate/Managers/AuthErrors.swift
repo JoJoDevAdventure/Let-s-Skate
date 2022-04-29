@@ -78,3 +78,7 @@ enum RegistrationErrors : Error, CaseIterable {
     }
     
 }
+
+enum EmailVerificationError : Error, CaseIterable {
+    case failedToSendRequest
+}

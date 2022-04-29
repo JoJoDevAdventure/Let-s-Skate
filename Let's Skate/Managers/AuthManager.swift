@@ -24,18 +24,28 @@ protocol RegistrationService {
     
 protocol UserVerificationService {
     func checkIfUserIsLoggedIn() -> Bool
-}
-
-protocol UserEmailVerificationService {
-    func sendEmailVerification(completion: @escaping (Bool) -> Void)
     func checkIfUserIfVerified() -> Bool
 }
 
-class AuthManager: LoginService, RegistrationService, UserVerificationService {
+protocol UserEmailVerificationService {
+    func sendEmailVerification(completion: @escaping (Result<String,EmailVerificationError>) -> Void)
+    func checkIfUserIfVerified() -> Bool
+}
+
+protocol LogOutService {
+    func logOutUser()
+}
+
+class AuthManager: LoginService, RegistrationService, UserVerificationService, UserEmailVerificationService, LogOutService {
     
     var userSesstion: FirebaseAuth.User?
     
     init() {
+//        do {
+//            try AuthRef.signOut()
+//        } catch {
+//            
+//        }
         self.userSesstion = Auth.auth().currentUser
     }
     
@@ -89,27 +99,36 @@ class AuthManager: LoginService, RegistrationService, UserVerificationService {
         return true
     }
     
-    func sendEmailVerification(completion: @escaping (Bool) -> Void) {
+    func sendEmailVerification(completion: @escaping (Result<String,EmailVerificationError>) -> Void) {
         AuthRef.currentUser?.sendEmailVerification(completion: {[weak self] error in
             guard error == nil else {
-                completion(false)
+                completion(.failure(EmailVerificationError.failedToSendRequest))
                 return
             }
             self?.userSesstion = self?.AuthRef.currentUser
-            completion(true)
+            guard let email = self?.userSesstion?.email else { return }
+            completion(.success(email))
         })
     }
     
     func checkIfUserIfVerified() -> Bool {
-        guard let userSesstion = userSesstion else {
+        AuthRef.currentUser?.reload(completion: nil)
+        guard let user = AuthRef.currentUser else {
             return false
         }
-        
-        if userSesstion.isEmailVerified {
+        if user.isEmailVerified {
+            userSesstion = user
             return true
         } else {
             return false
         }
-        
+    }
+    
+    func logOutUser() {
+        do {
+            try AuthRef.signOut()
+        } catch {
+            
+        }
     }
 }

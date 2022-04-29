@@ -20,6 +20,7 @@ class WelcomeViewController: UIViewController {
     
     var username : String = ""
     private var state: WelcomeScreenState = .first
+    let animations = WelcomeAnimations()
     
     private let welcomeMainLabel: MainWelcomeLabel = {
         let label = MainWelcomeLabel()
@@ -96,7 +97,7 @@ class WelcomeViewController: UIViewController {
         setupGestureReconizer()
         setupLabelsText()
         setupContinueButton()
-        WelcomeInAnimation(mainLabel: welcomeMainLabel, secondLabel: welcomeSecondLabel, animation: firstAnimation)
+        animations.WelcomeInAnimation(view: view, mainLabel: welcomeMainLabel, secondLabel: welcomeSecondLabel, animation: firstAnimation, firstAnimation: firstAnimation, secondAnimation: nil, continueButton: continueButton, state: state)
     }
     
     // MARK: - Set up
@@ -110,10 +111,8 @@ class WelcomeViewController: UIViewController {
     }
     
     private func setupContinueButton() {
-        continueButton.addAction(UIAction(handler: { _ in
-            let vc = EmailVerificationViewController()
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: true)
+        continueButton.addAction(UIAction(handler: {[weak self] _ in
+            self?.viewModel.verifyUserEmail()
         }), for: .touchUpInside)
     }
     
@@ -123,19 +122,19 @@ class WelcomeViewController: UIViewController {
         view.isUserInteractionEnabled = false
         switch state {
         case .first:
-            WelcomeOutAnimation(mainLabel: welcomeMainLabel, secondLabel: welcomeSecondLabel, animation: firstAnimation) {[weak self] _ in
+            animations.WelcomeOutAnimation(mainLabel: welcomeMainLabel, secondLabel: welcomeSecondLabel, animation: firstAnimation, firstAnimation: firstAnimation, secondAnimation: nil) {[weak self] _ in
                 guard let strongSelf = self else { return }
                 self?.state = .second
                 self?.setupLabelsText()
-                self?.WelcomeInAnimation(mainLabel: strongSelf.welcomeMainLabel, secondLabel: strongSelf.welcomeSecondLabel, animation: strongSelf.secondAnimation)
+                self?.animations.WelcomeInAnimation(view: strongSelf.view, mainLabel: strongSelf.welcomeMainLabel, secondLabel: strongSelf.welcomeSecondLabel, animation: strongSelf.secondAnimation, firstAnimation: nil, secondAnimation: strongSelf.secondAnimation, continueButton: strongSelf.continueButton, state: strongSelf.state)
                 self?.view.isUserInteractionEnabled = true
             }
         case .second:
-            WelcomeOutAnimation(mainLabel: welcomeMainLabel, secondLabel: welcomeSecondLabel, animation: secondAnimation) {[weak self] _ in
+            animations.WelcomeOutAnimation(mainLabel: welcomeMainLabel, secondLabel: welcomeSecondLabel, animation: secondAnimation, firstAnimation: nil, secondAnimation: secondAnimation) {[weak self] _ in
                 guard let strongSelf = self else { return }
                 self?.state = .final
                 self?.setupLabelsText()
-                self?.WelcomeInAnimation(mainLabel: strongSelf.welcomeMainLabel, secondLabel: strongSelf.welcomeSecondLabel, animation: strongSelf.finalAnimation)
+                self?.animations.WelcomeInAnimation(view: strongSelf.view, mainLabel: strongSelf.welcomeMainLabel, secondLabel: strongSelf.welcomeSecondLabel, animation: strongSelf.finalAnimation, firstAnimation: nil, secondAnimation: nil, continueButton: strongSelf.continueButton, state: strongSelf.state)
                 self?.view.isUserInteractionEnabled = true
             }
         case .final:
@@ -157,134 +156,17 @@ class WelcomeViewController: UIViewController {
         }
     }
     
-    private func WelcomeInAnimation(mainLabel: MainWelcomeLabel, secondLabel: DescWelcomeLabel, animation: AnimationView) {
-        view.addSubview(mainLabel)
-        let mainConstraints = [
-            welcomeMainLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -220),
-            welcomeMainLabel.widthAnchor.constraint(equalToConstant: 350),
-            welcomeMainLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ]
-        NSLayoutConstraint.activate(mainConstraints)
-        
-        view.addSubview(secondLabel)
-        let descConstraints = [
-            welcomeSecondLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            welcomeSecondLabel.topAnchor.constraint(equalTo: welcomeMainLabel.bottomAnchor, constant: 20),
-            welcomeSecondLabel.widthAnchor.constraint(equalToConstant: 350)
-        ]
-        NSLayoutConstraint.activate(descConstraints)
-        
-        view.addSubview(animation)
-        if animation == firstAnimation {
-            let animationConstraints = [
-                animation.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                animation.topAnchor.constraint(equalTo: welcomeSecondLabel.bottomAnchor),
-                animation.widthAnchor.constraint(equalToConstant: 220),
-                animation.heightAnchor.constraint(equalToConstant: 400)
-            ]
-            NSLayoutConstraint.activate(animationConstraints)
-        } else if animation == secondAnimation {
-            let animationConstraints = [
-                animation.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                animation.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 15),
-                animation.widthAnchor.constraint(equalTo: view.widthAnchor),
-                animation.heightAnchor.constraint(equalToConstant: 300)
-            ]
-            NSLayoutConstraint.activate(animationConstraints)
-        } else {
-            view.addSubview(continueButton)
-            let animationConstraints = [
-                animation.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 50),
-                animation.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                animation.widthAnchor.constraint(equalToConstant: 300),
-                animation.heightAnchor.constraint(equalToConstant: 300)
-            ]
-            NSLayoutConstraint.activate(animationConstraints)
-            
-            let buttonConstraints = [
-                continueButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                continueButton.topAnchor.constraint(equalTo: secondLabel.bottomAnchor, constant: 100)
-            ]
-            NSLayoutConstraint.activate(buttonConstraints)
-        }
-        animation.play()
-        
-        UIView.animate(withDuration: 0.8, delay: 0.3, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {
-            mainLabel.alpha = 1
-        }
-        UIView.animate(withDuration: 0.8, delay: 0.5, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {
-            secondLabel.alpha = 1
-        }
-        
-        UIView.animate(withDuration: 0.8, delay: 0.7, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {
-            animation.alpha = 1
-        }
-        
-        if state == .final {
-            UIView.animate(withDuration: 0.6, delay: 1.4, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {[weak self] in
-                self?.continueButton.alpha = 1
-            }
-        }
-    }
-    
-    private func WelcomeOutAnimation(mainLabel: MainWelcomeLabel, secondLabel: DescWelcomeLabel, animation: AnimationView, completion: @escaping (Bool?)->Void) {
-        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {
-            mainLabel.transform = CGAffineTransform(translationX: -20, y: 0)
-        } completion: { _ in
-            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {
-                mainLabel.transform = mainLabel.transform.translatedBy(x: 0, y: -200)
-                mainLabel.alpha = 0
-            }
-        }
-        UIView.animate(withDuration: 1, delay: 0.3, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {
-            secondLabel.transform = CGAffineTransform(translationX: -20, y: 0)
-        } completion: { _ in
-            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {
-                secondLabel.transform = secondLabel.transform.translatedBy(x: 0, y: -200)
-                secondLabel.alpha = 0
-            }
-        }
-        
-        UIView.animate(withDuration: 1, delay: 0.6, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {[weak self] in
-            if animation == self?.secondAnimation {
-                animation.transform = CGAffineTransform(translationX: 0, y: 30)
-            } else {
-                animation.transform = CGAffineTransform(translationX: -20, y: 0)
-            }
-            
-        } completion: { _ in
-            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {
-                if animation == self.secondAnimation {
-                    animation.transform = animation.transform.scaledBy(x: 1.4, y: 1.4)
-                } else {
-                    animation.transform = animation.transform.translatedBy(x: 0, y: -200)
-                }
-                animation.alpha = 0
-            } completion: { _ in
-                mainLabel.transform = mainLabel.transform.translatedBy(x: 0, y: 200)
-                mainLabel.transform = mainLabel.transform.translatedBy(x: 20, y: 0)
-                secondLabel.transform = secondLabel.transform.translatedBy(x: 0, y: 200)
-                secondLabel.transform = secondLabel.transform.translatedBy(x: 20, y: 0)
-                if animation == self.secondAnimation {
-                    animation.transform = animation.transform.translatedBy(x: 0, y: -30)
-                    animation.transform = animation.transform.scaledBy(x: -1.4, y: -1.4)
-                } else {
-                    animation.transform = animation.transform.translatedBy(x: 0, y: 200)
-                    animation.transform = animation.transform.translatedBy(x: 20, y: 0)
-                }
-                mainLabel.removeFromSuperview()
-                secondLabel.removeFromSuperview()
-                animation.removeFromSuperview()
-                completion(true)
-            }
-        }
-        
-    }
-    
     
 }
 
 // MARK: - Extensions
 extension WelcomeViewController: WelcomeViewModelOutPut {
-    
+    func verificationEmailSent(email: String) {
+        let service : UserEmailVerificationService = AuthManager()
+        let viewModel = EmailVerificationViewModel(verificationEmailService: service)
+        let vc = EmailVerificationViewController(viewModel: viewModel)
+        vc.userEmail = email
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
+    }
 }

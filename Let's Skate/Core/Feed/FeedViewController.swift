@@ -11,6 +11,18 @@ final class FeedViewController: UIViewController {
     
     // MARK: - Properties
     
+    var posts: [String] = []
+    
+    private let noPostsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "No posts yet.\nTry to follow some peoples!"
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.isHidden = true
+        return label
+    }()
+    
     private let feedTableView: UITableView = {
         let table = UITableView()
         table.register(FeedTableViewCell.self, forCellReuseIdentifier: FeedTableViewCell.identifier)
@@ -51,7 +63,19 @@ final class FeedViewController: UIViewController {
     }()
     
     private let sideMenu = SideMenuView(frame: CGRect(x: -UIScreen.main.bounds.width, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*2))
-
+    
+    private let viewModel: FeedViewModel
+    
+    init(viewModel: FeedViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        viewModel.output = self
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,10 +85,14 @@ final class FeedViewController: UIViewController {
         setupSideMenu()
         sideViewDelegate()
         setupAddButton()
+        checkIfThereArePosts()
     }
 
     // MARK: - Set up
     private func setupSubViews() {
+        view.addSubview(noPostsLabel)
+        noPostsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        noPostsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100).isActive = true
         view.addSubview(feedTableView)
         view.addSubview(addPostButton)
         addPostButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
@@ -113,7 +141,6 @@ final class FeedViewController: UIViewController {
     
     // MARK: - Network Manager calls
     
-    
     // MARK: - Functions
     
     //show side menu
@@ -151,6 +178,17 @@ final class FeedViewController: UIViewController {
         addPostButton.isHidden = false
     }
     
+    private func checkIfThereArePosts() {
+        if posts.isEmpty {
+            feedTableView.isHidden = true
+            addPostButton.isHidden = true
+            noPostsLabel.isHidden = false
+        } else {
+            noPostsLabel.isHidden = true
+            feedTableView.isHidden = false
+            addPostButton.isHidden = false
+        }
+    }
 
 }
 // MARK: - Extensions
@@ -195,7 +233,9 @@ extension FeedViewController: SideMenuViewDelegate {
     
     func SideMenuViewDidTapLogOut() {
         AlertManager.shared.showConfirmOrDeclineAlert(viewController: self, title: "LogOut", message: "Are you sure to Logout ?") {[weak self] confirm in
-            if !confirm {
+            if confirm {
+                self?.viewModel.logOut()
+            } else {
                 self?.didTapLeave()
             }
         }
@@ -225,4 +265,14 @@ extension FeedViewController: FeedTableViewCellDelegate {
         print("DEBUG: TAP MORE")
     }
 
+}
+
+extension FeedViewController: FeedViewModelOutPut {
+    func returnToLoginScreen() {
+        let loginService : LoginService = AuthManager()
+        let viewModel = LoginViewModel(loginService: loginService)
+        let vc = SignInViewController(viewModel: viewModel)
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
+    }
 }

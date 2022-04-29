@@ -16,10 +16,19 @@ enum TabBarModel: CaseIterable {
 
     var viewController: UIViewController {
         switch self {
-        case .feedView : return FeedViewController()
-        case .exploreView : return ExploreViewController()
-        case .seachView : return SearchViewController()
-        case .messagesView : return MessagesViewController()
+        case .feedView :
+            let service: LogOutService = AuthManager()
+            let viewModel = FeedViewModel(logoutService: service)
+            return FeedViewController(viewModel: viewModel)
+            
+        case .exploreView :
+            return ExploreViewController()
+            
+        case .seachView :
+            return SearchViewController()
+            
+        case .messagesView :
+            return MessagesViewController()
         }
     }
     

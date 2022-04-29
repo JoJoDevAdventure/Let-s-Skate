@@ -35,7 +35,7 @@ class SignInViewController: UIViewController {
     
     private let passwordTextField: AuthTextfield = {
         let textfield = AuthTextfield()
-        textfield.placeholder = "Password"
+        textfield.placeholder = "Password"
 
         textfield.isSecureTextEntry = true
         return textfield

@@ -13,6 +13,8 @@ class EmailVerificationViewController: UIViewController {
     
     // MARK: - Properties
     
+    var userEmail: String = ""
+    
     private let sentAnimation: AnimationView = {
         let view = AnimationView()
         view.animation = Animation.named("emailVerificationAnimation")
@@ -41,7 +43,6 @@ class EmailVerificationViewController: UIViewController {
     
     private let confirmMailDescLabel: DescWelcomeLabel = {
         let label = DescWelcomeLabel()
-        label.text = "We sent you a verification email to 'youssef.b.air2@gmail.com', check your mail box to confirm."
         label.font = .systemFont(ofSize: 22)
         label.numberOfLines = 0
         return label
@@ -96,6 +97,18 @@ class EmailVerificationViewController: UIViewController {
         return label
     }()
     
+    private let viewModel: EmailVerificationViewModel
+    
+    init(viewModel: EmailVerificationViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        viewModel.output = self
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Life cycle
 
     override func viewDidLoad() {
@@ -110,6 +123,7 @@ class EmailVerificationViewController: UIViewController {
 
     private func setupSubViews() {
         view.addSubview(confirmMailLabel)
+        confirmMailDescLabel.text = "We sent you a verification email to '\(userEmail)', check your mail box to confirm."
         view.addSubview(confirmMailDescLabel)
         view.addSubview(confirmMailButton)
         view.addSubview(sentAnimation)
@@ -178,19 +192,19 @@ class EmailVerificationViewController: UIViewController {
     
     private func setupButtonsActions() {
         resendMailButton.addAction(UIAction(handler: {[weak self] _ in
-            self?.sendVerificationEmail()
+            guard let strongSelf = self else {return}
+            self?.viewModel.resendVerificationEmail(viewController: strongSelf)
         }), for: .touchUpInside)
         
-        confirmMailButton.addAction(UIAction(handler: { _ in
-            let vc = mainNavigationBar()
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: true)
+        confirmMailButton.addAction(UIAction(handler: {[weak self] _ in
+            guard let strongSelf = self else {return}
+            self?.viewModel.checkEmailVerification(viewController: strongSelf)
         }), for: .touchUpInside)
     }
     
     // MARK: - Functions
     
-    private func sendVerificationEmail() {
+    private func sendVerificationEmailAnimation() {
         var remainingTime = 30
         resendCountLabel.isHidden = false
         sendingEmailAnimation.isHidden = false
@@ -214,3 +228,14 @@ class EmailVerificationViewController: UIViewController {
     
 }
 // MARK: - Extensions
+extension EmailVerificationViewController : EmailVerificationViewModelOutPut  {
+    func emailVerificationDone() {
+        let vc = mainNavigationBar()
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
+    }
+
+    func emailVerificationResent() {
+        sendVerificationEmailAnimation()
+    }
+}

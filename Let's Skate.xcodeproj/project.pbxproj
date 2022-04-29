@@ -10,6 +10,9 @@
 		A3155D1728165AEB00DADBE8 /* ColorsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3155D1628165AEB00DADBE8 /* ColorsExtension.swift */; };
 		A3155D1F2816768D00DADBE8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A3155D1E2816768D00DADBE8 /* GoogleService-Info.plist */; };
 		A32F45C1281B026600F7CB8A /* WelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F45C0281B026500F7CB8A /* WelcomeViewModel.swift */; };
+		A32F45C3281B623C00F7CB8A /* EmailVerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F45C2281B623C00F7CB8A /* EmailVerificationViewModel.swift */; };
+		A32F45C6281B971A00F7CB8A /* WelcomeAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F45C5281B971A00F7CB8A /* WelcomeAnimations.swift */; };
+		A32F45C8281BB4C700F7CB8A /* MoreInformationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F45C7281BB4C600F7CB8A /* MoreInformationsViewController.swift */; };
 		A34655712818A31E004EA487 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = A34655702818A31E004EA487 /* FirebaseAnalytics */; };
 		A34655732818A31E004EA487 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = A34655722818A31E004EA487 /* FirebaseAuth */; };
 		A34655752818A31E004EA487 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = A34655742818A31E004EA487 /* FirebaseFirestore */; };
@@ -90,6 +93,9 @@
 		A3155D1628165AEB00DADBE8 /* ColorsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsExtension.swift; sourceTree = "<group>"; };
 		A3155D1E2816768D00DADBE8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A32F45C0281B026500F7CB8A /* WelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
+		A32F45C2281B623C00F7CB8A /* EmailVerificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVerificationViewModel.swift; sourceTree = "<group>"; };
+		A32F45C5281B971A00F7CB8A /* WelcomeAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeAnimations.swift; sourceTree = "<group>"; };
+		A32F45C7281BB4C600F7CB8A /* MoreInformationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInformationsViewController.swift; sourceTree = "<group>"; };
 		A349900A2816831D00311493 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		A349900C281683AF00311493 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		A349901128173DAB00311493 /* MainWelcomeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWelcomeLabel.swift; sourceTree = "<group>"; };
@@ -177,6 +183,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A32F45C4281B963500F7CB8A /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				A3BB44EE281902BF0076E135 /* TextFieldErrorAnimation.swift */,
+				A32F45C5281B971A00F7CB8A /* WelcomeAnimations.swift */,
+			);
+			path = Animations;
+			sourceTree = "<group>";
+		};
 		A349901028173D3300311493 /* WelcomeViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -246,7 +261,7 @@
 			children = (
 				A349901028173D3300311493 /* WelcomeViews */,
 				A34990152817424400311493 /* SignIn & SignUp */,
-				A3BB44EE281902BF0076E135 /* TextFieldErrorAnimation.swift */,
+				A32F45C4281B963500F7CB8A /* Animations */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -257,6 +272,7 @@
 				A3BB44EC2818FD790076E135 /* LoginAuthModel.swift */,
 				A36F0B4A28194D3F009AE289 /* RegistrationViewModel.swift */,
 				A32F45C0281B026500F7CB8A /* WelcomeViewModel.swift */,
+				A32F45C2281B623C00F7CB8A /* EmailVerificationViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -385,6 +401,7 @@
 				A3923557281315480016C6A3 /* SignUpViewController.swift */,
 				A349900C281683AF00311493 /* WelcomeViewController.swift */,
 				A34990212817ADF400311493 /* EmailVerificationViewController.swift */,
+				A32F45C7281BB4C600F7CB8A /* MoreInformationsViewController.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -720,6 +737,7 @@
 				A39CD084281138EE0004F73B /* SettingsViewController.swift in Sources */,
 				A34990302817DD8200311493 /* AddNewPostViewController.swift in Sources */,
 				A3923558281315480016C6A3 /* SignUpViewController.swift in Sources */,
+				A32F45C3281B623C00F7CB8A /* EmailVerificationViewModel.swift in Sources */,
 				A395019B280BE44E001257E7 /* UnderFeedButton.swift in Sources */,
 				A3BB44EF281902BF0076E135 /* TextFieldErrorAnimation.swift in Sources */,
 				A3A2F910280B383C004234AB /* MessagesViewController.swift in Sources */,
@@ -746,6 +764,7 @@
 				A3A2F8E0280B2A50004234AB /* SceneDelegate.swift in Sources */,
 				A392355E2813711C0016C6A3 /* AuthButton.swift in Sources */,
 				A32F45C1281B026600F7CB8A /* WelcomeViewModel.swift in Sources */,
+				A32F45C6281B971A00F7CB8A /* WelcomeAnimations.swift in Sources */,
 				A3A2F918280B38A0004234AB /* ProfileViewController.swift in Sources */,
 				A3A2F904280B367F004234AB /* TabBarModel.swift in Sources */,
 				A349900D281683AF00311493 /* WelcomeViewController.swift in Sources */,
@@ -756,6 +775,7 @@
 				A39CD08828113C580004F73B /* SettingViewModel.swift in Sources */,
 				A39E37EB2810635E00DD600A /* sideViewButtonView.swift in Sources */,
 				A3A2F913280B3865004234AB /* FeedViewController.swift in Sources */,
+				A32F45C8281BB4C700F7CB8A /* MoreInformationsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

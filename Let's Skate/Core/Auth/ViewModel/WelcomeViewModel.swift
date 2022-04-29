@@ -8,27 +8,26 @@
 import Foundation
 
 protocol WelcomeViewModelOutPut: AnyObject {
-    
+    func verificationEmailSent(email: String)
 }
 
 class WelcomeViewModel {
     
     weak var output:WelcomeViewModelOutPut?
-    let verificationService: UserEmailVerificationService
+    private let verificationService: UserEmailVerificationService
     
     init(VerificationService: UserEmailVerificationService) {
         self.verificationService = VerificationService
     }
     
     func verifyUserEmail() {
-        verificationService.sendEmailVerification { suceess in
-            
-            if suceess {
-                
-            } else {
-                
+        verificationService.sendEmailVerification {[weak self] results in
+            switch results {
+            case .failure(_) :
+                return
+            case .success(let email) :
+                self?.output?.verificationEmailSent(email: email)
             }
-            
         }
     }
 

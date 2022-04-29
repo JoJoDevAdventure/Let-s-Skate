@@ -185,9 +185,11 @@ class SignUpViewController: UIViewController {
 // MARK: - Extensions
 extension SignUpViewController: RegistrationViewModelOutPut {
     func RegistrationViewModelGoToWelcomeView(username: String) {
-//        let vc = WelcomeViewController()
-//        vc.username = username
-//        vc.modalPresentationStyle = .fullScreen
-//        self.present(vc, animated: true)
+        let welcomeService: UserEmailVerificationService = AuthManager()
+        let viewModel = WelcomeViewModel(VerificationService: welcomeService)
+        let vc = WelcomeViewController(viewModel: viewModel)
+        vc.username = username
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
     }
 }
