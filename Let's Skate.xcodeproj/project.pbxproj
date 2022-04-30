@@ -13,6 +13,7 @@
 		A32F45C3281B623C00F7CB8A /* EmailVerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F45C2281B623C00F7CB8A /* EmailVerificationViewModel.swift */; };
 		A32F45C6281B971A00F7CB8A /* WelcomeAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F45C5281B971A00F7CB8A /* WelcomeAnimations.swift */; };
 		A32F45C8281BB4C700F7CB8A /* MoreInformationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F45C7281BB4C600F7CB8A /* MoreInformationsViewController.swift */; };
+		A32F45CA281BB75200F7CB8A /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F45C9281BB75200F7CB8A /* StorageManager.swift */; };
 		A34655712818A31E004EA487 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = A34655702818A31E004EA487 /* FirebaseAnalytics */; };
 		A34655732818A31E004EA487 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = A34655722818A31E004EA487 /* FirebaseAuth */; };
 		A34655752818A31E004EA487 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = A34655742818A31E004EA487 /* FirebaseFirestore */; };
@@ -96,6 +97,7 @@
 		A32F45C2281B623C00F7CB8A /* EmailVerificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVerificationViewModel.swift; sourceTree = "<group>"; };
 		A32F45C5281B971A00F7CB8A /* WelcomeAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeAnimations.swift; sourceTree = "<group>"; };
 		A32F45C7281BB4C600F7CB8A /* MoreInformationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInformationsViewController.swift; sourceTree = "<group>"; };
+		A32F45C9281BB75200F7CB8A /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		A349900A2816831D00311493 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		A349900C281683AF00311493 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		A349901128173DAB00311493 /* MainWelcomeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWelcomeLabel.swift; sourceTree = "<group>"; };
@@ -370,6 +372,7 @@
 				A349900A2816831D00311493 /* AuthManager.swift */,
 				A36F0B4C2819EAF4009AE289 /* AuthErrors.swift */,
 				A36F0B4E281A0D73009AE289 /* DatabaseErrors.swift */,
+				A32F45C9281BB75200F7CB8A /* StorageManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -760,6 +763,7 @@
 				A349901228173DAC00311493 /* MainWelcomeLabel.swift in Sources */,
 				A36F0B49281949F4009AE289 /* StringVerification.swift in Sources */,
 				A3950199280BE01E001257E7 /* ProfileRoundedImageView.swift in Sources */,
+				A32F45CA281BB75200F7CB8A /* StorageManager.swift in Sources */,
 				A34990222817ADF500311493 /* EmailVerificationViewController.swift in Sources */,
 				A3A2F8E0280B2A50004234AB /* SceneDelegate.swift in Sources */,
 				A392355E2813711C0016C6A3 /* AuthButton.swift in Sources */,
