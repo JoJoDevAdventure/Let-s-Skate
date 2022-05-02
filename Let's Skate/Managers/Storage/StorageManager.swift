@@ -11,6 +11,7 @@ import UIKit
 
 protocol ImageUploader {
     func uploadBannerImage(image: UIImage, completion: @escaping(Result<String, StorageError>) -> Void)
+    func uploadProfileImage(image: UIImage, completion: @escaping(Result<String, StorageError>) -> Void)
 }
 
 class StorageManager: ImageUploader {
