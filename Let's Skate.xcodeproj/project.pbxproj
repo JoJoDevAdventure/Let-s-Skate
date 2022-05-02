@@ -49,6 +49,8 @@
 		A36F0B4F281A0D74009AE289 /* DatabaseErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36F0B4E281A0D73009AE289 /* DatabaseErrors.swift */; };
 		A37A41B6281677D100B771BA /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = A37A41B5281677D100B771BA /* SDWebImage */; };
 		A37A41B8281677D100B771BA /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A37A41B7281677D100B771BA /* SDWebImageMapKit */; };
+		A3872B64281FCD2D00676106 /* StorageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3872B63281FCD2D00676106 /* StorageError.swift */; };
+		A3872B66281FD50200676106 /* ConstantUrls.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3872B65281FD50200676106 /* ConstantUrls.swift */; };
 		A3923556281315340016C6A3 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3923555281315340016C6A3 /* SignInViewController.swift */; };
 		A3923558281315480016C6A3 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3923557281315480016C6A3 /* SignUpViewController.swift */; };
 		A392355C28135D240016C6A3 /* AuthTextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = A392355B28135D240016C6A3 /* AuthTextfield.swift */; };
@@ -124,6 +126,8 @@
 		A36F0B4A28194D3F009AE289 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		A36F0B4C2819EAF4009AE289 /* AuthErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthErrors.swift; sourceTree = "<group>"; };
 		A36F0B4E281A0D73009AE289 /* DatabaseErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseErrors.swift; sourceTree = "<group>"; };
+		A3872B63281FCD2D00676106 /* StorageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageError.swift; sourceTree = "<group>"; };
+		A3872B65281FD50200676106 /* ConstantUrls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantUrls.swift; sourceTree = "<group>"; };
 		A3923555281315340016C6A3 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		A3923557281315480016C6A3 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		A392355B28135D240016C6A3 /* AuthTextfield.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextfield.swift; sourceTree = "<group>"; };
@@ -262,6 +266,41 @@
 			path = "Let's SkateTests";
 			sourceTree = "<group>";
 		};
+		A3872B5F281FC55F00676106 /* Others */ = {
+			isa = PBXGroup;
+			children = (
+				A35D0B25281251AC00819F8E /* AlertManager.swift */,
+			);
+			path = Others;
+			sourceTree = "<group>";
+		};
+		A3872B60281FC56C00676106 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				A349900A2816831D00311493 /* AuthManager.swift */,
+				A36F0B4C2819EAF4009AE289 /* AuthErrors.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		A3872B61281FC57B00676106 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				A334C0D0281F71DF00EC694F /* DataManager.swift */,
+				A36F0B4E281A0D73009AE289 /* DatabaseErrors.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		A3872B62281FC5AD00676106 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				A32F45C9281BB75200F7CB8A /* StorageManager.swift */,
+				A3872B63281FCD2D00676106 /* StorageError.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
 		A39235592813154F0016C6A3 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,12 +412,10 @@
 		A3A2F8F6280B2C7C004234AB /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				A35D0B25281251AC00819F8E /* AlertManager.swift */,
-				A349900A2816831D00311493 /* AuthManager.swift */,
-				A36F0B4C2819EAF4009AE289 /* AuthErrors.swift */,
-				A36F0B4E281A0D73009AE289 /* DatabaseErrors.swift */,
-				A32F45C9281BB75200F7CB8A /* StorageManager.swift */,
-				A334C0D0281F71DF00EC694F /* DataManager.swift */,
+				A3872B62281FC5AD00676106 /* Storage */,
+				A3872B61281FC57B00676106 /* Data */,
+				A3872B60281FC56C00676106 /* Auth */,
+				A3872B5F281FC55F00676106 /* Others */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -388,6 +425,7 @@
 			children = (
 				A3155D1628165AEB00DADBE8 /* ColorsExtension.swift */,
 				A36F0B48281949F4009AE289 /* StringVerification.swift */,
+				A3872B65281FD50200676106 /* ConstantUrls.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -743,6 +781,7 @@
 				A3A2F91D280B4D60004234AB /* SearchViewController.swift in Sources */,
 				A334C0D1281F71DF00EC694F /* DataManager.swift in Sources */,
 				A39E37E928103EF900DD600A /* SideMenuView.swift in Sources */,
+				A3872B66281FD50200676106 /* ConstantUrls.swift in Sources */,
 				A3950197280BDB69001257E7 /* FeedTableViewCell.swift in Sources */,
 				A39CD084281138EE0004F73B /* SettingsViewController.swift in Sources */,
 				A34990302817DD8200311493 /* AddNewPostViewController.swift in Sources */,
@@ -778,6 +817,7 @@
 				A32F45C1281B026600F7CB8A /* WelcomeViewModel.swift in Sources */,
 				A32F45C6281B971A00F7CB8A /* WelcomeAnimations.swift in Sources */,
 				A3A2F918280B38A0004234AB /* ProfileViewController.swift in Sources */,
+				A3872B64281FCD2D00676106 /* StorageError.swift in Sources */,
 				A3A2F904280B367F004234AB /* TabBarModel.swift in Sources */,
 				A349900D281683AF00311493 /* WelcomeViewController.swift in Sources */,
 				A349900B2816831D00311493 /* AuthManager.swift in Sources */,
