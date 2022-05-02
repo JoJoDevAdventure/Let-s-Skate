@@ -8,6 +8,11 @@
 import Foundation
 import UIKit
 
+enum pickingMod {
+    case library
+    case camera
+}
+
 class AlertManager {
     
     static let shared = AlertManager()
@@ -30,6 +35,29 @@ class AlertManager {
         let ok = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         alert.addAction(ok)
         viewcontroller.present(alert, animated: true, completion: nil)
+    }
+    
+    func picPictureAlert(_ viewController : UIViewController,_ of: String, completion : (@escaping(pickingMod)->Void)) {
+        //check if camera isEnabled
+        let hasCam = UIImagePickerController.isSourceTypeAvailable(.camera)
+        
+        //alert setup
+        let alert = UIAlertController(title: "Select a photo", message: "\(of)", preferredStyle: .actionSheet)
+        let selectFromLibrary = UIAlertAction(title: "Select from Library", style: .default) { action in
+            //show a picker from library
+            completion(.library)
+        }
+        alert.addAction(selectFromLibrary)
+        let pickFromCamera = UIAlertAction(title: "Pick from CameraRoll", style: .default) { action in
+            //show cameraRoll picker
+            completion(.camera)
+        }
+        if hasCam {
+            alert.addAction(pickFromCamera)
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(cancel)
+        viewController.present(alert, animated: true)
     }
     
 }

@@ -14,6 +14,8 @@
 		A32F45C6281B971A00F7CB8A /* WelcomeAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F45C5281B971A00F7CB8A /* WelcomeAnimations.swift */; };
 		A32F45C8281BB4C700F7CB8A /* MoreInformationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F45C7281BB4C600F7CB8A /* MoreInformationsViewController.swift */; };
 		A32F45CA281BB75200F7CB8A /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F45C9281BB75200F7CB8A /* StorageManager.swift */; };
+		A334C0CF281F712C00EC694F /* MoreInformationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A334C0CE281F712B00EC694F /* MoreInformationsViewModel.swift */; };
+		A334C0D1281F71DF00EC694F /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A334C0D0281F71DF00EC694F /* DataManager.swift */; };
 		A34655712818A31E004EA487 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = A34655702818A31E004EA487 /* FirebaseAnalytics */; };
 		A34655732818A31E004EA487 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = A34655722818A31E004EA487 /* FirebaseAuth */; };
 		A34655752818A31E004EA487 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = A34655742818A31E004EA487 /* FirebaseFirestore */; };
@@ -98,6 +100,8 @@
 		A32F45C5281B971A00F7CB8A /* WelcomeAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeAnimations.swift; sourceTree = "<group>"; };
 		A32F45C7281BB4C600F7CB8A /* MoreInformationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInformationsViewController.swift; sourceTree = "<group>"; };
 		A32F45C9281BB75200F7CB8A /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		A334C0CE281F712B00EC694F /* MoreInformationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInformationsViewModel.swift; sourceTree = "<group>"; };
+		A334C0D0281F71DF00EC694F /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		A349900A2816831D00311493 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		A349900C281683AF00311493 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		A349901128173DAB00311493 /* MainWelcomeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWelcomeLabel.swift; sourceTree = "<group>"; };
@@ -275,6 +279,7 @@
 				A36F0B4A28194D3F009AE289 /* RegistrationViewModel.swift */,
 				A32F45C0281B026500F7CB8A /* WelcomeViewModel.swift */,
 				A32F45C2281B623C00F7CB8A /* EmailVerificationViewModel.swift */,
+				A334C0CE281F712B00EC694F /* MoreInformationsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -373,6 +378,7 @@
 				A36F0B4C2819EAF4009AE289 /* AuthErrors.swift */,
 				A36F0B4E281A0D73009AE289 /* DatabaseErrors.swift */,
 				A32F45C9281BB75200F7CB8A /* StorageManager.swift */,
+				A334C0D0281F71DF00EC694F /* DataManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -735,6 +741,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A3A2F91D280B4D60004234AB /* SearchViewController.swift in Sources */,
+				A334C0D1281F71DF00EC694F /* DataManager.swift in Sources */,
 				A39E37E928103EF900DD600A /* SideMenuView.swift in Sources */,
 				A3950197280BDB69001257E7 /* FeedTableViewCell.swift in Sources */,
 				A39CD084281138EE0004F73B /* SettingsViewController.swift in Sources */,
@@ -754,6 +761,7 @@
 				A39CD08628113B740004F73B /* SettingTableViewCell.swift in Sources */,
 				A3155D1728165AEB00DADBE8 /* ColorsExtension.swift in Sources */,
 				A36F0B4F281A0D74009AE289 /* DatabaseErrors.swift in Sources */,
+				A334C0CF281F712C00EC694F /* MoreInformationsViewModel.swift in Sources */,
 				A3923560281387DA0016C6A3 /* AuthHeaderView.swift in Sources */,
 				A3A2F8DE280B2A50004234AB /* AppDelegate.swift in Sources */,
 				A3A2F8E8280B2A51004234AB /* Let_s_Skate.xcdatamodeld in Sources */,

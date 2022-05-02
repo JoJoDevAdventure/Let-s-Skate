@@ -41,6 +41,8 @@ class MoreInformationsViewController: UIViewController {
         image.image = UIImage(named: "skateProfileImageBackground")
         image.backgroundColor = .gray
         image.translatesAutoresizingMaskIntoConstraints = false
+        image.contentMode = .scaleAspectFill
+        image.clipsToBounds = true
         return image
     }()
     
@@ -109,11 +111,15 @@ class MoreInformationsViewController: UIViewController {
         super.viewDidLoad()
         setupSubviews()
         setupConstraints()
+        setupGestureReconizers()
+        setupLibraryConfig()
+        setupCamera()
     }
     
     // MARK: - Set up
     
     private func setupSubviews() {
+        view.isUserInteractionEnabled = true
         view.addSubview(bannerImageView)
         view.addSubview(profileImageView)
         view.addSubview(moreInformationsLabel)
@@ -185,14 +191,61 @@ class MoreInformationsViewController: UIViewController {
         bannerImageView.addGestureRecognizer(bannerImageTap)
     }
     
+    func setupLibraryConfig() {
+        var config = PHPickerConfiguration()
+        config.filter = .images
+        config.selectionLimit = 1
+        config.preferredAssetRepresentationMode = .automatic
+        profileLibraryPicker = PHPickerViewController(configuration: config)
+        profileLibraryPicker!.delegate = self
+        bannerLibraryPicker = PHPickerViewController(configuration: config)
+        bannerLibraryPicker!.delegate = self
+    }
+    
+    func setupCamera() {
+        let hasCam = UIImagePickerController.isSourceTypeAvailable(.camera)
+        if hasCam {
+            setupPickers()
+        }
+    }
+    
+    func setupPickers() {
+        profileCameraPicker.sourceType = .camera
+        profileCameraPicker.delegate = self
+        profileCameraPicker.allowsEditing = false
+        bannerCameraPicker.sourceType = .camera
+        bannerCameraPicker.delegate = self
+        bannerCameraPicker.allowsEditing = false
+    }
+    
     // MARK: - Functions
     
     @objc func didTapProfileImage() {
-        print("Change profile pic")
+        AlertManager.shared.picPictureAlert(self, "Select profile picture.") {[weak self] pickingMod in
+            if pickingMod == .camera {
+                guard let strongSelf = self else { return }
+                self?.present(strongSelf.profileCameraPicker, animated: true)
+            } else {
+                guard let profileLibraryPicker = self?.profileLibraryPicker else {
+                    return
+                }
+                self?.present(profileLibraryPicker, animated: true)
+            }
+        }
     }
     
     @objc func didTapBannerImage() {
-        print("Change Banner pic")
+        AlertManager.shared.picPictureAlert(self, "Select banner picture.") {[weak self] pickingMod in
+            if pickingMod == .camera {
+                guard let strongSelf = self else { return }
+                self?.present(strongSelf.bannerCameraPicker, animated: true)
+            } else {
+                guard let bannerLibraryPicker = self?.bannerLibraryPicker else {
+                    return
+                }
+                self?.present(bannerLibraryPicker, animated: true)
+            }
+        }
     }
     
 }
@@ -232,8 +285,13 @@ extension MoreInformationsViewController: PHPickerViewControllerDelegate {
                         DispatchQueue.main.async {
                             if let newImage = image as? UIImage {
                                 self.profileImageView.image = newImage
+                            } else {
+                                //TODO ERROR TO LOAD IMAGE
+                                guard let errorDesc = error?.localizedDescription else {
+                                    return
+                                }
+                                AlertManager.shared.showErrorAlert(viewcontroller: self, error: errorDesc)
                             }
-                            print(error?.localizedDescription as Any)
                         }
                     }
                 }
@@ -247,8 +305,13 @@ extension MoreInformationsViewController: PHPickerViewControllerDelegate {
                         DispatchQueue.main.async {
                             if let newImage = image as? UIImage {
                                 self.bannerImageView.image = newImage
+                            } else {
+                                //TODO ERROR TO LOAD IMAGE
+                                guard let errorDesc = error?.localizedDescription else {
+                                    return
+                                }
+                                AlertManager.shared.showErrorAlert(viewcontroller: self, error: errorDesc)
                             }
-                            print(error?.localizedDescription as Any)
                         }
                     }
                 }
