@@ -7,6 +7,7 @@
 
 import UIKit
 import PhotosUI
+import Lottie
 
 class MoreInformationsViewController: UIViewController {
     
@@ -17,6 +18,16 @@ class MoreInformationsViewController: UIViewController {
     var bannerLibraryPicker: PHPickerViewController?
     var bannerCameraPicker = UIImagePickerController()
     var canUseCamera = UIImagePickerController.isSourceTypeAvailable(.camera)
+    
+    private let loadingAnimation: AnimationView = {
+        let animation = AnimationView()
+        animation.animation = Animation.named("lightLoadingView")
+        animation.translatesAutoresizingMaskIntoConstraints = false
+        animation.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        animation.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        animation.contentMode = .scaleAspectFit
+        return animation
+    }()
     
     private let moreInformationsLabel: UILabel = {
         let label = UILabel()
@@ -74,7 +85,7 @@ class MoreInformationsViewController: UIViewController {
         return tf
     }()
     
-    private let cancelButton: UIButton = {
+    private let laterButton: UIButton = {
         let button = UIButton()
         button.setTitle("Cancel", for: .normal)
         button.backgroundColor = UIColor().DarkMainColor()
@@ -105,6 +116,18 @@ class MoreInformationsViewController: UIViewController {
         return button
     }()
     
+    private let viewModel : MoreInformationsViewModel
+    
+    init(viewModel : MoreInformationsViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        viewModel.output = self
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Life cycle
     
     override func viewDidLoad() {
@@ -127,7 +150,7 @@ class MoreInformationsViewController: UIViewController {
         view.addSubview(nickNameTextField)
         view.addSubview(bioText)
         view.addSubview(confirmButton)
-        view.addSubview(cancelButton)
+        view.addSubview(laterButton)
     }
     
     private func setupConstraints() {
@@ -175,10 +198,10 @@ class MoreInformationsViewController: UIViewController {
         NSLayoutConstraint.activate(confirmButtonConstraints)
         
         let cancelButtonConstraints = [
-            cancelButton.bottomAnchor.constraint(equalTo: confirmButton.bottomAnchor),
-            cancelButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            cancelButton.heightAnchor.constraint(equalToConstant: 60),
-            cancelButton.widthAnchor.constraint(equalToConstant: 150),
+            laterButton.bottomAnchor.constraint(equalTo: confirmButton.bottomAnchor),
+            laterButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            laterButton.heightAnchor.constraint(equalToConstant: 60),
+            laterButton.widthAnchor.constraint(equalToConstant: 150),
         ]
         NSLayoutConstraint.activate(cancelButtonConstraints)
     }
@@ -220,8 +243,12 @@ class MoreInformationsViewController: UIViewController {
     }
     
     private func setupButtons() {
-        confirmButton.addAction(UIAction(handler: { _ in
-            self.animateImage(imageView: self.bannerImageView)
+        confirmButton.addAction(UIAction(handler: {[weak self] _ in
+            self?.confirmInformations()
+        }), for: .touchUpInside)
+        
+        laterButton.addAction(UIAction(handler: {[weak self] _ in
+            self?.addInformationsLater()
         }), for: .touchUpInside)
     }
     
@@ -255,13 +282,12 @@ class MoreInformationsViewController: UIViewController {
         }
     }
     
-    func animateImage(imageView: UIImageView) {
-        UIView.animate(withDuration: 2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut) {
-            self.bannerImageView.backgroundColor = .red
-            self.bannerImageView.backgroundColor = .gray
-            self.bannerImageView.backgroundColor = .red
-            self.bannerImageView.backgroundColor = .gray
-        }
+    private func confirmInformations() {
+        viewModel.animateLoadingScreen(view: view, animation: loadingAnimation)
+    }
+    
+    private func addInformationsLater() {
+        
     }
     
 }
@@ -333,5 +359,19 @@ extension MoreInformationsViewController: PHPickerViewControllerDelegate {
                 }
             }
         }
+    }
+}
+
+extension MoreInformationsViewController : MoreInformationsViewModelOutPut {
+    
+    func informationsUploadedSuccesfully() {
+        
+        let vc = mainNavigationBar()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
+    }
+    
+    func errorUploadingInformations(error: Error) {
+        print("error")
     }
 }

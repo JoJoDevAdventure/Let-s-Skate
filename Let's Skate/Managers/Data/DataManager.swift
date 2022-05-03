@@ -12,7 +12,7 @@ import FirebaseFirestore
 import FirebaseAuth
 
 protocol AddMoreInformationsService {
-    func addUserInformations(bannerImage : UIImage?, profileImage : UIImage?, nickname: String?, bio: String?)
+    func addUserInformations(bannerImage : UIImage?, profileImage : UIImage?, nickname: String?, bio: String?, completion: @escaping (Result<Void, Error>) -> Void )
 }
 
 class DataManager : AddMoreInformationsService {
@@ -26,7 +26,7 @@ class DataManager : AddMoreInformationsService {
     
     let storeRef = Firestore.firestore()
     
-    func addUserInformations(bannerImage : UIImage?, profileImage : UIImage?, nickname: String?, bio: String?) {
+    func addUserInformations(bannerImage : UIImage?, profileImage : UIImage?, nickname: String?, bio: String?, completion: @escaping(Result<Void, Error>) -> Void ) {
         guard let uid = currentUser?.uid else { return }
         
         //default data if user press "later" button
@@ -66,8 +66,8 @@ class DataManager : AddMoreInformationsService {
                 self?.storeRef.collection("users")
                     .document(uid)
                     .setData(["bannerImageUrl":url])
-            case .failure(_) :
-                //handle storage error
+            case .failure(let error) :
+                completion(.failure(error))
                 break
             }
         }
@@ -82,8 +82,8 @@ class DataManager : AddMoreInformationsService {
                 self?.storeRef.collection("users")
                     .document(uid)
                     .setData(["profileImageUrl" : url])
-            case .failure(_) :
-                //handle storage error
+            case .failure(let error) :
+                completion(.failure(error))
                 break
             }
         }
@@ -104,6 +104,6 @@ class DataManager : AddMoreInformationsService {
             .document(uid)
             .setData(["bio" : bio])
         
+        completion(.success(()))
     }
-    
 }
