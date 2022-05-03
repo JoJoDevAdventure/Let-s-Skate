@@ -27,8 +27,8 @@ class DataManager : AddMoreInformationsService {
     let storeRef = Firestore.firestore()
     
     func addUserInformations(bannerImage : UIImage?, profileImage : UIImage?, nickname: String?, bio: String?, completion: @escaping(Result<Void, Error>) -> Void ) {
-        guard let uid = currentUser?.uid else { return }
-        
+//        guard let uid = "test" else { return }
+        let uid = "test"
         //default data if user press "later" button
         if bannerImage == nil {
             storeRef.collection("users")

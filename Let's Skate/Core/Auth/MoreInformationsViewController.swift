@@ -23,9 +23,10 @@ class MoreInformationsViewController: UIViewController {
         let animation = AnimationView()
         animation.animation = Animation.named("lightLoadingView")
         animation.translatesAutoresizingMaskIntoConstraints = false
-        animation.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        animation.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        animation.heightAnchor.constraint(equalToConstant: 160).isActive = true
+        animation.widthAnchor.constraint(equalToConstant: 160).isActive = true
         animation.contentMode = .scaleAspectFit
+        animation.loopMode = .loop
         return animation
     }()
     
@@ -283,11 +284,17 @@ class MoreInformationsViewController: UIViewController {
     }
     
     private func confirmInformations() {
-        viewModel.animateLoadingScreen(view: view, animation: loadingAnimation)
+        let nickname = nickNameTextField.text
+        let bio = bioText.text
+        if viewModel.imageError(bannerImage: bannerImageView, profileImage: profileImageView) {
+            viewModel.updateUserInformations(view: view, loadingAnimation: loadingAnimation, bannerImage: bannerImageView, profileImage: profileImageView, nickname: nickname, bio: bio)
+        }
     }
     
     private func addInformationsLater() {
-        
+        let nickname = nickNameTextField.text
+        let bio = bioText.text
+        viewModel.updateUserInformations(view: view, loadingAnimation: loadingAnimation, bannerImage: bannerImageView, profileImage: profileImageView, nickname: nickname, bio: bio)
     }
     
 }
