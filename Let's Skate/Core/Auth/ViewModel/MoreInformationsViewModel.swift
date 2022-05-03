@@ -9,6 +9,14 @@ import Foundation
 
 class MoreInformationsViewModel {
         
+    let service: AddMoreInformationsService
     
+    init(service: AddMoreInformationsService) {
+        self.service = service
+    }
+    
+    func updateUserInformations() {
+        
+    }
     
 }

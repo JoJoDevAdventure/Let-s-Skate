@@ -114,6 +114,7 @@ class MoreInformationsViewController: UIViewController {
         setupGestureReconizers()
         setupLibraryConfig()
         setupCamera()
+        setupButtons()
     }
     
     // MARK: - Set up
@@ -218,6 +219,12 @@ class MoreInformationsViewController: UIViewController {
         bannerCameraPicker.allowsEditing = false
     }
     
+    private func setupButtons() {
+        confirmButton.addAction(UIAction(handler: { _ in
+            self.animateImage(imageView: self.bannerImageView)
+        }), for: .touchUpInside)
+    }
+    
     // MARK: - Functions
     
     @objc func didTapProfileImage() {
@@ -245,6 +252,15 @@ class MoreInformationsViewController: UIViewController {
                 }
                 self?.present(bannerLibraryPicker, animated: true)
             }
+        }
+    }
+    
+    func animateImage(imageView: UIImageView) {
+        UIView.animate(withDuration: 2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut) {
+            self.bannerImageView.backgroundColor = .red
+            self.bannerImageView.backgroundColor = .gray
+            self.bannerImageView.backgroundColor = .red
+            self.bannerImageView.backgroundColor = .gray
         }
     }
     

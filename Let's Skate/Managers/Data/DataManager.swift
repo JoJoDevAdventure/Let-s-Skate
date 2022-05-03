@@ -11,11 +11,11 @@ import FirebaseFirestoreSwift
 import FirebaseFirestore
 import FirebaseAuth
 
-protocol AddMoreInformations {
+protocol AddMoreInformationsService {
     func addUserInformations(bannerImage : UIImage?, profileImage : UIImage?, nickname: String?, bio: String?)
 }
 
-class DataManager : AddMoreInformations {
+class DataManager : AddMoreInformationsService {
     
     let currentUser = Auth.auth().currentUser
     let imageUploadService: ImageUploader

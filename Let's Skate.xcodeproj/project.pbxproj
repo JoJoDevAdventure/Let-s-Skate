@@ -51,6 +51,7 @@
 		A37A41B8281677D100B771BA /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A37A41B7281677D100B771BA /* SDWebImageMapKit */; };
 		A3872B64281FCD2D00676106 /* StorageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3872B63281FCD2D00676106 /* StorageError.swift */; };
 		A3872B66281FD50200676106 /* ConstantUrls.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3872B65281FD50200676106 /* ConstantUrls.swift */; };
+		A3872B682821D1E900676106 /* ImageErrorAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3872B672821D1E900676106 /* ImageErrorAnimations.swift */; };
 		A3923556281315340016C6A3 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3923555281315340016C6A3 /* SignInViewController.swift */; };
 		A3923558281315480016C6A3 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3923557281315480016C6A3 /* SignUpViewController.swift */; };
 		A392355C28135D240016C6A3 /* AuthTextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = A392355B28135D240016C6A3 /* AuthTextfield.swift */; };
@@ -128,6 +129,7 @@
 		A36F0B4E281A0D73009AE289 /* DatabaseErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseErrors.swift; sourceTree = "<group>"; };
 		A3872B63281FCD2D00676106 /* StorageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageError.swift; sourceTree = "<group>"; };
 		A3872B65281FD50200676106 /* ConstantUrls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantUrls.swift; sourceTree = "<group>"; };
+		A3872B672821D1E900676106 /* ImageErrorAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageErrorAnimations.swift; sourceTree = "<group>"; };
 		A3923555281315340016C6A3 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		A3923557281315480016C6A3 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		A392355B28135D240016C6A3 /* AuthTextfield.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextfield.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 			children = (
 				A3BB44EE281902BF0076E135 /* TextFieldErrorAnimation.swift */,
 				A32F45C5281B971A00F7CB8A /* WelcomeAnimations.swift */,
+				A3872B672821D1E900676106 /* ImageErrorAnimations.swift */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -791,6 +794,7 @@
 				A3BB44EF281902BF0076E135 /* TextFieldErrorAnimation.swift in Sources */,
 				A3A2F910280B383C004234AB /* MessagesViewController.swift in Sources */,
 				A392355C28135D240016C6A3 /* AuthTextfield.swift in Sources */,
+				A3872B682821D1E900676106 /* ImageErrorAnimations.swift in Sources */,
 				A36F0B4D2819EAF4009AE289 /* AuthErrors.swift in Sources */,
 				A349901428173DCD00311493 /* DescWelcomeLabel.swift in Sources */,
 				A35D0B26281251AC00819F8E /* AlertManager.swift in Sources */,
