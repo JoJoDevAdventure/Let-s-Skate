@@ -25,4 +25,8 @@ class FeedViewModel: ObservableObject {
         output?.returnToLoginScreen()
     }
     
+    func fetchCurrentUser() {
+        
+    }
+    
 }
