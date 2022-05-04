@@ -27,8 +27,7 @@ class DataManager : AddMoreInformationsService {
     let storeRef = Firestore.firestore()
     
     func addUserInformations(bannerImage : UIImage?, profileImage : UIImage?, nickname: String?, bio: String?, completion: @escaping(Result<Void, Error>) -> Void ) {
-//        guard let uid = "test" else { return }
-        let uid = "test"
+        guard let uid = currentUser?.uid else { return }
         //default data if user press "later" button
         if bannerImage == nil {
             storeRef.collection("users")
@@ -47,12 +46,12 @@ class DataManager : AddMoreInformationsService {
             
             storeRef.collection("users")
                 .document(uid)
-                .setData(["nickname":username ?? ""])
+                .updateData(["nickname":username ?? ""])
         }
         if bio == nil {
             storeRef.collection("users")
                 .document(uid)
-                .setData(["bio" : ""])
+                .updateData(["bio" : ""])
         }
         
         //user data
@@ -65,7 +64,7 @@ class DataManager : AddMoreInformationsService {
             case.success(let url) :
                 self?.storeRef.collection("users")
                     .document(uid)
-                    .setData(["bannerImageUrl":url])
+                    .updateData(["bannerImageUrl":url])
             case .failure(let error) :
                 completion(.failure(error))
                 break
@@ -81,7 +80,7 @@ class DataManager : AddMoreInformationsService {
             case .success(let url) :
                 self?.storeRef.collection("users")
                     .document(uid)
-                    .setData(["profileImageUrl" : url])
+                    .updateData(["profileImageUrl" : url])
             case .failure(let error) :
                 completion(.failure(error))
                 break
@@ -94,7 +93,7 @@ class DataManager : AddMoreInformationsService {
         }
         storeRef.collection("users")
             .document(uid)
-            .setData(["nickname": nickname])
+            .updateData(["nickname": nickname])
         
         //set bio
         guard let bio = bio else {
@@ -102,7 +101,7 @@ class DataManager : AddMoreInformationsService {
         }
         storeRef.collection("users")
             .document(uid)
-            .setData(["bio" : bio])
+            .updateData(["bio" : bio])
         
         completion(.success(()))
     }

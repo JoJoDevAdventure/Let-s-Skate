@@ -133,6 +133,7 @@ class MoreInformationsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor().DarkMainColor()
         setupSubviews()
         setupConstraints()
         setupGestureReconizers()

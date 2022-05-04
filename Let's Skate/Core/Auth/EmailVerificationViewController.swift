@@ -230,7 +230,10 @@ class EmailVerificationViewController: UIViewController {
 // MARK: - Extensions
 extension EmailVerificationViewController : EmailVerificationViewModelOutPut  {
     func emailVerificationDone() {
-        let vc = mainNavigationBar()
+        let imageUploader: ImageUploader = StorageManager()
+        let service: AddMoreInformationsService = DataManager(imageUploadService: imageUploader)
+        let viewModel = MoreInformationsViewModel(service: service)
+        let vc = MoreInformationsViewController(viewModel: viewModel)
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
     }

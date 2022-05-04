@@ -79,6 +79,7 @@ final class FeedViewController: UIViewController {
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor().DarkMainColor()
         setupSubViews()
         setupTableView()
         setupNavBar()

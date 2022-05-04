@@ -42,6 +42,7 @@ class SignUpViewController: UIViewController {
     private let passwwordTextField: AuthTextfield = {
         let textfield = AuthTextfield()
         textfield.placeholder = "Password"
+        textfield.isSecureTextEntry = true
         return textfield
     }()
     

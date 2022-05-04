@@ -10,8 +10,8 @@ import FirebaseStorage
 import UIKit
 
 protocol ImageUploader {
-    func uploadBannerImage(image: UIImage, completion: @escaping(Result<String, StorageError>) -> Void)
-    func uploadProfileImage(image: UIImage, completion: @escaping(Result<String, StorageError>) -> Void)
+    func uploadBannerImage(image: UIImage, completion: @escaping(Result<String, Error>) -> Void)
+    func uploadProfileImage(image: UIImage, completion: @escaping(Result<String, Error>) -> Void)
 }
 
 class StorageManager: ImageUploader {
@@ -22,7 +22,7 @@ class StorageManager: ImageUploader {
     init() {
     }
     
-    func uploadBannerImage(image: UIImage, completion: @escaping(Result<String, StorageError>) -> Void)  {
+    func uploadBannerImage(image: UIImage, completion: @escaping(Result<String, Error>) -> Void)  {
         guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
         
         let fileName = NSUUID().uuidString
@@ -45,7 +45,7 @@ class StorageManager: ImageUploader {
         
     }
     
-    func uploadProfileImage(image: UIImage, completion: @escaping(Result<String, StorageError>) -> Void)  {
+    func uploadProfileImage(image: UIImage, completion: @escaping(Result<String, Error>) -> Void)  {
         guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
         
         let fileName = NSUUID().uuidString
@@ -54,9 +54,7 @@ class StorageManager: ImageUploader {
         
         bannersRef.putData(imageData, metadata: metadata) { _, error in
             if let error = error {
-                StorageError.allCases.forEach { storageError in
-                    if error as! StorageError == storageError { completion(.failure(storageError)) }
-                }
+                completion(.failure(error))
             }
             
             //no errors
