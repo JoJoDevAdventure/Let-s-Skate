@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import SDWebImage
 
 final class FeedViewController: UIViewController {
     
     // MARK: - Properties
     
+    var NavBarProfileImage = UIImage(systemName: "person")
     var posts: [String] = []
     
     private let noPostsLabel: UILabel = {
@@ -85,6 +87,7 @@ final class FeedViewController: UIViewController {
         setupNavBar()
         setupSideMenu()
         sideViewDelegate()
+        fetchCurrentUser()
         setupAddButton()
         checkIfThereArePosts()
     }
@@ -100,6 +103,12 @@ final class FeedViewController: UIViewController {
         addPostButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
     }
     
+    private func setupProfileImage() {
+        NavBarProfileImage = NavBarProfileImage?.withRenderingMode(.alwaysOriginal)
+        NavBarProfileImage = NavBarProfileImage?.sd_resizedImage(with: CGSize(width: 40, height: 40), scaleMode: .aspectFill)
+        NavBarProfileImage = NavBarProfileImage?.sd_roundedCornerImage(withRadius: 20, corners: .allCorners, borderWidth: 0, borderColor: .clear)
+    }
+    
     private func setupNavBar() {
         title = "Skater's Home"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -109,8 +118,7 @@ final class FeedViewController: UIViewController {
         navigationController?.navigationBar.barTintColor = UIColor().DarkMainColor()
         navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 31, weight: UIFont.Weight.bold) ]
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.bold) ]
-        let image = UIImage(systemName: "person")
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(didTapProfileImage))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: NavBarProfileImage, style: .plain, target: self, action: #selector(didTapProfileImage))
     }
     
     override func viewDidLayoutSubviews() {
@@ -143,6 +151,12 @@ final class FeedViewController: UIViewController {
     // MARK: - Network Manager calls
     
     // MARK: - Functions
+    
+    private func fetchCurrentUser() {
+        DispatchQueue.main.async {
+            self.viewModel.fetchCurrentUser()
+        }
+    }
     
     //show side menu
     @objc func didTapProfileImage() {
@@ -269,11 +283,23 @@ extension FeedViewController: FeedTableViewCellDelegate {
 }
 
 extension FeedViewController: FeedViewModelOutPut {
+    
     func returnToLoginScreen() {
         let loginService : LoginService = AuthManager()
         let viewModel = LoginViewModel(loginService: loginService)
         let vc = SignInViewController(viewModel: viewModel)
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
+    }
+    
+    func setUserInformations(profileImage: UIImage, username: String, nickname: String) {
+        NavBarProfileImage = profileImage
+        sideMenu.configure(profileImage: profileImage, username: username, nickname: nickname)
+        setupProfileImage()
+        setupNavBar()
+    }
+    
+    func showErrorFetchingCurrentUser(errorLocalizedDescription: String) {
+        print(errorLocalizedDescription)
     }
 }

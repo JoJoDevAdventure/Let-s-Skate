@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A30C387D2823090E00907F17 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C387C2823090E00907F17 /* UserModel.swift */; };
+		A30C387F2823091E00907F17 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C387E2823091E00907F17 /* UserManager.swift */; };
+		A30C38812823093300907F17 /* UserErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C38802823093300907F17 /* UserErrors.swift */; };
 		A3155D1728165AEB00DADBE8 /* ColorsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3155D1628165AEB00DADBE8 /* ColorsExtension.swift */; };
 		A3155D1F2816768D00DADBE8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A3155D1E2816768D00DADBE8 /* GoogleService-Info.plist */; };
 		A32F45C1281B026600F7CB8A /* WelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F45C0281B026500F7CB8A /* WelcomeViewModel.swift */; };
@@ -96,6 +99,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A30C387C2823090E00907F17 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		A30C387E2823091E00907F17 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		A30C38802823093300907F17 /* UserErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserErrors.swift; sourceTree = "<group>"; };
 		A3155D1628165AEB00DADBE8 /* ColorsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsExtension.swift; sourceTree = "<group>"; };
 		A3155D1E2816768D00DADBE8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A32F45C0281B026500F7CB8A /* WelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
@@ -195,6 +201,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A30C387B282308F700907F17 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				A30C387C2823090E00907F17 /* UserModel.swift */,
+				A30C387E2823091E00907F17 /* UserManager.swift */,
+				A30C38802823093300907F17 /* UserErrors.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
 		A32F45C4281B963500F7CB8A /* Animations */ = {
 			isa = PBXGroup;
 			children = (
@@ -415,6 +431,7 @@
 		A3A2F8F6280B2C7C004234AB /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				A30C387B282308F700907F17 /* User */,
 				A3872B62281FC5AD00676106 /* Storage */,
 				A3872B61281FC57B00676106 /* Data */,
 				A3872B60281FC56C00676106 /* Auth */,
@@ -799,6 +816,7 @@
 				A349901428173DCD00311493 /* DescWelcomeLabel.swift in Sources */,
 				A35D0B26281251AC00819F8E /* AlertManager.swift in Sources */,
 				A3FF7935280E9FB500253DE4 /* PostCollectionViewCell.swift in Sources */,
+				A30C387D2823090E00907F17 /* UserModel.swift in Sources */,
 				A3A2F8E2280B2A50004234AB /* ViewController.swift in Sources */,
 				A3FF7932280E9BE300253DE4 /* FeedViewModel.swift in Sources */,
 				A39CD08628113B740004F73B /* SettingTableViewCell.swift in Sources */,
@@ -811,6 +829,7 @@
 				A3A2F915280B3874004234AB /* ExploreViewController.swift in Sources */,
 				A3EE8FFD2810D90100500D38 /* ProfileHeaderCollectionReusableView.swift in Sources */,
 				A36F0B4B28194D3F009AE289 /* RegistrationViewModel.swift in Sources */,
+				A30C38812823093300907F17 /* UserErrors.swift in Sources */,
 				A349901228173DAC00311493 /* MainWelcomeLabel.swift in Sources */,
 				A36F0B49281949F4009AE289 /* StringVerification.swift in Sources */,
 				A3950199280BE01E001257E7 /* ProfileRoundedImageView.swift in Sources */,
@@ -827,6 +846,7 @@
 				A349900B2816831D00311493 /* AuthManager.swift in Sources */,
 				A3BB44ED2818FD790076E135 /* LoginAuthModel.swift in Sources */,
 				A3950193280BD6BD001257E7 /* mainNavigationBar.swift in Sources */,
+				A30C387F2823091E00907F17 /* UserManager.swift in Sources */,
 				A3923556281315340016C6A3 /* SignInViewController.swift in Sources */,
 				A39CD08828113C580004F73B /* SettingViewModel.swift in Sources */,
 				A39E37EB2810635E00DD600A /* sideViewButtonView.swift in Sources */,

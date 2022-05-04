@@ -18,7 +18,8 @@ enum TabBarModel: CaseIterable {
         switch self {
         case .feedView :
             let service: LogOutService = AuthManager()
-            let viewModel = FeedViewModel(logoutService: service)
+            let userService: FeedUserService = UserManager()
+            let viewModel = FeedViewModel(logoutService: service, userService: userService)
             return FeedViewController(viewModel: viewModel)
             
         case .exploreView :

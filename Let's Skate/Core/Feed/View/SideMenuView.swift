@@ -189,6 +189,12 @@ final class SideMenuView: UIView {
         delegate?.SideMenuViewDidTapLogOut()
     }
     
+    func configure(profileImage: UIImage, username: String, nickname: String) {
+        profilePic.image = profileImage
+        fullnameLabel.text = nickname
+        usernameLabel.text = username
+    }
+    
     // MARK: - Extensions
     
 
