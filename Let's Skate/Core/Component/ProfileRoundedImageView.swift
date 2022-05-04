@@ -21,7 +21,7 @@ class ProfileRoundedImageView: UIImageView {
     func setupImageView() {
         image = UIImage(systemName: "person")
         tintColor = .white
-        contentMode = .scaleToFill
+        contentMode = .scaleAspectFill
         clipsToBounds = true
         layer.borderWidth = 3
         layer.borderColor = UIColor().DarkMainColor().cgColor

@@ -12,7 +12,7 @@ final class FeedViewController: UIViewController {
     
     // MARK: - Properties
     
-    var NavBarProfileImage = UIImage(systemName: "person")
+    var NavBarProfileImage = UIImage(named: "black")
     var posts: [String] = []
     
     private let noPostsLabel: UILabel = {
@@ -118,6 +118,9 @@ final class FeedViewController: UIViewController {
         navigationController?.navigationBar.barTintColor = UIColor().DarkMainColor()
         navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 31, weight: UIFont.Weight.bold) ]
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.bold) ]
+        setupProfileImage()
+        NavBarProfileImage = NavBarProfileImage?.withRenderingMode(.alwaysOriginal)
+        NavBarProfileImage?.withTintColor(UIColor().lightMainColor())
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: NavBarProfileImage, style: .plain, target: self, action: #selector(didTapProfileImage))
     }
     
