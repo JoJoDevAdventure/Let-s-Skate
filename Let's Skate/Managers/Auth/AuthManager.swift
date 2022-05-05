@@ -78,7 +78,7 @@ class AuthManager: LoginService, RegistrationService, UserVerificationService, U
             } else {
                 //Insert User email and username in DataBase
                 guard let user = results?.user else { return }
-                let data = ["email":email, "username":username]
+                let data = ["email":email, "username":"@\(username.lowercased())"]
                 self?.StoreRef.collection("users").document(user.uid).setData(data) { error in
                     guard error == nil else {
                         //couldn't inser user to database

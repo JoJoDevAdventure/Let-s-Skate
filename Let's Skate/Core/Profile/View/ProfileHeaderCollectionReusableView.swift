@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class ProfileHeaderCollectionReusableView: UICollectionReusableView {
 
@@ -20,7 +21,8 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.backgroundColor = .gray
+        image.clipsToBounds = true
+        
         return image
     }()
     
@@ -33,7 +35,6 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         label.font = .systemFont(ofSize: 24, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "xxxxxxx xxxxx"
-        label.backgroundColor = .gray
         label.textColor = .black
         return label
     }()
@@ -44,7 +45,6 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         label.font = .systemFont(ofSize: 18, weight: .light)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "@xxxxxx xxxx"
-        label.backgroundColor = .gray
         label.textColor = .black
         return label
     }()
@@ -56,7 +56,6 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "xxxx xxx xxxxxx x x xxxxx xxxx x xxxxxx xx xxx xxxx xxxxxxx xxxx xxx x xxx xxxxxxx xx xx xx xxxxx xxxx xxxxxxxxxxx xxxxxxx xxxx xxx x xxx xxxxxxx xx xx xx xxxxx xxxx xxxxxxxxxxx xxxxxxx xxxx xxx x xxx xxxxxxx xx xx xx xxxxx xxxx xxxxxxxxxxx."
         label.numberOfLines = 3
-        label.backgroundColor = .gray
         label.textColor = .black
         return label
     }()
@@ -99,19 +98,22 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         label.text = "Posts"
         label.font = .systemFont(ofSize: 18, weight: .semibold)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.backgroundColor = .gray
-        label.textColor = .black
+        label.textColor = UIColor().lightMainColor()
+        label.backgroundColor = UIColor().DarkMainColor()
+        label.layer.cornerRadius = 10
+        label.clipsToBounds = true
+        label.textAlignment = .center
         return label
     }()
     
     // posts count button
     private let postsCountButton: UIButton = {
         let button = UIButton()
-        button.setTitle("23", for: .normal)
+
         button.setTitleColor(.black, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .gray
         button.tintColor = .black
+        button.setTitle("24", for: .normal)
         return button
     }()
     
@@ -121,8 +123,11 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         label.text = "Followers"
         label.font = .systemFont(ofSize: 18, weight: .semibold)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.backgroundColor = .gray
-        label.textColor = .black
+        label.textColor = UIColor().lightMainColor()
+        label.backgroundColor = UIColor().DarkMainColor()
+        label.layer.cornerRadius = 10
+        label.clipsToBounds = true
+        label.textAlignment = .center
         return label
     }()
     
@@ -132,7 +137,6 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         button.setTitle("1M", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .gray
         button.tintColor = .black
         return button
     }()
@@ -143,8 +147,11 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         label.text = "Following"
         label.font = .systemFont(ofSize: 18, weight: .semibold)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.backgroundColor = .gray
-        label.textColor = .black
+        label.textColor = UIColor().lightMainColor()
+        label.backgroundColor = UIColor().DarkMainColor()
+        label.layer.cornerRadius = 10
+        label.clipsToBounds = true
+        label.textAlignment = .center
         return label
     }()
     
@@ -154,7 +161,6 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         button.setTitle("1044", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .gray
         button.tintColor = .black
         return button
     }()
@@ -244,13 +250,13 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         let postsLabelConstraints = [
             postsLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 60),
             postsLabel.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 30),
-            postsLabel.widthAnchor.constraint(equalToConstant: 50),
+            postsLabel.widthAnchor.constraint(equalToConstant: 60),
             postsLabel.heightAnchor.constraint(equalToConstant: 30)
         ]
         NSLayoutConstraint.activate(postsLabelConstraints)
         
         let postsCountButtonConstraints = [
-            postsCountButton.leftAnchor.constraint(equalTo: postsLabel.leftAnchor),
+            postsCountButton.centerXAnchor.constraint(equalTo: postsLabel.centerXAnchor),
             postsCountButton.topAnchor.constraint(equalTo: postsLabel.bottomAnchor, constant: 5),
             postsCountButton.widthAnchor.constraint(equalToConstant: 50),
             postsCountButton.heightAnchor.constraint(equalToConstant: 30)
@@ -260,13 +266,13 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         let followersLabelConstraints = [
             followersLabel.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -20),
             followersLabel.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 30),
-            followersLabel.widthAnchor.constraint(equalToConstant: 90),
+            followersLabel.widthAnchor.constraint(equalToConstant: 100),
             followersLabel.heightAnchor.constraint(equalToConstant: 30)
         ]
         NSLayoutConstraint.activate(followersLabelConstraints)
         
         let followersCountButtonConstraints = [
-            followersCountButton.leftAnchor.constraint(equalTo: followersLabel.leftAnchor),
+            followersCountButton.centerXAnchor.constraint(equalTo: followersLabel.centerXAnchor),
             followersCountButton.topAnchor.constraint(equalTo: followersLabel.bottomAnchor, constant: 5),
             followersCountButton.widthAnchor.constraint(equalToConstant: 90),
             followersCountButton.heightAnchor.constraint(equalToConstant: 30)
@@ -276,13 +282,13 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         let followingLabelConstraints = [
             followingLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -60),
             followingLabel.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 30),
-            followingLabel.widthAnchor.constraint(equalToConstant: 90),
+            followingLabel.widthAnchor.constraint(equalToConstant: 100),
             followingLabel.heightAnchor.constraint(equalToConstant: 30)
         ]
         NSLayoutConstraint.activate(followingLabelConstraints)
         
         let followeingCountButtonConstraints = [
-            followingCountButton.leftAnchor.constraint(equalTo: followingLabel.leftAnchor),
+            followingCountButton.centerXAnchor.constraint(equalTo: followingLabel.centerXAnchor),
             followingCountButton.topAnchor.constraint(equalTo: followingLabel.bottomAnchor, constant: 5),
             followingCountButton.widthAnchor.constraint(equalToConstant: 90),
             followingCountButton.heightAnchor.constraint(equalToConstant: 30)
@@ -294,12 +300,12 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     
     // MARK: - Functions
     
-    func configure(bannerImage: UIImage, profileImage: UIImage, nickname: String, username: String, bio: String) {
-        self.bannerImage.image = bannerImage
-        self.profileImage.image = profileImage
-        fullNameLabel.text = nickname
-        usernameLabel.text = username
-        bioLabel.text = bio
+    func configure(user: User) {
+        bannerImage.sd_setImage(with: URL(string: user.bannerImageUrl))
+        profileImage.sd_setImage(with: URL(string: user.profileImageUrl))
+        fullNameLabel.text = user.nickname
+        usernameLabel.text = user.username
+        bioLabel.text = user.bio
     }
 }
 // MARK: - Extensions

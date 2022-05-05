@@ -11,6 +11,8 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Properties
     
+    private var user: User?
+    
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width/3 - 6, height: UIScreen.main.bounds.height/5)
@@ -62,19 +64,12 @@ final class ProfileViewController: UIViewController {
         collectionView.dataSource = self
     }
     
-    private func fetchCurrentInformations() {
-        self.viewModel.getUserInformations()
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
-    }
-    
-
-    
     // MARK: - Functions
     
+    private func fetchCurrentInformations() {
+        self.viewModel.getUserInformations()
+    }
     
-
 }
 // MARK: - Extensions
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -97,6 +92,8 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         case UICollectionView.elementKindSectionHeader :
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier, for: indexPath)
             guard let ProfileHeaderView = headerView as? ProfileHeaderCollectionReusableView else { return headerView }
+            guard let user = user else { return ProfileHeaderView}
+            ProfileHeaderView.configure(user: user)
             return ProfileHeaderView
         default:
             return UICollectionReusableView()
@@ -105,8 +102,11 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
 }
 
 extension ProfileViewController: ProfileViewModelOutPut {
-    func setUserInformations(bannerImage: UIImage, profileImage: UIImage, nickname: String, username: String, bio: String) {
-        
+    func setUserInformations(user: User) {
+        self.user = user
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
     
     func showError(Error: Error) {
