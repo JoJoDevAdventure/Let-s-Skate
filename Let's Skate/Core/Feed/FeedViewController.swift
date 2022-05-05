@@ -238,8 +238,7 @@ extension FeedViewController: SideMenuViewDelegate {
     func SideMenuViewDidTapProfileButton() {
         print("DEBUG: Show Profile")
         didTapLeave()
-        let vc = ProfileViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        viewModel.fetchCurrentUserProfile()
     }
     
     func SideMenuViewDidTapSettingButton() {
@@ -305,4 +304,13 @@ extension FeedViewController: FeedViewModelOutPut {
     func showErrorFetchingCurrentUser(errorLocalizedDescription: String) {
         print(errorLocalizedDescription)
     }
+    
+    func getCurrentUserProfile(user: User) {
+        
+        let userService: ProfileUserService = UserManager()
+        let viewModel = ProfileViewModel(user: user, userService: userService)
+        let vc = ProfileViewController(viewModel: viewModel)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
 }

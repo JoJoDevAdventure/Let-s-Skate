@@ -15,7 +15,13 @@ protocol FeedUserService {
     func getCurrentUser() -> String?
 }
 
-class UserManager: FeedUserService {
+protocol ProfileUserService {
+    func fetchUser(withUid uid: String, completion: @escaping (Result<User,Error>) -> Void)
+    func getCurrentUser() -> String?
+    func verifyIfUserIsCurrentUser(user: User) -> Bool?
+}
+
+class UserManager: FeedUserService, ProfileUserService {
     
     init() {
         
@@ -41,5 +47,13 @@ class UserManager: FeedUserService {
             }
     }
     
+    func verifyIfUserIsCurrentUser(user: User) -> Bool? {
+        guard let currentUid =  Auth.auth().currentUser?.uid else { return nil }
+        if currentUid == user.id {
+            return true
+        } else {
+            return false
+        }
+    }
     
 }

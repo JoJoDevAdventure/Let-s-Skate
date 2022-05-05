@@ -15,6 +15,8 @@ protocol FeedViewModelOutPut: AnyObject {
     func setUserInformations(profileImage: UIImage, username: String, nickname: String)
     
     func showErrorFetchingCurrentUser(errorLocalizedDescription : String)
+    
+    func getCurrentUserProfile(user: User)
 }
 
 class FeedViewModel: ObservableObject {
@@ -55,4 +57,18 @@ class FeedViewModel: ObservableObject {
         }
     }
     
+    func fetchCurrentUserProfile() {
+        let uid = userService.getCurrentUser()
+        guard let uid = uid else {
+            return
+        }
+        userService.fetchUser(withUid: uid) {[weak self] results in
+            switch results {
+            case .success(let user):
+                self?.output?.getCurrentUserProfile(user: user)
+            case .failure(let error):
+                self?.output?.showErrorFetchingCurrentUser(errorLocalizedDescription: error.localizedDescription as String)
+            }
+        }
+    }
 }

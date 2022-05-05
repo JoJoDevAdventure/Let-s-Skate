@@ -294,6 +294,12 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     
     // MARK: - Functions
     
-    
+    func configure(bannerImage: UIImage, profileImage: UIImage, nickname: String, username: String, bio: String) {
+        self.bannerImage.image = bannerImage
+        self.profileImage.image = profileImage
+        fullNameLabel.text = nickname
+        usernameLabel.text = username
+        bioLabel.text = bio
+    }
 }
 // MARK: - Extensions
