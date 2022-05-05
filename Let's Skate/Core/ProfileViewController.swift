@@ -106,7 +106,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
 
 extension ProfileViewController: ProfileViewModelOutPut {
     func setUserInformations(bannerImage: UIImage, profileImage: UIImage, nickname: String, username: String, bio: String) {
-
+        
     }
     
     func showError(Error: Error) {
