@@ -9,6 +9,19 @@ import Foundation
 
 class NewPostViewModel {
     
+    let postsService: NewPostService
     
+    init(postsService: NewPostService) {
+        self.postsService = postsService
+    }
+    
+    func getCurrentUser() {
+        postsService.getCurrentUserUsername { results in
+            switch results {
+            case .success(let username): break
+            case .failure(_): break
+            }
+        }
+    }
     
 }

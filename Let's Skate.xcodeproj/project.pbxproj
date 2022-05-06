@@ -12,6 +12,8 @@
 		A30C38812823093300907F17 /* UserErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C38802823093300907F17 /* UserErrors.swift */; };
 		A30C38832823633D00907F17 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C38822823633D00907F17 /* ProfileViewModel.swift */; };
 		A30C388528255AF000907F17 /* NewPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C388428255AF000907F17 /* NewPostViewModel.swift */; };
+		A30C388828259A6D00907F17 /* PostsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C388728259A6D00907F17 /* PostsManager.swift */; };
+		A30C388A28259A9200907F17 /* PostsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C388928259A9200907F17 /* PostsModel.swift */; };
 		A3155D1728165AEB00DADBE8 /* ColorsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3155D1628165AEB00DADBE8 /* ColorsExtension.swift */; };
 		A3155D1F2816768D00DADBE8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A3155D1E2816768D00DADBE8 /* GoogleService-Info.plist */; };
 		A32F45C1281B026600F7CB8A /* WelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F45C0281B026500F7CB8A /* WelcomeViewModel.swift */; };
@@ -106,6 +108,8 @@
 		A30C38802823093300907F17 /* UserErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserErrors.swift; sourceTree = "<group>"; };
 		A30C38822823633D00907F17 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		A30C388428255AF000907F17 /* NewPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewModel.swift; sourceTree = "<group>"; };
+		A30C388728259A6D00907F17 /* PostsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsManager.swift; sourceTree = "<group>"; };
+		A30C388928259A9200907F17 /* PostsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsModel.swift; sourceTree = "<group>"; };
 		A3155D1628165AEB00DADBE8 /* ColorsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsExtension.swift; sourceTree = "<group>"; };
 		A3155D1E2816768D00DADBE8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A32F45C0281B026500F7CB8A /* WelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
@@ -213,6 +217,15 @@
 				A30C38802823093300907F17 /* UserErrors.swift */,
 			);
 			path = User;
+			sourceTree = "<group>";
+		};
+		A30C3886282599D800907F17 /* Posts */ = {
+			isa = PBXGroup;
+			children = (
+				A30C388728259A6D00907F17 /* PostsManager.swift */,
+				A30C388928259A9200907F17 /* PostsModel.swift */,
+			);
+			path = Posts;
 			sourceTree = "<group>";
 		};
 		A32F45C4281B963500F7CB8A /* Animations */ = {
@@ -437,6 +450,7 @@
 		A3A2F8F6280B2C7C004234AB /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				A30C3886282599D800907F17 /* Posts */,
 				A30C387B282308F700907F17 /* User */,
 				A3872B62281FC5AD00676106 /* Storage */,
 				A3872B61281FC57B00676106 /* Data */,
@@ -835,12 +849,14 @@
 				A3A2F915280B3874004234AB /* ExploreViewController.swift in Sources */,
 				A30C38832823633D00907F17 /* ProfileViewModel.swift in Sources */,
 				A3EE8FFD2810D90100500D38 /* ProfileHeaderCollectionReusableView.swift in Sources */,
+				A30C388A28259A9200907F17 /* PostsModel.swift in Sources */,
 				A36F0B4B28194D3F009AE289 /* RegistrationViewModel.swift in Sources */,
 				A30C38812823093300907F17 /* UserErrors.swift in Sources */,
 				A349901228173DAC00311493 /* MainWelcomeLabel.swift in Sources */,
 				A36F0B49281949F4009AE289 /* StringVerification.swift in Sources */,
 				A3950199280BE01E001257E7 /* ProfileRoundedImageView.swift in Sources */,
 				A32F45CA281BB75200F7CB8A /* StorageManager.swift in Sources */,
+				A30C388828259A6D00907F17 /* PostsManager.swift in Sources */,
 				A34990222817ADF500311493 /* EmailVerificationViewController.swift in Sources */,
 				A3A2F8E0280B2A50004234AB /* SceneDelegate.swift in Sources */,
 				A392355E2813711C0016C6A3 /* AuthButton.swift in Sources */,

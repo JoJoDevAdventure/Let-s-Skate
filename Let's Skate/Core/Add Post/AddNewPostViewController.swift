@@ -7,10 +7,14 @@
 
 import UIKit
 import Lottie
+import PhotosUI
 
 class AddNewPostViewController: UIViewController {
-
+    
     // MARK: - Properties
+    
+    var postLibraryPicker: PHPickerViewController?
+    var postCameraPicker = UIImagePickerController()
     
     private let upPhotoAnimation: AnimationView = {
         let view = AnimationView()
@@ -36,6 +40,7 @@ class AddNewPostViewController: UIViewController {
         image.isUserInteractionEnabled = true
         image.backgroundColor = .gray
         image.contentMode = .scaleAspectFill
+        image.clipsToBounds = true
         return image
     }()
     
@@ -97,6 +102,10 @@ class AddNewPostViewController: UIViewController {
         super.viewDidLoad()
         setupSubviews()
         setupConstraints()
+        setupGestures()
+        setupCamera()
+        setupLibraryConfig()
+        setupButtons()
         view.backgroundColor = UIColor().lightMainColor()
     }
     
@@ -171,8 +180,95 @@ class AddNewPostViewController: UIViewController {
         NSLayoutConstraint.activate(cancelButtonConstraints)
     }
     
-    // MARK: - Functions
+    private func setupLibraryConfig() {
+        var config = PHPickerConfiguration()
+        config.filter = .images
+        config.selectionLimit = 1
+        config.preferredAssetRepresentationMode = .automatic
+        postLibraryPicker = PHPickerViewController(configuration: config)
+        postLibraryPicker!.delegate = self
+    }
     
+    private func setupCamera() {
+        let hasCam = UIImagePickerController.isSourceTypeAvailable(.camera)
+        if hasCam {
+            setupPickers()
+        }
+    }
+       
+    private func setupPickers() {
+        postCameraPicker.sourceType = .camera
+        postCameraPicker.delegate = self
+        postCameraPicker.allowsEditing = false
+    }
+    
+    private func setupGestures() {
+        chosenImageView.isUserInteractionEnabled = true
+        chosenImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showPickerView)))
+    }
+    
+    private func setupButtons() {
+        cancelButton.addAction(UIAction(handler: { _ in
+            self.dismiss(animated: true)
+        }), for: .touchUpInside)
+        
+        confirmButton.addAction(UIAction(handler: { _ in
+            print("DEBUG: SHOULD POST IMAGE IN DATABASE")
+        }), for: .touchUpInside)
+    }
+        
+        // MARK: - Functions
+    
+    @objc func showPickerView() {
+        AlertManager.shared.picPictureAlert(self, "Select profile picture.") {[weak self] pickingMod in
+            if pickingMod == .camera {
+                guard let strongSelf = self else { return }
+                self?.navigationController?.pushViewController(strongSelf.postCameraPicker, animated: true)
+            } else {
+                guard let postLibraryPicker = self?.postLibraryPicker else {
+                    return
+                }
+                self?.present(postLibraryPicker, animated: true)
+            }
+        }
+    }
     
 }
 // MARK: - Extensions
+extension AddNewPostViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let image = info[.originalImage] as? UIImage {
+            self.chosenImageView.image = image
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension AddNewPostViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true, completion: nil)
+        if let r = results.first {
+            let item = r.itemProvider
+            if item.canLoadObject(ofClass: UIImage.self) {
+                item.loadObject(ofClass: UIImage.self) { image, error in
+                    DispatchQueue.main.async {
+                        if let newImage = image as? UIImage {
+                            self.chosenImageView.image = newImage
+                        } else {
+                            //TODO ERROR TO LOAD IMAGE
+                            guard let errorDesc = error?.localizedDescription else {
+                                return
+                            }
+                            AlertManager.shared.showErrorAlert(viewcontroller: self, error: errorDesc)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
