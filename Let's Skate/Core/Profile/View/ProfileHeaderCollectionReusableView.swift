@@ -55,7 +55,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         label.font = .systemFont(ofSize: 18, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "xxxx xxx xxxxxx x x xxxxx xxxx x xxxxxx xx xxx xxxx xxxxxxx xxxx xxx x xxx xxxxxxx xx xx xx xxxxx xxxx xxxxxxxxxxx xxxxxxx xxxx xxx x xxx xxxxxxx xx xx xx xxxxx xxxx xxxxxxxxxxx xxxxxxx xxxx xxx x xxx xxxxxxx xx xx xx xxxxx xxxx xxxxxxxxxxx."
-        label.numberOfLines = 3
+        label.numberOfLines = 4
         label.textColor = .black
         return label
     }()
@@ -248,7 +248,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         
         let postsLabelConstraints = [
             postsLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 60),
-            postsLabel.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 60),
+            postsLabel.topAnchor.constraint(equalTo: editProfileOrSubButton.topAnchor, constant: -90),
             postsLabel.widthAnchor.constraint(equalToConstant: 60),
             postsLabel.heightAnchor.constraint(equalToConstant: 30)
         ]
@@ -304,6 +304,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         profileImage.sd_setImage(with: URL(string: user.profileImageUrl))
         fullNameLabel.text = user.nickname
         usernameLabel.text = user.username
+//        bioLabel.text = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
         bioLabel.text = user.bio
     }
 }
