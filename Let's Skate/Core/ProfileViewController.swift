@@ -19,7 +19,7 @@ final class ProfileViewController: UIViewController {
         layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = 4
         layout.minimumLineSpacing = 9
-        layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: (UIScreen.main.bounds.height/3)*2 - 80)
+        layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: (UIScreen.main.bounds.height/3)*2 - 180)
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.backgroundColor = UIColor().lightMainColor()
         collection.register(ProfileHeaderCollectionReusableView.self, forSupplementaryViewOfKind: "UICollectionElementKindSectionHeader", withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier)

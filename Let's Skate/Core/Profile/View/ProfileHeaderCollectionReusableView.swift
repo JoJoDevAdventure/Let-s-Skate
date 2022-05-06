@@ -198,9 +198,8 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     private func setupConstraints() {
         let bannerConstraints = [
             bannerImage.topAnchor.constraint(equalTo: topAnchor, constant: -40),
-            bannerImage.rightAnchor.constraint(equalTo: rightAnchor),
-            bannerImage.leftAnchor.constraint(equalTo: leftAnchor),
-            bannerImage.heightAnchor.constraint(equalTo: heightAnchor, constant: -(((bounds.height)/3)*2)+50)
+            bannerImage.widthAnchor.constraint(equalTo: widthAnchor),
+            bannerImage.heightAnchor.constraint(equalTo: bannerImage.widthAnchor, multiplier: 0.3 )
         ]
         NSLayoutConstraint.activate(bannerConstraints)
         
@@ -249,7 +248,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         
         let postsLabelConstraints = [
             postsLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 60),
-            postsLabel.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 30),
+            postsLabel.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 60),
             postsLabel.widthAnchor.constraint(equalToConstant: 60),
             postsLabel.heightAnchor.constraint(equalToConstant: 30)
         ]
@@ -265,7 +264,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         
         let followersLabelConstraints = [
             followersLabel.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -20),
-            followersLabel.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 30),
+            followersLabel.topAnchor.constraint(equalTo: postsLabel.topAnchor),
             followersLabel.widthAnchor.constraint(equalToConstant: 100),
             followersLabel.heightAnchor.constraint(equalToConstant: 30)
         ]
@@ -281,7 +280,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         
         let followingLabelConstraints = [
             followingLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -60),
-            followingLabel.topAnchor.constraint(equalTo: bioLabel.bottomAnchor, constant: 30),
+            followingLabel.topAnchor.constraint(equalTo: postsLabel.topAnchor),
             followingLabel.widthAnchor.constraint(equalToConstant: 100),
             followingLabel.heightAnchor.constraint(equalToConstant: 30)
         ]
