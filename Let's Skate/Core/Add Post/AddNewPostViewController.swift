@@ -62,10 +62,34 @@ class AddNewPostViewController: UIViewController {
     
     private let cancelButton: UIButton = {
         let button = UIButton()
+        button.setTitle("Cancel", for: .normal)
+        button.backgroundColor = UIColor().DarkMainColor()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.borderColor = UIColor.white.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 10
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowRadius = 3
+        button.layer.shadowOpacity = 1
+        button.layer.shadowOffset = CGSize(width: 2, height: 2)
         return button
     }()
     
-    
+    private let confirmButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Confirm", for: .normal)
+        button.setTitleColor(UIColor().DarkMainColor(), for: .normal)
+        button.backgroundColor = UIColor().lightMainColor()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.borderColor = UIColor().DarkMainColor().cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 10
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowRadius = 3
+        button.layer.shadowOpacity = 1
+        button.layer.shadowOffset = CGSize(width: 2, height: 2)
+        return button
+    }()
     
     // MARK: - Life cycle
     
@@ -85,6 +109,8 @@ class AddNewPostViewController: UIViewController {
         view.addSubview(bioTextZone)
         view.addSubview(upPhotoAnimation)
         view.addSubview(downPhotoAnimation)
+        view.addSubview(cancelButton)
+        view.addSubview(confirmButton)
     }
     
     private func setupConstraints() {
@@ -129,6 +155,21 @@ class AddNewPostViewController: UIViewController {
         ]
         NSLayoutConstraint.activate(bioHintConstraints)
         
+        let confirmButtonConstraints = [
+            confirmButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 80),
+            confirmButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -70),
+            confirmButton.widthAnchor.constraint(equalToConstant: 120),
+            confirmButton.heightAnchor.constraint(equalToConstant: 50)
+        ]
+        NSLayoutConstraint.activate(confirmButtonConstraints)
+        
+        let cancelButtonConstraints = [
+            cancelButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -80),
+            cancelButton.bottomAnchor.constraint(equalTo: confirmButton.bottomAnchor),
+            cancelButton.widthAnchor.constraint(equalToConstant: 120),
+            cancelButton.heightAnchor.constraint(equalToConstant: 50)
+        ]
+        NSLayoutConstraint.activate(cancelButtonConstraints)
     }
     
     // MARK: - Functions

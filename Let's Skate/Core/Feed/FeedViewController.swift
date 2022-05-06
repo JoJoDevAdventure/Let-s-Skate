@@ -50,6 +50,7 @@ final class FeedViewController: UIViewController {
         button.layer.shadowRadius = 0.5
         button.layer.shadowOpacity = 0.7
         button.layer.shadowOffset = CGSize(width: 1, height: 1)
+        button.isHidden = false
         return button
     }()
     
@@ -94,6 +95,7 @@ final class FeedViewController: UIViewController {
 
     // MARK: - Set up
     private func setupSubViews() {
+        view.addSubview(addPostButton)
         view.addSubview(noPostsLabel)
         noPostsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         noPostsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100).isActive = true
@@ -199,12 +201,10 @@ final class FeedViewController: UIViewController {
     private func checkIfThereArePosts() {
         if posts.isEmpty {
             feedTableView.isHidden = true
-            addPostButton.isHidden = true
             noPostsLabel.isHidden = false
         } else {
             noPostsLabel.isHidden = true
             feedTableView.isHidden = false
-            addPostButton.isHidden = false
         }
     }
 
