@@ -7,8 +7,14 @@
 
 import Foundation
 
+protocol NewPostViewModelOutPut: AnyObject {
+    func setUsername(username: String)
+    func showError(error: Error)
+}
+
 class NewPostViewModel {
     
+    weak var output: NewPostViewModelOutPut?
     let postsService: NewPostService
     
     init(postsService: NewPostService) {
@@ -16,10 +22,12 @@ class NewPostViewModel {
     }
     
     func getCurrentUser() {
-        postsService.getCurrentUserUsername { results in
+        postsService.getCurrentUserNickname {[weak self] results in
             switch results {
-            case .success(let username): break
-            case .failure(_): break
+            case .success(let username):
+                self?.output?.setUsername(username: username)
+            case .failure(let error):
+                self?.output?.showError(error: error)
             }
         }
     }

@@ -11,30 +11,31 @@ import FirebaseFirestoreSwift
 import FirebaseAuth
 
 protocol NewPostService {
-    func getCurrentUserUsername(completion: @escaping (Result<String, Error>) -> Void )
+    func getCurrentUserNickname(completion: @escaping (Result<String, Error>) -> Void )
 }
 
 class PostsManager: NewPostService {
+    
+    init() {}
     
     let storeRef = Firestore.firestore()
     
     let currentUserUid = Auth.auth().currentUser?.uid
     
     
-    func getCurrentUserUsername(completion: @escaping (Result<String, Error>) -> Void ){
+    func getCurrentUserNickname(completion: @escaping (Result<String, Error>) -> Void ){
         
         guard let uid = currentUserUid else {
             return }
-        let currentUserUsername = storeRef.collection("users").document(uid).value(forKey: "username")
-        let username = currentUserUsername as! String
-        print(username)
-        completion(.success(username))
+        storeRef.collection("users").document(uid).getDocument { snapShot, error in
+            guard error == nil else{
+                completion(.failure(error!))
+                return
+            }
+            
+            guard let user = try? snapShot?.data(as: User.self) else { return }
+            completion(.success(user.nickname))
+        }
     }
-
-    
-    init() {}
-    
-
-    
     
 }

@@ -148,7 +148,9 @@ final class FeedViewController: UIViewController {
     
     private func setupAddButton() {
         addPostButton.addAction(UIAction(handler: { _ in
-            let vc = AddNewPostViewController()
+            let service: NewPostService = PostsManager()
+            let viewModel = NewPostViewModel(postsService: service)
+            let vc = AddNewPostViewController(viewModel: viewModel)
             self.present(vc, animated: true)
         }), for: .touchUpInside)
     }

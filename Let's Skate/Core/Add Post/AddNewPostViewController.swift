@@ -96,6 +96,18 @@ class AddNewPostViewController: UIViewController {
         return button
     }()
     
+    let viewModel: NewPostViewModel
+    
+    init(viewModel: NewPostViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        viewModel.output = self
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Life cycle
     
     override func viewDidLoad() {
@@ -106,6 +118,7 @@ class AddNewPostViewController: UIViewController {
         setupCamera()
         setupLibraryConfig()
         setupButtons()
+        viewModel.getCurrentUser()
         view.backgroundColor = UIColor().lightMainColor()
     }
     
@@ -270,5 +283,17 @@ extension AddNewPostViewController: PHPickerViewControllerDelegate {
                 }
             }
         }
+    }
+}
+
+extension AddNewPostViewController: NewPostViewModelOutPut {
+    func setUsername(username: String) {
+        DispatchQueue.main.async {[weak self] in
+            self?.bioHintLabel.text = "Tell us how you're doing \(username) :"
+        }
+    }
+    
+    func showError(error: Error) {
+        AlertManager().showErrorAlert(viewcontroller: self, error: error.localizedDescription as String)
     }
 }
