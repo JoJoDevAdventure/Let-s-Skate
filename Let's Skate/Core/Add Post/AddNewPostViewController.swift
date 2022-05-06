@@ -60,9 +60,9 @@ class AddNewPostViewController: UIViewController {
         return textf
     }()
     
-    private let cancelButton: UIButton = {
+    private let confirmButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Cancel", for: .normal)
+        button.setTitle("Post", for: .normal)
         button.backgroundColor = UIColor().DarkMainColor()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.borderColor = UIColor.white.cgColor
@@ -75,9 +75,9 @@ class AddNewPostViewController: UIViewController {
         return button
     }()
     
-    private let confirmButton: UIButton = {
+    private let cancelButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Confirm", for: .normal)
+        button.setTitle("Cancel", for: .normal)
         button.setTitleColor(UIColor().DarkMainColor(), for: .normal)
         button.backgroundColor = UIColor().lightMainColor()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -100,7 +100,6 @@ class AddNewPostViewController: UIViewController {
         view.backgroundColor = UIColor().lightMainColor()
     }
     
-
     // MARK: - Set up
     
     private func setupSubviews() {
@@ -156,15 +155,15 @@ class AddNewPostViewController: UIViewController {
         NSLayoutConstraint.activate(bioHintConstraints)
         
         let confirmButtonConstraints = [
-            confirmButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 80),
-            confirmButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -70),
+            confirmButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 90),
+            confirmButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -110),
             confirmButton.widthAnchor.constraint(equalToConstant: 120),
             confirmButton.heightAnchor.constraint(equalToConstant: 50)
         ]
         NSLayoutConstraint.activate(confirmButtonConstraints)
         
         let cancelButtonConstraints = [
-            cancelButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -80),
+            cancelButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -90),
             cancelButton.bottomAnchor.constraint(equalTo: confirmButton.bottomAnchor),
             cancelButton.widthAnchor.constraint(equalToConstant: 120),
             cancelButton.heightAnchor.constraint(equalToConstant: 50)
