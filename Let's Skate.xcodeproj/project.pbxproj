@@ -14,6 +14,7 @@
 		A30C388528255AF000907F17 /* NewPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C388428255AF000907F17 /* NewPostViewModel.swift */; };
 		A30C388828259A6D00907F17 /* PostsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C388728259A6D00907F17 /* PostsManager.swift */; };
 		A30C388A28259A9200907F17 /* PostsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C388928259A9200907F17 /* PostsModel.swift */; };
+		A30C388D2825F07D00907F17 /* loadingViewAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C388C2825F07D00907F17 /* loadingViewAnimation.swift */; };
 		A3155D1728165AEB00DADBE8 /* ColorsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3155D1628165AEB00DADBE8 /* ColorsExtension.swift */; };
 		A3155D1F2816768D00DADBE8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A3155D1E2816768D00DADBE8 /* GoogleService-Info.plist */; };
 		A32F45C1281B026600F7CB8A /* WelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F45C0281B026500F7CB8A /* WelcomeViewModel.swift */; };
@@ -110,6 +111,7 @@
 		A30C388428255AF000907F17 /* NewPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewModel.swift; sourceTree = "<group>"; };
 		A30C388728259A6D00907F17 /* PostsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsManager.swift; sourceTree = "<group>"; };
 		A30C388928259A9200907F17 /* PostsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsModel.swift; sourceTree = "<group>"; };
+		A30C388C2825F07D00907F17 /* loadingViewAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loadingViewAnimation.swift; sourceTree = "<group>"; };
 		A3155D1628165AEB00DADBE8 /* ColorsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsExtension.swift; sourceTree = "<group>"; };
 		A3155D1E2816768D00DADBE8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A32F45C0281B026500F7CB8A /* WelcomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewModel.swift; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 			children = (
 				A349901D2817841600311493 /* lightLoadingView.json */,
 				A349901F2817841E00311493 /* darkLoadingView.json */,
+				A30C388C2825F07D00907F17 /* loadingViewAnimation.swift */,
 			);
 			path = LoadingViews;
 			sourceTree = "<group>";
@@ -285,13 +288,6 @@
 				A30C388428255AF000907F17 /* NewPostViewModel.swift */,
 			);
 			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		A34990312817EC3800311493 /* Buttons */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Buttons;
 			sourceTree = "<group>";
 		};
 		A36F0B3E2819376F009AE289 /* Let's SkateTests */ = {
@@ -542,7 +538,6 @@
 		A3A2F8FF280B307A004234AB /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				A34990312817EC3800311493 /* Buttons */,
 				A3950198280BE01E001257E7 /* ProfileRoundedImageView.swift */,
 				A349901C281783EE00311493 /* LoadingViews */,
 				A3FF7933280E9F9800253DE4 /* PostsCell */,
@@ -833,6 +828,7 @@
 				A392355C28135D240016C6A3 /* AuthTextfield.swift in Sources */,
 				A3872B682821D1E900676106 /* ImageErrorAnimations.swift in Sources */,
 				A36F0B4D2819EAF4009AE289 /* AuthErrors.swift in Sources */,
+				A30C388D2825F07D00907F17 /* loadingViewAnimation.swift in Sources */,
 				A349901428173DCD00311493 /* DescWelcomeLabel.swift in Sources */,
 				A35D0B26281251AC00819F8E /* AlertManager.swift in Sources */,
 				A3FF7935280E9FB500253DE4 /* PostCollectionViewCell.swift in Sources */,

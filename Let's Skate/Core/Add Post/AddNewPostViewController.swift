@@ -16,6 +16,17 @@ class AddNewPostViewController: UIViewController {
     var postLibraryPicker: PHPickerViewController?
     var postCameraPicker = UIImagePickerController()
     
+    private let loadingAnimation: AnimationView = {
+        let animation = AnimationView()
+        animation.animation = Animation.named("lightLoadingView")
+        animation.translatesAutoresizingMaskIntoConstraints = false
+        animation.heightAnchor.constraint(equalToConstant: 160).isActive = true
+        animation.widthAnchor.constraint(equalToConstant: 160).isActive = true
+        animation.contentMode = .scaleAspectFit
+        animation.loopMode = .loop
+        return animation
+    }()
+    
     private let upPhotoAnimation: AnimationView = {
         let view = AnimationView()
         view.animation = Animation.named("upImageAnimation")
@@ -226,7 +237,8 @@ class AddNewPostViewController: UIViewController {
         }), for: .touchUpInside)
         
         confirmButton.addAction(UIAction(handler: { _ in
-            print("DEBUG: SHOULD POST IMAGE IN DATABASE")
+            LoadingAnimationView().animateLoadingScreen(view: self.view, animation: self.loadingAnimation, isUploading: true)
+            self.viewModel.uploadUserPost(post: self.chosenImageView, bio: self.bioTextZone.text)
         }), for: .touchUpInside)
     }
         
@@ -250,7 +262,6 @@ class AddNewPostViewController: UIViewController {
 // MARK: - Extensions
 extension AddNewPostViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
         if let image = info[.originalImage] as? UIImage {
             self.chosenImageView.image = image
         }
@@ -287,13 +298,23 @@ extension AddNewPostViewController: PHPickerViewControllerDelegate {
 }
 
 extension AddNewPostViewController: NewPostViewModelOutPut {
+    func showError(error: Error) {
+        LoadingAnimationView().animateLoadingScreen(view: view, animation: loadingAnimation, isUploading: false)
+        AlertManager().showErrorAlert(viewcontroller: self, error: error.localizedDescription as String)
+    }
+    
+    func postUploadedWithSuccess() {
+        LoadingAnimationView().animateLoadingScreen(view: view, animation: loadingAnimation, isUploading: false)
+        dismiss(animated: true, completion: nil)
+    }
+    
     func setUsername(username: String) {
         DispatchQueue.main.async {[weak self] in
             self?.bioHintLabel.text = "Tell us how you're doing \(username) :"
         }
     }
     
-    func showError(error: Error) {
-        AlertManager().showErrorAlert(viewcontroller: self, error: error.localizedDescription as String)
+    func postHasNoPhotos() {
+        LoadingAnimationView().animateLoadingScreen(view: view, animation: loadingAnimation, isUploading: false)
     }
 }

@@ -12,6 +12,7 @@ import UIKit
 protocol ImageUploader {
     func uploadBannerImage(image: UIImage, completion: @escaping(Result<String, Error>) -> Void)
     func uploadProfileImage(image: UIImage, completion: @escaping(Result<String, Error>) -> Void)
+    func uploadNewPostImage(image: UIImage, completion: @escaping(Result<String, Error>) -> Void)
 }
 
 class StorageManager: ImageUploader {
@@ -63,7 +64,26 @@ class StorageManager: ImageUploader {
                 completion(.success(imageUrl))
             }
         }
+    }
+    
+    func uploadNewPostImage(image: UIImage, completion: @escaping(Result<String, Error>) -> Void) {
+        guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
         
+        let fileName = NSUUID().uuidString
+        let bannersRef = Storage.storage().reference(withPath: "/posts/\(fileName)")
+        let metadata = StorageMetadata()
+        
+        bannersRef.putData(imageData, metadata: metadata) { _, error in
+            if let error = error {
+                completion(.failure(error))
+            }
+            
+            //no errors
+            bannersRef.downloadURL { imageURL, error in
+                guard let imageUrl = imageURL?.absoluteString else { return }
+                completion(.success(imageUrl))
+            }
+        }
     }
 
 }
