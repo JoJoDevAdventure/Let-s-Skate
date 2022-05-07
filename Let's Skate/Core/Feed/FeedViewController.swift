@@ -284,9 +284,11 @@ extension FeedViewController: SideMenuViewDelegate {
 }
 
 extension FeedViewController: FeedTableViewCellDelegate {
-    
-    func FeedTableViewCellShowProfile() {
-        print("DEBUG: SHOW PROFILE")
+    func FeedTableViewCellShowProfile(user: User) {
+        let userService : ProfileUserService = UserManager()
+        let viewModel = ProfileViewModel(user: user, userService: userService)
+        let vc = ProfileViewController(viewModel: viewModel)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func FeedTableViewCellDidTapLike() {

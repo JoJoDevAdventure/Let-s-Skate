@@ -10,7 +10,7 @@ import SDWebImage
 
 protocol FeedTableViewCellDelegate: AnyObject {
     
-    func FeedTableViewCellShowProfile()
+    func FeedTableViewCellShowProfile(user: User)
     func FeedTableViewCellDidTapLike()
     func FeedTableViewCellDidTapComment()
     func FeedTableViewCellDidTapShare()
@@ -203,7 +203,8 @@ class FeedTableViewCell: UITableViewCell {
 
     
     @objc func didTapProfile() {
-        delegate?.FeedTableViewCellShowProfile()
+        guard let user = post?.user else { return }
+        delegate?.FeedTableViewCellShowProfile(user: user)
     }
     
     // MARK: - Functions
