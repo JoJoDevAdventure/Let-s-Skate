@@ -82,6 +82,7 @@ class FeedTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "xxxxxxxxxxxxxxxx xxxx xxxxxx xxxx  xxx xx xxxxxxxx xxxxxxxxx xx xx xxxxxxx xxxx xxxxxxxx xxx xxxxxx xxx xx xxxxxxx xxxxxxxx xx xxxxxxx x xxxxx xxx x xxx x xxxxxxxxxx xxxxxxxx xxxxxxxxx xx xx xxxxxxx xxxx xxxxxxxx xxx xxxxxx xxx xx xxxxxxx xxxxxxxx xx xxxxxxx x xxxxx xxx x xxx x xxxxxxxxx x xxxxxxxx xxxxxxxxx xx xx xxxxxxx xxxx xxxxxxxx xxx xxxxxx xxx xx xxxxxxx xxxxxxxx xx xxxxxxx x xxxxx xxx x xxx x xxxxxxxxx"
         label.accessibilityScroll(.down)
+        label.backgroundColor = UIColor().lightMainColor()
         label.textColor = .black
         label.isScrollEnabled = true
         
@@ -211,7 +212,7 @@ class FeedTableViewCell: UITableViewCell {
         guard let post = post else {
             return
         }
-        let nickname = post.user?.nickname ?? ""
+        let nickname = post.user?.nickname == "" ? post.user?.username : post.user?.nickname
         nickNameLabel.text = nickname
         if let url = post.user?.profileImageUrl {
             profileImageView.sd_setImage(with: URL(string: url))

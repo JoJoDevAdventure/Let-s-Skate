@@ -86,7 +86,7 @@ class PostsManager: NewPostService, FeedPostsService {
     func fetchAllPosts(completion: @escaping (Result<[Post], Error>) -> Void) {
         var posts : [Post] = []
         storeRef.collection("posts")
-            .order(by: "timestamp", descending: true)
+            .order(by: "timestamp", descending: false)
             .getDocuments { snapshot, error in
                 if let FetchingPostError = error {
                     completion(.failure(FetchingPostError))

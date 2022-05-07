@@ -92,7 +92,7 @@ final class FeedViewController: UIViewController {
         setupAddButton()
         fetchPosts()
         checkIfThereArePosts()
-        
+        setupObserver()
     }
 
     // MARK: - Set up
@@ -130,7 +130,7 @@ final class FeedViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        feedTableView.frame = view.bounds
+        feedTableView.frame = CGRect(x: 0, y: 70, width: view.frame.width, height: view.frame.height - 70)
         unfocusView.frame = view.bounds
     }
     
@@ -157,6 +157,12 @@ final class FeedViewController: UIViewController {
             let vc = AddNewPostViewController(viewModel: viewModel)
             self.present(vc, animated: true)
         }), for: .touchUpInside)
+    }
+    
+    private func setupObserver() {
+        NotificationCenter().addObserver(forName: NSNotification.Name("uploadedImageFetchUser"), object: nil, queue: nil) { _ in
+            self.fetchPosts()
+        }
     }
     
     // MARK: - Network Manager calls

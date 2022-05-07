@@ -248,7 +248,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         
         let postsLabelConstraints = [
             postsLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 60),
-            postsLabel.topAnchor.constraint(equalTo: editProfileOrSubButton.topAnchor, constant: -90),
+            postsLabel.topAnchor.constraint(equalTo: editProfileOrSubButton.topAnchor, constant: -110),
             postsLabel.widthAnchor.constraint(equalToConstant: 60),
             postsLabel.heightAnchor.constraint(equalToConstant: 30)
         ]
