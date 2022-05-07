@@ -31,7 +31,6 @@ class FeedTableViewCell: UITableViewCell {
     private let nickNameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .semibold)
-        label.backgroundColor = .gray
         label.text = "xxxxxxxxxxxxxxxxx"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.isUserInteractionEnabled = true
@@ -80,7 +79,6 @@ class FeedTableViewCell: UITableViewCell {
         let label = UITextView()
         label.isEditable = false
         label.font = .systemFont(ofSize: 14, weight: .light)
-        label.backgroundColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "xxxxxxxxxxxxxxxx xxxx xxxxxx xxxx  xxx xx xxxxxxxx xxxxxxxxx xx xx xxxxxxx xxxx xxxxxxxx xxx xxxxxx xxx xx xxxxxxx xxxxxxxx xx xxxxxxx x xxxxx xxx x xxx x xxxxxxxxxx xxxxxxxx xxxxxxxxx xx xx xxxxxxx xxxx xxxxxxxx xxx xxxxxx xxx xx xxxxxxx xxxxxxxx xx xxxxxxx x xxxxx xxx x xxx x xxxxxxxxx x xxxxxxxx xxxxxxxxx xx xx xxxxxxx xxxx xxxxxxxx xxx xxxxxx xxx xx xxxxxxx xxxxxxxx xx xxxxxxx x xxxxx xxx x xxx x xxxxxxxxx"
         label.accessibilityScroll(.down)
