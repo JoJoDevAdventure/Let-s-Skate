@@ -13,7 +13,7 @@ final class FeedViewController: UIViewController {
     // MARK: - Properties
     
     var NavBarProfileImage = UIImage(named: "black")
-    var posts: [String] = []
+    var posts: [Post] = []
     
     private let noPostsLabel: UILabel = {
         let label = UILabel()
@@ -90,7 +90,9 @@ final class FeedViewController: UIViewController {
         sideViewDelegate()
         fetchCurrentUser()
         setupAddButton()
+        fetchPosts()
         checkIfThereArePosts()
+        
     }
 
     // MARK: - Set up
@@ -149,7 +151,8 @@ final class FeedViewController: UIViewController {
     private func setupAddButton() {
         addPostButton.addAction(UIAction(handler: { _ in
             let imageUploadService: ImageUploader = StorageManager()
-            let service: NewPostService = PostsManager(imageUploaderService: imageUploadService)
+            let feedUserService: FeedUserService = UserManager()
+            let service: NewPostService = PostsManager(imageUploaderService: imageUploadService , userService: feedUserService)
             let viewModel = NewPostViewModel(postsService: service)
             let vc = AddNewPostViewController(viewModel: viewModel)
             self.present(vc, animated: true)
@@ -161,9 +164,7 @@ final class FeedViewController: UIViewController {
     // MARK: - Functions
     
     private func fetchCurrentUser() {
-        DispatchQueue.main.async {
-            self.viewModel.fetchCurrentUser()
-        }
+        self.viewModel.fetchCurrentUser()
     }
     
     //show side menu
@@ -208,7 +209,12 @@ final class FeedViewController: UIViewController {
         } else {
             noPostsLabel.isHidden = true
             feedTableView.isHidden = false
+            feedTableView.reloadData()
         }
+    }
+    
+    private func fetchPosts() {
+        viewModel.fetchAllPosts()
     }
 
 }
@@ -220,13 +226,21 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return posts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.identifier) as? FeedTableViewCell else { return UITableViewCell() }
         cell.selectionStyle = .none
         cell.delegate = self
+        if !posts.isEmpty {
+            let currentPost = posts[indexPath.row]
+            cell.post = currentPost
+            cell.configure()
+        }
+        let currentPost = posts[indexPath.row]
+        cell.post = currentPost
+        cell.configure()
         return cell
     }
     
@@ -288,6 +302,18 @@ extension FeedViewController: FeedTableViewCellDelegate {
 }
 
 extension FeedViewController: FeedViewModelOutPut {
+    
+    func didFetchPosts(posts: [Post]) {
+        self.posts = posts
+        self.checkIfThereArePosts()
+        DispatchQueue.main.async {
+            self.feedTableView.reloadData()
+        }
+    }
+    
+    func showErrorFetchingPosts(ErrorLocalizedDescription: String) {
+        AlertManager().showErrorAlert(viewcontroller: self, error: ErrorLocalizedDescription)
+    }
     
     func returnToLoginScreen() {
         let loginService : LoginService = AuthManager()

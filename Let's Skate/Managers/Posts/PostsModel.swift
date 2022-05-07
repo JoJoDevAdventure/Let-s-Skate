@@ -6,3 +6,14 @@
 //
 
 import Foundation
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+
+struct Post: Identifiable, Decodable {
+    @DocumentID var id: String?
+    var bio: String
+    var postUrl: String
+    var uid: String
+
+    var user: User?
+}

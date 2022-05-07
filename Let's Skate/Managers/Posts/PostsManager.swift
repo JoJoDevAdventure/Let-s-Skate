@@ -17,12 +17,18 @@ protocol NewPostService {
     func uploadNewPost(post: UIImage, bio: String, completion: @escaping (Result<Void, Error>) -> Void)
 }
 
-class PostsManager: NewPostService {
+protocol FeedPostsService {
+    func fetchAllPosts(completion: @escaping (Result<[Post], Error>) -> Void)
+}
+
+class PostsManager: NewPostService, FeedPostsService {
     
     let imageUploaderService: ImageUploader
+    let userService: FeedUserService
     
-    init(imageUploaderService: ImageUploader) {
+    init(imageUploaderService: ImageUploader ,userService: FeedUserService) {
         self.imageUploaderService = imageUploaderService
+        self.userService = userService
     }
     
     let storeRef = Firestore.firestore()
@@ -75,5 +81,38 @@ class PostsManager: NewPostService {
                 
             }
         }
+    }
+    
+    func fetchAllPosts(completion: @escaping (Result<[Post], Error>) -> Void) {
+        var posts : [Post] = []
+        storeRef.collection("posts")
+            .order(by: "timestamp", descending: true)
+            .getDocuments { snapshot, error in
+                if let FetchingPostError = error {
+                    completion(.failure(FetchingPostError))
+                }
+                guard let documents = snapshot?.documents else {
+                    return
+                }
+                // get array of posts
+                documents.forEach { document in
+                    guard var post = try? document.data(as: Post.self) else { return }
+                    //for each post fetch the user
+                    let uid = post.uid
+                    print(uid)
+                    self.userService.fetchUser(withUid: uid) { results in
+                        switch results {
+                        case .failure(let error):
+                            completion(.failure(error))
+                        case .success(let user):
+                            post.user = user
+                            posts.append(post)
+                            completion( .success(posts))
+                        }
+                    }
+                }
+                              
+            }
+        
     }
 }

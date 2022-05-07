@@ -241,7 +241,7 @@ class AddNewPostViewController: UIViewController {
             self.viewModel.uploadUserPost(post: self.chosenImageView, bio: self.bioTextZone.text)
         }), for: .touchUpInside)
     }
-        
+    
         // MARK: - Functions
     
     @objc func showPickerView() {

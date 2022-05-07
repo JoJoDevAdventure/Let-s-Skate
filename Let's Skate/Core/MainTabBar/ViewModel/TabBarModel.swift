@@ -17,9 +17,11 @@ enum TabBarModel: CaseIterable {
     var viewController: UIViewController {
         switch self {
         case .feedView :
+            let imageUploaderService: ImageUploader = StorageManager()
             let service: LogOutService = AuthManager()
             let userService: FeedUserService = UserManager()
-            let viewModel = FeedViewModel(logoutService: service, userService: userService)
+            let feedPostsService: FeedPostsService = PostsManager(imageUploaderService: imageUploaderService, userService: userService)
+            let viewModel = FeedViewModel(logoutService: service, userService: userService , postsService: feedPostsService)
             return FeedViewController(viewModel: viewModel)
             
         case .exploreView :

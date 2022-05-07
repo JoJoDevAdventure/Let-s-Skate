@@ -424,7 +424,6 @@
 				A3A2F8FD280B2E06004234AB /* Edit Profile */,
 				A3A2F8FB280B2DD7004234AB /* Settings */,
 				A3A2F8FA280B2DBF004234AB /* Profile */,
-				A3A2F917280B38A0004234AB /* ProfileViewController.swift */,
 				A3A2F908280B376A004234AB /* Messages */,
 				A3A2F919280B39C6004234AB /* Search */,
 				A3A2F907280B3763004234AB /* Explore */,
@@ -492,6 +491,7 @@
 		A3A2F8FA280B2DBF004234AB /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				A3A2F917280B38A0004234AB /* ProfileViewController.swift */,
 				A3A2F906280B3727004234AB /* View */,
 				A3A2F905280B3721004234AB /* ViewModel */,
 			);

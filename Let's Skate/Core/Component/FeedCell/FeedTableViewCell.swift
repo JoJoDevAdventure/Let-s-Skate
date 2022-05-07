@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 protocol FeedTableViewCellDelegate: AnyObject {
     
@@ -20,6 +21,8 @@ protocol FeedTableViewCellDelegate: AnyObject {
 class FeedTableViewCell: UITableViewCell {
     
     // MARK: - Properties
+    
+    var post: Post?
     
     weak var delegate: FeedTableViewCellDelegate?
     
@@ -40,7 +43,7 @@ class FeedTableViewCell: UITableViewCell {
     
     private let feedPost: UIImageView = {
         let image = UIImageView()
-        image.contentMode = .scaleToFill
+        image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
         image.backgroundColor = .gray
@@ -206,4 +209,17 @@ class FeedTableViewCell: UITableViewCell {
     
     // MARK: - Functions
     
+    func configure() {
+        guard let post = post else {
+            return
+        }
+        let nickname = post.user?.nickname ?? ""
+        nickNameLabel.text = nickname
+        if let url = post.user?.profileImageUrl {
+            profileImageView.sd_setImage(with: URL(string: url))
+        }
+        feedPost.sd_setImage(with: URL(string: post.postUrl))
+        descriptionLabel.text = post.bio
+    }
+
 }

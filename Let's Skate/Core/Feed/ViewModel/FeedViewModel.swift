@@ -17,6 +17,10 @@ protocol FeedViewModelOutPut: AnyObject {
     func showErrorFetchingCurrentUser(errorLocalizedDescription : String)
     
     func getCurrentUserProfile(user: User)
+
+    func didFetchPosts(posts: [Post])
+
+    func showErrorFetchingPosts(ErrorLocalizedDescription: String)
 }
 
 class FeedViewModel: ObservableObject {
@@ -24,10 +28,12 @@ class FeedViewModel: ObservableObject {
     weak var output: FeedViewModelOutPut?
     let logoutService: LogOutService
     let userService: FeedUserService
+    let postsService: FeedPostsService
     
-    init(logoutService: LogOutService, userService: FeedUserService) {
+    init(logoutService: LogOutService, userService: FeedUserService, postsService: FeedPostsService) {
         self.logoutService = logoutService
         self.userService = userService
+        self.postsService = postsService
     }
     
     func logOut() {
@@ -68,6 +74,17 @@ class FeedViewModel: ObservableObject {
                 self?.output?.getCurrentUserProfile(user: user)
             case .failure(let error):
                 self?.output?.showErrorFetchingCurrentUser(errorLocalizedDescription: error.localizedDescription as String)
+            }
+        }
+    }
+    
+    func fetchAllPosts() {
+        postsService.fetchAllPosts {[weak self] results in
+            switch results {
+            case .success(let posts):
+                self?.output?.didFetchPosts(posts: posts)
+            case .failure(let error):
+                self?.output?.showErrorFetchingCurrentUser(errorLocalizedDescription: error.localizedDescription)
             }
         }
     }
