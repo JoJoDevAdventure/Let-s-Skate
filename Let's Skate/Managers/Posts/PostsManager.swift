@@ -118,13 +118,12 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
         
     }
     
-    func fetchUserPosts(uid: String, completion: @escaping (Result<[Post],Error>) -> Void) {
+    func fetchUserPosts(uid: String, completion: @escaping (Result<User,Error>) -> Void) {
         var posts : [Post] = []
         storeRef.collection("posts").whereField("uid", isEqualTo: uid).getDocuments { snapshot, error in
             if error != nil {
                 completion(.failure(error!))
             }
-            
             guard let documents = snapshot?.documents else { return }
             
             documents.forEach { document in
