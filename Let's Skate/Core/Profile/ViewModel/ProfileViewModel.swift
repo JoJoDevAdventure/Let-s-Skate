@@ -48,7 +48,7 @@ class ProfileViewModel {
             case .failure(let error):
                 self.output?.showError(Error: error)
             case .success(let user):
-                self.output?.setUserPosts(posts: user)
+                self.output?.setUserPosts(user: user)
             }
         }
     }

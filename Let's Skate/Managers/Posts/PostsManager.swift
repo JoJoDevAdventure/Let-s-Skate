@@ -125,15 +125,15 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
             }
             guard let documents = snapshot?.documents else { return }
             
-            documents.forEach { document in
-                guard let post = try? document.data(as: Post.self) else { return }
-                //for each post fetch the user
-                self.userService.fetchUser(withUid: uid) { results in
-                    switch results {
-                    case .failure(let error):
-                        completion(.failure(error))
-                    case .success(var user):
-                        user.posts?.append(post)
+            self.userService.fetchUser(withUid: uid) { results in
+                switch results {
+                case .failure(let error):
+                    completion(.failure(error))
+                case .success(var user):
+                    user.posts = []
+                    documents.forEach { document in
+                        guard let post = try? document.data(as: Post.self) else { return }
+                        user.posts!.append(post)
                         completion(.success(user))
                     }
                 }
