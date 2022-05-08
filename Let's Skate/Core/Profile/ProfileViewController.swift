@@ -13,7 +13,6 @@ final class ProfileViewController: UIViewController {
     
     private var currentUserUid: String?
     private var user: User?
-    var posts: [Post] = []
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -88,13 +87,15 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return posts.count
+        return user?.posts?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PostCollectionViewCell.identifier, for: indexPath) as? PostCollectionViewCell else { return UICollectionViewCell() }
-        let postUrl = posts[indexPath.row].postUrl
-        cell.configure(postUrl: postUrl)
+        if let posts = user?.posts {
+            let postUrl = posts[indexPath.row].postUrl
+            cell.configure(postUrl: postUrl)
+        }
         return cell
     }
     
@@ -108,9 +109,11 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             if let currentUid = currentUserUid {
                 ProfileHeaderView.setupButtons(userUid: user.id!, currentUserUid: currentUid)
             }
+            if let posts = user.posts {
+                ProfileHeaderView.configurePostInformation(nbPost: posts.count)
+            }
             ProfileHeaderView.delegate = self
             ProfileHeaderView.configure()
-            ProfileHeaderView.configurePostInformation(nbPost: posts.count)
             return ProfileHeaderView
         default:
             return UICollectionReusableView()
@@ -119,9 +122,8 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
 }
 
 extension ProfileViewController: ProfileViewModelOutPut {
-    
-    func setUserPosts(posts: [Post]) {
-        self.posts = posts
+    func setUserPosts(user: User) {
+        self.user = user
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }

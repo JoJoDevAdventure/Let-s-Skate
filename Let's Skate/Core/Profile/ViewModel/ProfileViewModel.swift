@@ -13,7 +13,7 @@ import SwiftUI
 protocol ProfileViewModelOutPut : AnyObject {
     func setUserInformations(user: User)
     func showError(Error: Error)
-    func setUserPosts(posts: [Post])
+    func setUserPosts(user: User)
 }
 
 class ProfileViewModel {
@@ -47,8 +47,8 @@ class ProfileViewModel {
             switch Results {
             case .failure(let error):
                 self.output?.showError(Error: error)
-            case .success(let posts):
-                self.output?.setUserPosts(posts: posts)
+            case .success(let user):
+                self.output?.setUserPosts(posts: user)
             }
         }
     }

@@ -18,5 +18,5 @@ struct User: Identifiable, Decodable {
     let profileImageUrl: String
     let bannerImageUrl: String
     
-    let posts : [Post]?
+    var posts : [Post]?
 }

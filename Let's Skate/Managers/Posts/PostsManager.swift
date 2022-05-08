@@ -22,7 +22,7 @@ protocol FeedPostsService {
 }
 
 protocol ProfilePostsService {
-    func fetchUserPosts(uid: String, completion: @escaping (Result<[Post],Error>) -> Void)
+    func fetchUserPosts(uid: String, completion: @escaping (Result<User,Error>) -> Void)
 }
 
 class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
@@ -119,7 +119,6 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
     }
     
     func fetchUserPosts(uid: String, completion: @escaping (Result<User,Error>) -> Void) {
-        var posts : [Post] = []
         storeRef.collection("posts").whereField("uid", isEqualTo: uid).getDocuments { snapshot, error in
             if error != nil {
                 completion(.failure(error!))
@@ -127,16 +126,15 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
             guard let documents = snapshot?.documents else { return }
             
             documents.forEach { document in
-                guard var post = try? document.data(as: Post.self) else { return }
+                guard let post = try? document.data(as: Post.self) else { return }
                 //for each post fetch the user
                 self.userService.fetchUser(withUid: uid) { results in
                     switch results {
                     case .failure(let error):
                         completion(.failure(error))
-                    case .success(let user):
-                        post.user = user
-                        posts.append(post)
-                        completion( .success(posts))
+                    case .success(var user):
+                        user.posts?.append(post)
+                        completion(.success(user))
                     }
                 }
             }
