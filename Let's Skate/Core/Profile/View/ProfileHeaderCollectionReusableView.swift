@@ -8,11 +8,22 @@
 import UIKit
 import SDWebImage
 
+protocol ProfileHeaderCollectionReusableViewDelegate: AnyObject {
+    func didTapEditProfile(user: User)
+    func didTapNewPost(user: User)
+    func didTapMessage(user: User)
+    func didTapSubUnsub(user: User)
+}
+
 class ProfileHeaderCollectionReusableView: UICollectionReusableView {
 
     // MARK: - Properties
     
+    weak var delegate: ProfileHeaderCollectionReusableViewDelegate?
+    
     static let identifier = "ProfileHeaderCollectionReusableView"
+    
+    var user: User?
 
     // MARK: - Properties
     
@@ -231,7 +242,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         NSLayoutConstraint.activate(bioConstraints)
         
         let editProfileOrSubConstraints = [
-            editProfileOrSubButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
+            editProfileOrSubButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30),
             editProfileOrSubButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -90),
             editProfileOrSubButton.widthAnchor.constraint(equalToConstant: 150),
             editProfileOrSubButton.heightAnchor.constraint(equalToConstant: 50)
@@ -239,7 +250,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         NSLayoutConstraint.activate(editProfileOrSubConstraints)
         
         let messageOrAddPostConstraints = [
-            messageOrPostPhotoButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
+            messageOrPostPhotoButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30),
             messageOrPostPhotoButton.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 90),
             messageOrPostPhotoButton.widthAnchor.constraint(equalToConstant: 150),
             messageOrPostPhotoButton.heightAnchor.constraint(equalToConstant: 50)
@@ -248,7 +259,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         
         let postsLabelConstraints = [
             postsLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 60),
-            postsLabel.topAnchor.constraint(equalTo: editProfileOrSubButton.topAnchor, constant: -110),
+            postsLabel.topAnchor.constraint(equalTo: editProfileOrSubButton.topAnchor, constant: -100),
             postsLabel.widthAnchor.constraint(equalToConstant: 60),
             postsLabel.heightAnchor.constraint(equalToConstant: 30)
         ]
@@ -296,10 +307,20 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         
     }
     
+    func setupButtons(userUid: String, currentUserUid: String) {
+        if userUid == currentUserUid {
+            isCurrentUserConfiguration()
+        } else {
+            notCurrentUserConfiguration()
+        }
+    }
     
     // MARK: - Functions
     
-    func configure(user: User) {
+    func configure() {
+        guard let user = user else {
+            return
+        }
         bannerImage.sd_setImage(with: URL(string: user.bannerImageUrl))
         profileImage.sd_setImage(with: URL(string: user.profileImageUrl))
         fullNameLabel.text = user.nickname
@@ -307,5 +328,57 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
 //        bioLabel.text = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
         bioLabel.text = user.bio
     }
+    
+    func notCurrentUserConfiguration() {
+        editProfileOrSubButton.setTitle("Follow", for: .normal)
+        editProfileOrSubButton.setTitleColor(.white, for: .normal)
+        editProfileOrSubButton.backgroundColor = UIColor().DarkMainColor()
+        editProfileOrSubButton.layer.borderColor = UIColor.black.cgColor
+        editProfileOrSubButton.layer.borderWidth = 1
+        //subUnsub
+        editProfileOrSubButton.addAction(UIAction(handler: { _ in
+            guard let user = self.user else {
+                return
+            }
+            self.delegate?.didTapSubUnsub(user: user)
+        }), for: .touchUpInside)
+    
+        messageOrPostPhotoButton.setTitle("Message", for: .normal)
+        //send message
+        messageOrPostPhotoButton.addAction(UIAction(handler: { _ in
+            guard let user = self.user else {
+                return
+            }
+            self.delegate?.didTapMessage(user: user)
+        }), for: .touchUpInside)
+    }
+    
+    func isCurrentUserConfiguration() {
+        editProfileOrSubButton.setTitle("Edit Profile", for: .normal)
+        editProfileOrSubButton.setTitleColor(UIColor().DarkMainColor(), for: .normal)
+        editProfileOrSubButton.backgroundColor = UIColor().lightMainColor()
+        editProfileOrSubButton.layer.borderColor = UIColor().DarkMainColor().cgColor
+        editProfileOrSubButton.layer.borderWidth = 2
+        editProfileOrSubButton.layer.shadowColor = UIColor.black.cgColor
+        editProfileOrSubButton.layer.shadowRadius = 0.3
+        editProfileOrSubButton.layer.shadowOpacity = 0.4
+        editProfileOrSubButton.layer.shadowOffset = CGSize(width: 1, height: 1)
+        //edit profile
+        editProfileOrSubButton.addAction(UIAction(handler: { _ in
+            guard let user = self.user else {
+                return
+            }
+            self.delegate?.didTapEditProfile(user: user)
+        }), for: .touchUpInside)
+        messageOrPostPhotoButton.setTitle("New Post", for: .normal)
+        //new post
+        messageOrPostPhotoButton.addAction(UIAction(handler: { _ in
+            guard let user = self.user else {
+                return
+            }
+            self.delegate?.didTapNewPost(user: user)
+        }), for: .touchUpInside)
+    }
+    
 }
 // MARK: - Extensions

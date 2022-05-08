@@ -11,6 +11,7 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Properties
     
+    private var currentUserUid: String?
     private var user: User?
     
     private let collectionView: UICollectionView = {
@@ -33,6 +34,7 @@ final class ProfileViewController: UIViewController {
     init(viewModel: ProfileViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        self.currentUserUid = viewModel.userService.getCurrentUser()
         viewModel.output = self
     }
     
@@ -93,7 +95,12 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier, for: indexPath)
             guard let ProfileHeaderView = headerView as? ProfileHeaderCollectionReusableView else { return headerView }
             guard let user = user else { return ProfileHeaderView}
-            ProfileHeaderView.configure(user: user)
+            ProfileHeaderView.user = user
+            if let currentUid = currentUserUid {
+                ProfileHeaderView.setupButtons(userUid: user.id!, currentUserUid: currentUid)
+            }
+            ProfileHeaderView.delegate = self
+            ProfileHeaderView.configure()
             return ProfileHeaderView
         default:
             return UICollectionReusableView()
@@ -111,5 +118,23 @@ extension ProfileViewController: ProfileViewModelOutPut {
     
     func showError(Error: Error) {
         print("ERROR")
+    }
+}
+
+extension ProfileViewController: ProfileHeaderCollectionReusableViewDelegate {
+    func didTapEditProfile(user: User) {
+        print("DEBUG: EDIT PROFILE")
+    }
+    
+    func didTapNewPost(user: User) {
+        print("DEBUG: NEW POST")
+    }
+    
+    func didTapMessage(user: User) {
+        print("DEBUG: SEND MESSAGE")
+    }
+    
+    func didTapSubUnsub(user: User) {
+        print("DEBUG: SUB UNSUB")
     }
 }
