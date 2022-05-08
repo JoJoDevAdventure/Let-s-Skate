@@ -13,6 +13,7 @@ final class ProfileViewController: UIViewController {
     
     private var currentUserUid: String?
     private var user: User?
+    var posts: [Post] = []
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -24,7 +25,7 @@ final class ProfileViewController: UIViewController {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.backgroundColor = UIColor().lightMainColor()
         collection.register(ProfileHeaderCollectionReusableView.self, forSupplementaryViewOfKind: "UICollectionElementKindSectionHeader", withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier)
-        collection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collection.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: PostCollectionViewCell.identifier)
 
         return collection
     }()
@@ -72,6 +73,13 @@ final class ProfileViewController: UIViewController {
         self.viewModel.getUserInformations()
     }
     
+    private func fetchCurrentUserPosts() {
+        guard let user = user else {
+            return
+        }
+        self.viewModel.getUserPosts(user: user)
+    }
+    
 }
 // MARK: - Extensions
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -80,12 +88,13 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        cell.backgroundColor = .gray
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PostCollectionViewCell.identifier, for: indexPath) as? PostCollectionViewCell else { return UICollectionViewCell() }
+        let postUrl = posts[indexPath.row].postUrl
+        cell.configure(postUrl: postUrl)
         return cell
     }
     
@@ -109,11 +118,20 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
 }
 
 extension ProfileViewController: ProfileViewModelOutPut {
+    
+    func setUserPosts(posts: [Post]) {
+        self.posts = posts
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+    
     func setUserInformations(user: User) {
         self.user = user
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
+        fetchCurrentUserPosts()
     }
     
     func showError(Error: Error) {

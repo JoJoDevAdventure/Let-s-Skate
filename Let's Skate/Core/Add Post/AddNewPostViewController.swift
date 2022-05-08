@@ -305,7 +305,7 @@ extension AddNewPostViewController: NewPostViewModelOutPut {
     
     func postUploadedWithSuccess() {
         LoadingAnimationView().animateLoadingScreen(view: view, animation: loadingAnimation, isUploading: false)
-        NotificationCenter().post(name: NSNotification.Name("uploadedImageFetchUser"), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name("uploadedImageFetchUser"), object: nil)
         dismiss(animated: true, completion: nil)
     }
     

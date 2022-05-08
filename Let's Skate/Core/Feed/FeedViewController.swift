@@ -160,9 +160,12 @@ final class FeedViewController: UIViewController {
     }
     
     private func setupObserver() {
-        NotificationCenter().addObserver(forName: NSNotification.Name("uploadedImageFetchUser"), object: nil, queue: nil) { _ in
-            self.fetchPosts()
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("uploadedImageFetchUser"), object: nil, queue: nil) { _ in
+            self.viewModel.fetchAllPosts()
         }
+            
+        
+        
     }
     
     // MARK: - Network Manager calls
@@ -286,7 +289,10 @@ extension FeedViewController: SideMenuViewDelegate {
 extension FeedViewController: FeedTableViewCellDelegate {
     func FeedTableViewCellShowProfile(user: User) {
         let userService : ProfileUserService = UserManager()
-        let viewModel = ProfileViewModel(user: user, userService: userService)
+        let feedUserService: FeedUserService = UserManager()
+        let imageUploader: ImageUploader = StorageManager()
+        let postService: ProfilePostsService = PostsManager(imageUploaderService: imageUploader, userService: feedUserService)
+        let viewModel = ProfileViewModel(user: user, userService: userService, postsService: postService)
         let vc = ProfileViewController(viewModel: viewModel)
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -345,7 +351,10 @@ extension FeedViewController: FeedViewModelOutPut {
     func getCurrentUserProfile(user: User) {
         
         let userService: ProfileUserService = UserManager()
-        let viewModel = ProfileViewModel(user: user, userService: userService)
+        let feedUserService: FeedUserService = UserManager()
+        let imageUploader: ImageUploader = StorageManager()
+        let postsService: ProfilePostsService = PostsManager(imageUploaderService: imageUploader, userService: feedUserService)
+        let viewModel = ProfileViewModel(user: user, userService: userService,postsService: postsService)
         let vc = ProfileViewController(viewModel: viewModel)
         navigationController?.pushViewController(vc, animated: true)
     }

@@ -8,10 +8,12 @@
 import Foundation
 import UIKit
 import SDWebImage
+import SwiftUI
 
 protocol ProfileViewModelOutPut : AnyObject {
     func setUserInformations(user: User)
     func showError(Error: Error)
+    func setUserPosts(posts: [Post])
 }
 
 class ProfileViewModel {
@@ -19,10 +21,12 @@ class ProfileViewModel {
     weak var output: ProfileViewModelOutPut?
     let user: User
     let userService: ProfileUserService
+    let postsService: ProfilePostsService
     
-    init(user: User, userService: ProfileUserService) {
+    init(user: User, userService: ProfileUserService, postsService: ProfilePostsService) {
         self.user = user
         self.userService = userService
+        self.postsService = postsService
     }
     
     func getUserInformations() {
@@ -33,6 +37,18 @@ class ProfileViewModel {
                 self?.output?.setUserInformations(user: user)
             case .failure(let error):
                 self?.output?.showError(Error: error)
+            }
+        }
+    }
+    
+    func getUserPosts(user: User) {
+        guard let uid = user.id else { return }
+        postsService.fetchUserPosts(uid: uid) { Results in
+            switch Results {
+            case .failure(let error):
+                self.output?.showError(Error: error)
+            case .success(let posts):
+                self.output?.setUserPosts(posts: posts)
             }
         }
     }

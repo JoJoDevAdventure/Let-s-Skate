@@ -491,9 +491,9 @@
 		A3A2F8FA280B2DBF004234AB /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				A3A2F917280B38A0004234AB /* ProfileViewController.swift */,
 				A3A2F906280B3727004234AB /* View */,
 				A3A2F905280B3721004234AB /* ViewModel */,
+				A3A2F917280B38A0004234AB /* ProfileViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";

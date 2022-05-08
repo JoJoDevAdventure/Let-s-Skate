@@ -6,15 +6,24 @@
 //
 
 import UIKit
+import SDWebImage
 
 class PostCollectionViewCell: UICollectionViewCell {
     // MARK: - Properties
     
     static let identifier = "PostCollectionViewCell"
     
+    private let postImage: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFill
+        image.clipsToBounds = true
+        return image
+    }()
+    
     // MARK: - Life cycle
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupSubViews()
     }
     
     required init?(coder: NSCoder) {
@@ -23,8 +32,19 @@ class PostCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Set up
     
+    private func setupSubViews() {
+        addSubview(postImage)
+    }
     
-    // MARK: - Network Manager calls
+    override func layoutSubviews() {
+        postImage.frame = bounds
+    }
+    
+    // MARK: - Functions
+    
+    func configure(postUrl: String) {
+        postImage.sd_setImage(with: URL(string: postUrl))
+    }
     
     
 }

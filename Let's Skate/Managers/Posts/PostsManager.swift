@@ -21,7 +21,11 @@ protocol FeedPostsService {
     func fetchAllPosts(completion: @escaping (Result<[Post], Error>) -> Void)
 }
 
-class PostsManager: NewPostService, FeedPostsService {
+protocol ProfilePostsService {
+    func fetchUserPosts(uid: String, completion: @escaping (Result<[Post],Error>) -> Void)
+}
+
+class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
     
     let imageUploaderService: ImageUploader
     let userService: FeedUserService
@@ -86,7 +90,7 @@ class PostsManager: NewPostService, FeedPostsService {
     func fetchAllPosts(completion: @escaping (Result<[Post], Error>) -> Void) {
         var posts : [Post] = []
         storeRef.collection("posts")
-            .order(by: "timestamp", descending: false)
+            .order(by: "timestamp", descending: true)
             .getDocuments { snapshot, error in
                 if let FetchingPostError = error {
                     completion(.failure(FetchingPostError))
@@ -99,20 +103,44 @@ class PostsManager: NewPostService, FeedPostsService {
                     guard var post = try? document.data(as: Post.self) else { return }
                     //for each post fetch the user
                     let uid = post.uid
-                    print(uid)
                     self.userService.fetchUser(withUid: uid) { results in
                         switch results {
-                        case .failure(let error):
-                            completion(.failure(error))
                         case .success(let user):
                             post.user = user
                             posts.append(post)
                             completion( .success(posts))
+                        case .failure(let error):
+                            completion(.failure(error))
                         }
                     }
                 }
-                              
             }
         
+    }
+    
+    func fetchUserPosts(uid: String, completion: @escaping (Result<[Post],Error>) -> Void) {
+        var posts : [Post] = []
+        storeRef.collection("posts").whereField("uid", isEqualTo: uid).getDocuments { snapshot, error in
+            if error != nil {
+                completion(.failure(error!))
+            }
+            
+            guard let documents = snapshot?.documents else { return }
+            
+            documents.forEach { document in
+                guard var post = try? document.data(as: Post.self) else { return }
+                //for each post fetch the user
+                self.userService.fetchUser(withUid: uid) { results in
+                    switch results {
+                    case .failure(let error):
+                        completion(.failure(error))
+                    case .success(let user):
+                        post.user = user
+                        posts.append(post)
+                        completion( .success(posts))
+                    }
+                }
+            }
+        }
     }
 }
