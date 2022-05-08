@@ -329,6 +329,10 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         bioLabel.text = user.bio
     }
     
+    func configurePostInformation(nbPost: Int) {
+        postsCountButton.setTitle("\(nbPost)", for: .normal)
+    }
+    
     func notCurrentUserConfiguration() {
         editProfileOrSubButton.setTitle("Follow", for: .normal)
         editProfileOrSubButton.setTitleColor(.white, for: .normal)

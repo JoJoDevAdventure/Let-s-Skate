@@ -110,6 +110,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             }
             ProfileHeaderView.delegate = self
             ProfileHeaderView.configure()
+            ProfileHeaderView.configurePostInformation(nbPost: posts.count)
             return ProfileHeaderView
         default:
             return UICollectionReusableView()
