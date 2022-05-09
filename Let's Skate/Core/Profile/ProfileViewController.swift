@@ -77,6 +77,7 @@ final class ProfileViewController: UIViewController {
         guard let user = user else {
             return
         }
+        
         self.viewModel.getUserPosts(user: user)
     }
     
@@ -108,10 +109,9 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             guard let user = user else { return ProfileHeaderView}
             ProfileHeaderView.user = user
             ProfileHeaderView.delegate = self
-            if let currentUid = currentUserUid {
-                ProfileHeaderView.setupButtons(userUid: user.id!, currentUserUid: currentUid)
-            }
             ProfileHeaderView.configure()
+            guard let currentID = self.currentUserUid else { return headerView }
+            ProfileHeaderView.setupButtons(userUid: user.id!, currentUserUid: currentID)
             return ProfileHeaderView
         default:
             return UICollectionReusableView()
