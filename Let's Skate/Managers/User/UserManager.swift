@@ -85,7 +85,7 @@ class UserManager: FeedUserService, ProfileUserService {
         if isSubbed {
             fireRef.collection("users").document(currentUser.uid).collection("user-following").document(userUid).delete()
             fireRef.collection("users").document(userUid).collection("user-followers").document(currentUser.uid).delete()
-        } else {
+        } else if !isSubbed {
             fireRef.collection("users").document(currentUser.uid).collection("user-following").document(userUid).setData([:])
             fireRef.collection("users").document(userUid).collection("user-followers").document(currentUser.uid).setData([:])
         }

@@ -73,6 +73,7 @@ final class ProfileViewController: UIViewController {
     }
     
     private func fetchCurrentUserPosts() {
+        
         guard let user = user else {
             return
         }
@@ -106,13 +107,10 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             guard let ProfileHeaderView = headerView as? ProfileHeaderCollectionReusableView else { return headerView }
             guard let user = user else { return ProfileHeaderView}
             ProfileHeaderView.user = user
+            ProfileHeaderView.delegate = self
             if let currentUid = currentUserUid {
                 ProfileHeaderView.setupButtons(userUid: user.id!, currentUserUid: currentUid)
             }
-            if let posts = user.posts {
-                ProfileHeaderView.configurePostInformation(nbPost: posts.count)
-            }
-            ProfileHeaderView.delegate = self
             ProfileHeaderView.configure()
             return ProfileHeaderView
         default:
@@ -122,8 +120,19 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
 }
 
 extension ProfileViewController: ProfileViewModelOutPut {
+    
+    func subbedUsubedToUser(user: User) {
+        var Nuser = user
+        print(self.user?.subed)
+
+        Nuser.subed?.toggle()
+        self.user = Nuser
+        print(self.user?.subed)
+
+    }
+
     func setUserPosts(user: User) {
-        self.user = user
+        self.user?.posts = user.posts
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
@@ -131,9 +140,6 @@ extension ProfileViewController: ProfileViewModelOutPut {
     
     func setUserInformations(user: User) {
         self.user = user
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
         fetchCurrentUserPosts()
     }
     
@@ -143,19 +149,20 @@ extension ProfileViewController: ProfileViewModelOutPut {
 }
 
 extension ProfileViewController: ProfileHeaderCollectionReusableViewDelegate {
-    func didTapEditProfile(user: User) {
-        print("DEBUG: EDIT PROFILE")
+    func didTapEditProfile() {
+        print("EDIT")
     }
     
-    func didTapNewPost(user: User) {
-        print("DEBUG: NEW POST")
+    func didTapNewPost() {
+        print("POST")
     }
     
-    func didTapMessage(user: User) {
-        print("DEBUG: SEND MESSAGE")
+    func didTapMessage() {
+        print("MESSAGE")
     }
     
-    func didTapSubUnsub(user: User) {
-        print("DEBUG: SUB UNSUB")
+    func didTapSubUnsub() {
+        print(self.user?.subed)
+        print("subscription")
     }
 }

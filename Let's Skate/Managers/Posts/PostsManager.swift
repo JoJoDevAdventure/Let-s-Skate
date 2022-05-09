@@ -132,10 +132,11 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
                 case .success(var user):
                     user.posts = []
                     documents.forEach { document in
-                        guard let post = try? document.data(as: Post.self) else { return }
-                        user.posts!.append(post)
-                        completion(.success(user))
+                        if let post = try? document.data(as: Post.self) {
+                            user.posts!.append(post)
+                        }
                     }
+                    completion(.success(user))
                 }
             }
         }

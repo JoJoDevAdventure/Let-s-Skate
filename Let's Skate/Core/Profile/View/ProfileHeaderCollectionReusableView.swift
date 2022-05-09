@@ -9,10 +9,10 @@ import UIKit
 import SDWebImage
 
 protocol ProfileHeaderCollectionReusableViewDelegate: AnyObject {
-    func didTapEditProfile(user: User)
-    func didTapNewPost(user: User)
-    func didTapMessage(user: User)
-    func didTapSubUnsub(user: User)
+    func didTapEditProfile()
+    func didTapNewPost()
+    func didTapMessage()
+    func didTapSubUnsub()
 }
 
 class ProfileHeaderCollectionReusableView: UICollectionReusableView {
@@ -309,9 +309,11 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     
     func setupButtons(userUid: String, currentUserUid: String) {
         if userUid == currentUserUid {
-            isCurrentUserConfiguration()
-        } else {
-            notCurrentUserConfiguration()
+            print("current User")
+//            isCurrentUserConfiguration()
+        } else if userUid != currentUserUid {
+            print("not current user")
+//            notCurrentUserConfiguration()
         }
     }
     
@@ -327,37 +329,29 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         usernameLabel.text = user.username
 //        bioLabel.text = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
         bioLabel.text = user.bio
-    }
-    
-    func configurePostInformation(nbPost: Int) {
+        guard let nbPost = user.posts?.count else { return }
         postsCountButton.setTitle("\(nbPost)", for: .normal)
     }
     
-    func notCurrentUserConfiguration() {
+    private func notCurrentUserConfiguration() {
         editProfileOrSubButton.setTitle("Follow", for: .normal)
         editProfileOrSubButton.setTitleColor(.white, for: .normal)
         editProfileOrSubButton.backgroundColor = UIColor().DarkMainColor()
         editProfileOrSubButton.layer.borderColor = UIColor.black.cgColor
         editProfileOrSubButton.layer.borderWidth = 1
-        //subUnsub
+        
         editProfileOrSubButton.addAction(UIAction(handler: { _ in
-            guard let user = self.user else {
-                return
-            }
-            self.delegate?.didTapSubUnsub(user: user)
+            self.delegate?.didTapSubUnsub()
         }), for: .touchUpInside)
-    
+        
         messageOrPostPhotoButton.setTitle("Message", for: .normal)
         //send message
         messageOrPostPhotoButton.addAction(UIAction(handler: { _ in
-            guard let user = self.user else {
-                return
-            }
-            self.delegate?.didTapMessage(user: user)
+            self.delegate?.didTapMessage()
         }), for: .touchUpInside)
     }
     
-    func isCurrentUserConfiguration() {
+    private func isCurrentUserConfiguration() {
         editProfileOrSubButton.setTitle("Edit Profile", for: .normal)
         editProfileOrSubButton.setTitleColor(UIColor().DarkMainColor(), for: .normal)
         editProfileOrSubButton.backgroundColor = UIColor().lightMainColor()
@@ -367,20 +361,16 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         editProfileOrSubButton.layer.shadowRadius = 0.3
         editProfileOrSubButton.layer.shadowOpacity = 0.4
         editProfileOrSubButton.layer.shadowOffset = CGSize(width: 1, height: 1)
+        
         //edit profile
         editProfileOrSubButton.addAction(UIAction(handler: { _ in
-            guard let user = self.user else {
-                return
-            }
-            self.delegate?.didTapEditProfile(user: user)
+            self.delegate?.didTapEditProfile()
         }), for: .touchUpInside)
         messageOrPostPhotoButton.setTitle("New Post", for: .normal)
+        
         //new post
         messageOrPostPhotoButton.addAction(UIAction(handler: { _ in
-            guard let user = self.user else {
-                return
-            }
-            self.delegate?.didTapNewPost(user: user)
+            self.delegate?.didTapNewPost()
         }), for: .touchUpInside)
     }
     

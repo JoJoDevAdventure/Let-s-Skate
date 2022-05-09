@@ -538,7 +538,6 @@
 		A3A2F8FF280B307A004234AB /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				A3950198280BE01E001257E7 /* ProfileRoundedImageView.swift */,
 				A349901C281783EE00311493 /* LoadingViews */,
 				A3FF7933280E9F9800253DE4 /* PostsCell */,
 				A3950194280BDB1F001257E7 /* FeedCell */,
@@ -573,6 +572,7 @@
 		A3A2F906280B3727004234AB /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A3950198280BE01E001257E7 /* ProfileRoundedImageView.swift */,
 				A3EE8FFC2810D90100500D38 /* ProfileHeaderCollectionReusableView.swift */,
 			);
 			path = View;

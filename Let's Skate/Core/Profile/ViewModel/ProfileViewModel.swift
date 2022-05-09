@@ -8,12 +8,12 @@
 import Foundation
 import UIKit
 import SDWebImage
-import SwiftUI
 
 protocol ProfileViewModelOutPut : AnyObject {
     func setUserInformations(user: User)
     func showError(Error: Error)
     func setUserPosts(user: User)
+    func subbedUsubedToUser(user: User)
 }
 
 class ProfileViewModel {
@@ -34,7 +34,7 @@ class ProfileViewModel {
         userService.fetchUser(withUid: uid) {[weak self] results in
             switch results {
             case .success(let user):
-                self?.output?.setUserInformations(user: user)
+                self?.checkIfUserIsSubed(user: user)
             case .failure(let error):
                 self?.output?.showError(Error: error)
             }
@@ -51,6 +51,29 @@ class ProfileViewModel {
                 self.output?.setUserPosts(user: user)
             }
         }
+    }
+    
+    func checkIfUserIsSubed(user: User) {
+        userService.checkIfUserIsSubbed(user: user) { resuls in
+            switch resuls {
+            case .failure(let error):
+                self.output?.showError(Error: error)
+            case .success(let user):
+                self.output?.setUserInformations(user: user)
+            }
+        }
+    }
+    
+    func subUnsubToUser(user: User) {
+//        userService.followUnfollowUser(user: user) { results in
+//            switch results {
+//            case .success(()) :
+//                self.output?.subbedUsubedToUser(user: user)
+//            case .failure(let error) :
+//                self.output?.showError(Error: error)
+//            }
+//        }
+        output?.subbedUsubedToUser(user: user)
     }
     
 }
