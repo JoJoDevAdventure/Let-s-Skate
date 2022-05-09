@@ -19,4 +19,5 @@ struct User: Identifiable, Decodable {
     let bannerImageUrl: String
     
     var posts : [Post]?
+    var subed : Bool?
 }
