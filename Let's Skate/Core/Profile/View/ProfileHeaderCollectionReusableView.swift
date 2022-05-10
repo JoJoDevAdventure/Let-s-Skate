@@ -25,6 +25,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     
     var user: User?
     var currentUserUid: String?
+    var currentUser = false
 
     // MARK: - Properties
     
@@ -184,6 +185,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         setupSubViews()
         setupConstraints()
         setupButtons()
+        setupObservers()
     }
     
     required init?(coder: NSCoder) {
@@ -315,10 +317,19 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
             return
         }
         guard userUid == currentUserUid else {
+            currentUser = false
             notCurrentUserConfiguration()
             return
         }
         isCurrentUserConfiguration()
+        currentUser = true
+    }
+    
+    func setupObservers() {
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("setupButtonsActions"), object: nil, queue: nil) { _ in
+            self.setupButtons()
+            self.setupButtonsActions()
+        }
     }
     
     // MARK: - Functions
@@ -339,21 +350,24 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     }
     
     private func notCurrentUserConfiguration() {
-        editProfileOrSubButton.setTitle("Follow", for: .normal)
-        editProfileOrSubButton.setTitleColor(.white, for: .normal)
-        editProfileOrSubButton.backgroundColor = UIColor().DarkMainColor()
-        editProfileOrSubButton.layer.borderColor = UIColor.black.cgColor
-        editProfileOrSubButton.layer.borderWidth = 1
-        
-        editProfileOrSubButton.addAction(UIAction(handler: { _ in
-            self.delegate?.didTapSubUnsub()
-        }), for: .touchUpInside)
+        guard let isSubed = user?.subed else { return }
+        if isSubed {
+            editProfileOrSubButton.setTitle("UnFollow", for: .normal)
+            editProfileOrSubButton.setTitleColor(UIColor().DarkMainColor(), for: .normal)
+            editProfileOrSubButton.backgroundColor = UIColor().lightMainColor()
+            editProfileOrSubButton.layer.borderColor = UIColor().DarkMainColor().cgColor
+            editProfileOrSubButton.layer.borderWidth = 2
+        } else {
+            editProfileOrSubButton.setTitle("Follow", for: .normal)
+            editProfileOrSubButton.setTitleColor(.white, for: .normal)
+            editProfileOrSubButton.backgroundColor = UIColor().DarkMainColor()
+            editProfileOrSubButton.layer.borderColor = UIColor.black.cgColor
+            editProfileOrSubButton.layer.borderWidth = 1
+        }
         
         messageOrPostPhotoButton.setTitle("Message", for: .normal)
         //send message
-        messageOrPostPhotoButton.addAction(UIAction(handler: { _ in
-            self.delegate?.didTapMessage()
-        }), for: .touchUpInside)
+        
     }
     
     private func isCurrentUserConfiguration() {
@@ -368,16 +382,30 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         editProfileOrSubButton.layer.shadowOffset = CGSize(width: 1, height: 1)
         
         //edit profile
-        editProfileOrSubButton.addAction(UIAction(handler: { _ in
-            self.delegate?.didTapEditProfile()
-        }), for: .touchUpInside)
         messageOrPostPhotoButton.setTitle("New Post", for: .normal)
         
         //new post
-        messageOrPostPhotoButton.addAction(UIAction(handler: { _ in
-            self.delegate?.didTapNewPost()
-        }), for: .touchUpInside)
+
     }
     
+    private func setupButtonsActions() {
+        if currentUser {
+            editProfileOrSubButton.addAction(UIAction(handler: { _ in
+                self.delegate?.didTapEditProfile()
+            }), for: .touchUpInside)
+            
+            messageOrPostPhotoButton.addAction(UIAction(handler: { _ in
+                self.delegate?.didTapNewPost()
+            }), for: .touchUpInside)
+        } else {
+            messageOrPostPhotoButton.addAction(UIAction(handler: { _ in
+                self.delegate?.didTapMessage()
+            }), for: .touchUpInside)
+            
+            editProfileOrSubButton.addAction(UIAction(handler: { _ in
+                self.delegate?.didTapSubUnsub()
+            }), for: .touchUpInside)
+        }
+    }
 }
 // MARK: - Extensions

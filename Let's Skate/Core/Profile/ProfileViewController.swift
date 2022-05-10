@@ -121,14 +121,12 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
 extension ProfileViewController: ProfileViewModelOutPut {
     func subedUnsubed(user: User) {
         self.user = user
-        print(user.subed)
-//        fetchUserSubscriptionStatus()
+        fetchUserSubscriptionStatus()
     }
     
     
     func setUserInformations(user: User) {
         self.user = user
-        print(user.subed)
         fetchCurrentUserPosts()
     }
     
@@ -137,12 +135,12 @@ extension ProfileViewController: ProfileViewModelOutPut {
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
-        
     }
 
     func setUserPosts(user: User) {
         self.user.posts = user.posts
         fetchUserSubscriptionStatus()
+        NotificationCenter.default.post(name: NSNotification.Name("setupButtonsActions"), object: nil)
     }
     
     func showError(Error: Error) {
@@ -154,6 +152,7 @@ extension ProfileViewController: ProfileViewModelOutPut {
 extension ProfileViewController: ProfileHeaderCollectionReusableViewDelegate {
     func didTapEditProfile() {
         print("EDIT")
+        collectionView.reloadData()
     }
     
     func didTapNewPost() {
@@ -165,7 +164,6 @@ extension ProfileViewController: ProfileHeaderCollectionReusableViewDelegate {
     }
     
     func didTapSubUnsub() {
-        print(user.subed)
         viewModel.subUnsubToUser()
     }
 }

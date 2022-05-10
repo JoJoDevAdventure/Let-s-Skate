@@ -67,13 +67,13 @@ class UserManager: FeedUserService, ProfileUserService {
                 return
             }
             var Nuser = user
+            Nuser.subed = false
             documents.forEach { document in
                 if document.documentID == userId {
                     Nuser.subed = true
-                    completion(.success(Nuser))
+                    return
                 }
             }
-            Nuser.subed = false
             completion(.success(Nuser))
         }
     }
@@ -83,19 +83,19 @@ class UserManager: FeedUserService, ProfileUserService {
         guard let userUid = user.id else { return }
         guard var isSubbed = user.subed else { return }
         if isSubbed {
-            isSubbed.toggle()
-            var Nuser = user
-            Nuser.subed = isSubbed
             fireRef.collection("users").document(currentUser.uid).collection("user-following").document(userUid).delete()
             fireRef.collection("users").document(userUid).collection("user-followers").document(currentUser.uid).delete()
-            completion(.success(Nuser))
-        } else if !isSubbed {
             isSubbed.toggle()
             var Nuser = user
             Nuser.subed = isSubbed
+            completion(.success(Nuser))
             
+        } else if !isSubbed {
             fireRef.collection("users").document(currentUser.uid).collection("user-following").document(userUid).setData([:])
             fireRef.collection("users").document(userUid).collection("user-followers").document(currentUser.uid).setData([:])
+            isSubbed.toggle()
+            var Nuser = user
+            Nuser.subed = isSubbed
             completion(.success(Nuser))
         }
     }
