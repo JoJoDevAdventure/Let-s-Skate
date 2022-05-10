@@ -15,6 +15,8 @@ final class FeedViewController: UIViewController {
     var NavBarProfileImage = UIImage(named: "black")
     var posts: [Post] = []
     
+    // MARK: - UI
+    
     private let noPostsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -66,6 +68,8 @@ final class FeedViewController: UIViewController {
     }()
     
     private let sideMenu = SideMenuView(frame: CGRect(x: -UIScreen.main.bounds.width, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*2))
+    
+    // MARK: - ViewModel
     
     private let viewModel: FeedViewModel
     
@@ -170,11 +174,15 @@ final class FeedViewController: UIViewController {
     
     // MARK: - Network Manager calls
     
-    // MARK: - Functions
-    
     private func fetchCurrentUser() {
         self.viewModel.fetchCurrentUser()
     }
+    
+    private func fetchPosts() {
+        viewModel.fetchAllPosts()
+    }
+    
+    // MARK: - Functions
     
     //show side menu
     @objc func didTapProfileImage() {
@@ -221,13 +229,9 @@ final class FeedViewController: UIViewController {
             feedTableView.reloadData()
         }
     }
-    
-    private func fetchPosts() {
-        viewModel.fetchAllPosts()
-    }
 
 }
-// MARK: - Extensions
+// MARK: - Extensions : TableView
 extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -259,14 +263,16 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+// MARK: - Extensions : SideMenu
 extension FeedViewController: SideMenuViewDelegate {
-    
+    //Show profile
     func SideMenuViewDidTapProfileButton() {
         print("DEBUG: Show Profile")
         didTapLeave()
         viewModel.fetchCurrentUserProfile()
     }
     
+    //Show Setting
     func SideMenuViewDidTapSettingButton() {
         let vc = SettingsViewController()
         didTapLeave()
@@ -274,6 +280,7 @@ extension FeedViewController: SideMenuViewDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    //Log out
     func SideMenuViewDidTapLogOut() {
         AlertManager.shared.showConfirmOrDeclineAlert(viewController: self, title: "LogOut", message: "Are you sure to Logout ?") {[weak self] confirm in
             if confirm {
@@ -286,7 +293,10 @@ extension FeedViewController: SideMenuViewDelegate {
 
 }
 
+// MARK: - Extensions : TableView Cell
 extension FeedViewController: FeedTableViewCellDelegate {
+    
+    //show user profile
     func FeedTableViewCellShowProfile(user: User) {
         let userService : ProfileUserService = UserManager()
         let feedUserService: FeedUserService = UserManager()
@@ -297,26 +307,32 @@ extension FeedViewController: FeedTableViewCellDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    //like post
     func FeedTableViewCellDidTapLike() {
         print("DEBUG: TAP LIKE")
     }
     
+    //comment post
     func FeedTableViewCellDidTapComment() {
         print("DEBUG: TAP COMMENT")
     }
     
+    //share post
     func FeedTableViewCellDidTapShare() {
         print("DEBUG: TAP SHARE")
     }
     
+    //show more information
     func FeedTableViewCellDidTapSeeMore() {
         print("DEBUG: TAP MORE")
     }
 
 }
 
+// MARK: - Extensions : View Model Delegate
 extension FeedViewController: FeedViewModelOutPut {
     
+    // fetch all feed posts / TODO: Fetch only following posts
     func didFetchPosts(posts: [Post]) {
         self.posts = posts
         self.checkIfThereArePosts()
@@ -325,10 +341,12 @@ extension FeedViewController: FeedViewModelOutPut {
         }
     }
     
+    // error handling
     func showErrorFetchingPosts(ErrorLocalizedDescription: String) {
         AlertManager().showErrorAlert(viewcontroller: self, error: ErrorLocalizedDescription)
     }
     
+    //log out
     func returnToLoginScreen() {
         let loginService : LoginService = AuthManager()
         let viewModel = LoginViewModel(loginService: loginService)
@@ -337,6 +355,7 @@ extension FeedViewController: FeedViewModelOutPut {
         present(vc, animated: true)
     }
     
+    //side menu informations
     func setUserInformations(profileImage: UIImage, username: String, nickname: String) {
         NavBarProfileImage = profileImage
         sideMenu.configure(profileImage: profileImage, username: username, nickname: nickname)
@@ -344,12 +363,13 @@ extension FeedViewController: FeedViewModelOutPut {
         setupNavBar()
     }
     
+    //error handling: Getting current user
     func showErrorFetchingCurrentUser(errorLocalizedDescription: String) {
         print(errorLocalizedDescription)
     }
     
+    //show current user profile : Side mennu
     func getCurrentUserProfile(user: User) {
-        
         let userService: ProfileUserService = UserManager()
         let feedUserService: FeedUserService = UserManager()
         let imageUploader: ImageUploader = StorageManager()

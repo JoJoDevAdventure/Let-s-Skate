@@ -36,11 +36,13 @@ class FeedViewModel: ObservableObject {
         self.postsService = postsService
     }
     
+    //logout current user
     func logOut() {
         logoutService.logOutUser()
         output?.returnToLoginScreen()
     }
     
+    // fetch user + download images -> Set UI via output
     func fetchCurrentUser() {
         let uid = userService.getCurrentUser()
         guard let uid = uid else {
@@ -63,6 +65,7 @@ class FeedViewModel: ObservableObject {
         }
     }
     
+    //return current User
     func fetchCurrentUserProfile() {
         let uid = userService.getCurrentUser()
         guard let uid = uid else {
@@ -78,6 +81,7 @@ class FeedViewModel: ObservableObject {
         }
     }
     
+    //get all Posts
     func fetchAllPosts() {
         postsService.fetchAllPosts {[weak self] results in
             switch results {
