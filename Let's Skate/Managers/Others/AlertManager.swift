@@ -17,6 +17,7 @@ class AlertManager {
     
     static let shared = AlertManager()
     
+    //alert with confirm or decline
     func showConfirmOrDeclineAlert(viewController : UIViewController, title: String, message: String, completion: @escaping (Bool)->Void) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let decline = UIAlertAction(title: "Decline", style: .cancel) { _ in
@@ -30,6 +31,7 @@ class AlertManager {
         viewController.present(alert, animated: true)
     }
     
+    //show error with custom message
     func showErrorAlert(viewcontroller: UIViewController, error: String) {
         let alert = UIAlertController(title: "", message: "\(error)", preferredStyle: .alert)
         let ok = UIAlertAction(title: "OK", style: .cancel, handler: nil)

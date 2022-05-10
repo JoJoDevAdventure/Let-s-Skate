@@ -22,7 +22,7 @@ class StorageManager: ImageUploader {
     
     init() {
     }
-    
+    // banner
     func uploadBannerImage(image: UIImage, completion: @escaping(Result<String, Error>) -> Void)  {
         guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
         
@@ -46,6 +46,7 @@ class StorageManager: ImageUploader {
         
     }
     
+    // profile
     func uploadProfileImage(image: UIImage, completion: @escaping(Result<String, Error>) -> Void)  {
         guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
         
@@ -66,6 +67,7 @@ class StorageManager: ImageUploader {
         }
     }
     
+    //post
     func uploadNewPostImage(image: UIImage, completion: @escaping(Result<String, Error>) -> Void) {
         guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
         
