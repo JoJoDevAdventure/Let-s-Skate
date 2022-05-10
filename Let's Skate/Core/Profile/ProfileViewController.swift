@@ -12,7 +12,7 @@ final class ProfileViewController: UIViewController {
     // MARK: - Properties
     
     private var currentUserUid: String?
-    private var user: User?
+    private var user: User
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -33,8 +33,9 @@ final class ProfileViewController: UIViewController {
 
     init(viewModel: ProfileViewModel) {
         self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
         self.currentUserUid = viewModel.userService.getCurrentUser()
+        self.user = viewModel.user
+        super.init(nibName: nil, bundle: nil)
         viewModel.output = self
     }
     
@@ -72,13 +73,12 @@ final class ProfileViewController: UIViewController {
         self.viewModel.getUserInformations()
     }
     
+    private func fetchUserSubscriptionStatus() {
+        self.viewModel.checkIfUserIsSubed()
+    }
+    
     private func fetchCurrentUserPosts() {
-        
-        guard let user = user else {
-            return
-        }
-        
-        self.viewModel.getUserPosts(user: user)
+        self.viewModel.getUserPosts()
     }
     
 }
@@ -89,12 +89,12 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return user?.posts?.count ?? 0
+        return user.posts?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PostCollectionViewCell.identifier, for: indexPath) as? PostCollectionViewCell else { return UICollectionViewCell() }
-        if let posts = user?.posts {
+        if let posts = user.posts {
             let postUrl = posts[indexPath.row].postUrl
             cell.configure(postUrl: postUrl)
         }
@@ -106,7 +106,6 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         case UICollectionView.elementKindSectionHeader :
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier, for: indexPath)
             guard let ProfileHeaderView = headerView as? ProfileHeaderCollectionReusableView else { return headerView }
-            guard let user = user else { return ProfileHeaderView}
             ProfileHeaderView.user = user
             ProfileHeaderView.delegate = self
             ProfileHeaderView.configure()
@@ -121,31 +120,27 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
 
 extension ProfileViewController: ProfileViewModelOutPut {
     
-    func subbedUsubedToUser(user: User) {
-        var Nuser = user
-        print(self.user?.subed)
-
-        Nuser.subed?.toggle()
-        self.user = Nuser
-        print(self.user?.subed)
-
+    func setUserInformations(user: User) {
+        self.user = user
+        fetchUserSubscriptionStatus()
+    }
+    
+    func setUserSubscriptionStatus(user: User) {
+        self.user = user
+        fetchCurrentUserPosts()
     }
 
     func setUserPosts(user: User) {
-        self.user?.posts = user.posts
+        self.user.posts = user.posts
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
     }
     
-    func setUserInformations(user: User) {
-        self.user = user
-        fetchCurrentUserPosts()
-    }
-    
     func showError(Error: Error) {
         print("ERROR")
     }
+    
 }
 
 extension ProfileViewController: ProfileHeaderCollectionReusableViewDelegate {
@@ -162,7 +157,6 @@ extension ProfileViewController: ProfileHeaderCollectionReusableViewDelegate {
     }
     
     func didTapSubUnsub() {
-        print(self.user?.subed)
-        print("subscription")
+        print("DEBUG: SUB")
     }
 }

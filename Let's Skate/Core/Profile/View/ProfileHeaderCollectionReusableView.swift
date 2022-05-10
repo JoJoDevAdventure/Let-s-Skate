@@ -308,13 +308,11 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     }
     
     func setupButtons(userUid: String, currentUserUid: String) {
-        if userUid == currentUserUid {
-            print("current User")
-//            isCurrentUserConfiguration()
-        } else if userUid != currentUserUid {
-            print("not current user")
-//            notCurrentUserConfiguration()
+        guard userUid == currentUserUid else {
+            notCurrentUserConfiguration()
+            return
         }
+        isCurrentUserConfiguration()
     }
     
     // MARK: - Functions

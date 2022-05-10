@@ -20,7 +20,7 @@ protocol ProfileUserService {
     func getCurrentUser() -> String?
     func verifyIfUserIsCurrentUser(user: User) -> Bool?
     func checkIfUserIsSubbed(user: User, completion: @escaping (Result<User, Error>)  -> Void)
-    func followUnfollowUser(user: User, completion: @escaping (Result<Void,Error>) -> Void)
+    func followUnfollowUser(user: User, completion: @escaping (Result<User,Error>) -> Void)
 }
 
 class UserManager: FeedUserService, ProfileUserService {
@@ -78,16 +78,24 @@ class UserManager: FeedUserService, ProfileUserService {
         }
     }
     
-    func followUnfollowUser(user: User, completion: @escaping (Result<Void,Error>) -> Void) {
+    func followUnfollowUser(user: User, completion: @escaping (Result<User,Error>) -> Void) {
         guard let currentUser = Auth.auth().currentUser else { return }
         guard let userUid = user.id else { return }
-        guard let isSubbed = user.subed else { return }
+        guard var isSubbed = user.subed else { return }
         if isSubbed {
-            fireRef.collection("users").document(currentUser.uid).collection("user-following").document(userUid).delete()
-            fireRef.collection("users").document(userUid).collection("user-followers").document(currentUser.uid).delete()
+            isSubbed.toggle()
+            var Nuser = user
+            Nuser.subed = isSubbed
+            completion(.success(Nuser))
+//fireRef.collection("users").document(currentUser.uid).collection("user-following").document(userUid).delete()
+//fireRef.collection("users").document(userUid).collection("user-followers").document(currentUser.uid).delete()
         } else if !isSubbed {
-            fireRef.collection("users").document(currentUser.uid).collection("user-following").document(userUid).setData([:])
-            fireRef.collection("users").document(userUid).collection("user-followers").document(currentUser.uid).setData([:])
+            isSubbed.toggle()
+            var Nuser = user
+            Nuser.subed = isSubbed
+            completion(.success(Nuser))
+//fireRef.collection("users").document(currentUser.uid).collection("user-following").document(userUid).setData([:])
+//fireRef.collection("users").document(userUid).collection("user-followers").document(currentUser.uid).setData([:])
         }
     }
 }
