@@ -88,7 +88,6 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
     }
     
     func fetchAllPosts(completion: @escaping (Result<[Post], Error>) -> Void) {
-        var posts : [Post] = []
         storeRef.collection("posts")
             .order(by: "timestamp", descending: true)
             .getDocuments { snapshot, error in
@@ -99,23 +98,30 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
                     return
                 }
                 // get array of posts
+                var posts : [Post] = []
                 documents.forEach { document in
-                    guard var post = try? document.data(as: Post.self) else { return }
-                    //for each post fetch the user
-                    let uid = post.uid
-                    self.userService.fetchUser(withUid: uid) { results in
-                        switch results {
-                        case .success(let user):
-                            post.user = user
-                            posts.append(post)
-                            completion( .success(posts))
-                        case .failure(let error):
-                            completion(.failure(error))
-                        }
+                    if let post = try? document.data(as: Post.self) {
+                        posts.append(post)
                     }
                 }
+                
+            var finalPosts: [Post] = []
+                posts.forEach { post in
+                    self.userService.fetchUser(withUid: post.uid) { results in
+                        switch results {
+                        case .failure(let error):
+                            completion(.failure(error))
+                        case .success(let user):
+                            var Npost = post
+                            Npost.user = user
+                            finalPosts.append(Npost)
+                            completion(.success(finalPosts))
+                        }
+                        
+                    }
+                }
+                
             }
-        
     }
     
     func fetchUserPosts(uid: String, completion: @escaping (Result<User,Error>) -> Void) {
