@@ -19,6 +19,8 @@ protocol ProfileViewModelOutPut : AnyObject {
 
 class ProfileViewModel {
     
+    // MARK: - Propreties
+    
     weak var output: ProfileViewModelOutPut?
     var user: User
     let userService: ProfileUserService
@@ -30,6 +32,9 @@ class ProfileViewModel {
         self.postsService = postsService
     }
     
+    // MARK: - Functions
+    
+    //get displayed user informations
     func getUserInformations() {
         guard let uid = user.id else {return}
         userService.fetchUser(withUid: uid) {[weak self] results in
@@ -43,6 +48,7 @@ class ProfileViewModel {
         }
     }
     
+    //check if current user is subbed to displayed user
     func checkIfUserIsSubed() {
         userService.checkIfUserIsSubbed(user: user) { resuls in
             switch resuls {
@@ -55,6 +61,7 @@ class ProfileViewModel {
         }
     }
     
+    //show dispayed user posts
     func getUserPosts() {
         guard let uid = user.id else { return }
         postsService.fetchUserPosts(uid: uid) { Results in
@@ -68,6 +75,8 @@ class ProfileViewModel {
         }
     }
     
+    //check if subbed to displayed user
+        //sub or unsub
     func subUnsubToUser() {
         userService.followUnfollowUser(user: user) { results in
             switch results {

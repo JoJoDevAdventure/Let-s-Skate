@@ -311,6 +311,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         
     }
     
+    //setup buttons ui
     func setupButtons() {
         guard let userUid = user?.id else { return }
         guard let currentUserUid = currentUserUid else {
@@ -325,6 +326,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         currentUser = true
     }
     
+    //observer to know buttons actions
     func setupObservers() {
         NotificationCenter.default.addObserver(forName: NSNotification.Name("setupButtonsActions"), object: nil, queue: nil) { _ in
             self.setupButtons()
@@ -342,7 +344,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         profileImage.sd_setImage(with: URL(string: user.profileImageUrl))
         fullNameLabel.text = user.nickname
         usernameLabel.text = user.username
-//        bioLabel.text = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        //mac bio char = 150.
         bioLabel.text = user.bio
         guard let nbPost = user.posts?.count else { return }
         postsCountButton.setTitle("\(nbPost)", for: .normal)
@@ -352,12 +354,14 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     private func notCurrentUserConfiguration() {
         guard let isSubed = user?.subed else { return }
         if isSubed {
+            //FOLLOW
             editProfileOrSubButton.setTitle("UnFollow", for: .normal)
             editProfileOrSubButton.setTitleColor(UIColor().DarkMainColor(), for: .normal)
             editProfileOrSubButton.backgroundColor = UIColor().lightMainColor()
             editProfileOrSubButton.layer.borderColor = UIColor().DarkMainColor().cgColor
             editProfileOrSubButton.layer.borderWidth = 2
         } else {
+            //UNFOLLOW
             editProfileOrSubButton.setTitle("Follow", for: .normal)
             editProfileOrSubButton.setTitleColor(.white, for: .normal)
             editProfileOrSubButton.backgroundColor = UIColor().DarkMainColor()
@@ -365,12 +369,12 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
             editProfileOrSubButton.layer.borderWidth = 1
         }
         
+        //MESSAGE
         messageOrPostPhotoButton.setTitle("Message", for: .normal)
-        //send message
-        
     }
     
     private func isCurrentUserConfiguration() {
+        //EDIT PROFILE
         editProfileOrSubButton.setTitle("Edit Profile", for: .normal)
         editProfileOrSubButton.setTitleColor(UIColor().DarkMainColor(), for: .normal)
         editProfileOrSubButton.backgroundColor = UIColor().lightMainColor()
@@ -380,11 +384,9 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         editProfileOrSubButton.layer.shadowRadius = 0.3
         editProfileOrSubButton.layer.shadowOpacity = 0.4
         editProfileOrSubButton.layer.shadowOffset = CGSize(width: 1, height: 1)
-        
-        //edit profile
+
+        //NEW POST
         messageOrPostPhotoButton.setTitle("New Post", for: .normal)
-        
-        //new post
 
     }
     

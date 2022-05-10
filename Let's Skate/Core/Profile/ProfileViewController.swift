@@ -14,6 +14,7 @@ final class ProfileViewController: UIViewController {
     private var currentUserUid: String?
     private var user: User
     
+    // inital collectionview + Header
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width/3 - 6, height: UIScreen.main.bounds.height/5)
@@ -28,6 +29,8 @@ final class ProfileViewController: UIViewController {
 
         return collection
     }()
+    
+    // MARK: - ViewModel
     
     let viewModel: ProfileViewModel
 
@@ -82,7 +85,7 @@ final class ProfileViewController: UIViewController {
     }
     
 }
-// MARK: - Extensions
+// MARK: - Extensions : CollectionView
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -118,6 +121,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
 }
 
+// MARK: - Extensions : viewModel output
 extension ProfileViewController: ProfileViewModelOutPut {
     func subedUnsubed(user: User) {
         self.user = user
@@ -149,6 +153,7 @@ extension ProfileViewController: ProfileViewModelOutPut {
     
 }
 
+// MARK: - Extensions : Header  Delegate
 extension ProfileViewController: ProfileHeaderCollectionReusableViewDelegate {
     func didTapEditProfile() {
         print("EDIT")
