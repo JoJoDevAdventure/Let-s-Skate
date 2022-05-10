@@ -86,16 +86,18 @@ class UserManager: FeedUserService, ProfileUserService {
             isSubbed.toggle()
             var Nuser = user
             Nuser.subed = isSubbed
+            fireRef.collection("users").document(currentUser.uid).collection("user-following").document(userUid).delete()
+            fireRef.collection("users").document(userUid).collection("user-followers").document(currentUser.uid).delete()
             completion(.success(Nuser))
-//fireRef.collection("users").document(currentUser.uid).collection("user-following").document(userUid).delete()
-//fireRef.collection("users").document(userUid).collection("user-followers").document(currentUser.uid).delete()
         } else if !isSubbed {
             isSubbed.toggle()
             var Nuser = user
             Nuser.subed = isSubbed
+            
+            fireRef.collection("users").document(currentUser.uid).collection("user-following").document(userUid).setData([:])
+            fireRef.collection("users").document(userUid).collection("user-followers").document(currentUser.uid).setData([:])
             completion(.success(Nuser))
-//fireRef.collection("users").document(currentUser.uid).collection("user-following").document(userUid).setData([:])
-//fireRef.collection("users").document(userUid).collection("user-followers").document(currentUser.uid).setData([:])
         }
     }
+    
 }

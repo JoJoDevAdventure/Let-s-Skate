@@ -14,6 +14,7 @@ protocol ProfileViewModelOutPut : AnyObject {
     func setUserSubscriptionStatus(user: User)
     func showError(Error: Error)
     func setUserPosts(user: User)
+    func subedUnsubed(user: User)
 }
 
 class ProfileViewModel {
@@ -67,15 +68,16 @@ class ProfileViewModel {
         }
     }
     
-    func subUnsubToUser(user: User) {
-//        userService.followUnfollowUser(user: user) { results in
-//            switch results {
-//            case .success() :
-//                self.output?.subbedUsubedToUser(user: user)
-//            case .failure(let error) :
-//                self.output?.showError(Error: error)
-//            }
-//        }
+    func subUnsubToUser() {
+        userService.followUnfollowUser(user: user) { results in
+            switch results {
+            case .success(let user) :
+                self.user = user
+                self.output?.subedUnsubed(user: user)
+            case .failure(let error) :
+                self.output?.showError(Error: error)
+            }
+        }
     }
     
 }

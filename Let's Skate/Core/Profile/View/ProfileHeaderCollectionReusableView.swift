@@ -24,6 +24,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     static let identifier = "ProfileHeaderCollectionReusableView"
     
     var user: User?
+    var currentUserUid: String?
 
     // MARK: - Properties
     
@@ -182,6 +183,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         super.init(frame: frame)
         setupSubViews()
         setupConstraints()
+        setupButtons()
     }
     
     required init?(coder: NSCoder) {
@@ -307,7 +309,11 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         
     }
     
-    func setupButtons(userUid: String, currentUserUid: String) {
+    func setupButtons() {
+        guard let userUid = user?.id else { return }
+        guard let currentUserUid = currentUserUid else {
+            return
+        }
         guard userUid == currentUserUid else {
             notCurrentUserConfiguration()
             return
@@ -329,6 +335,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         bioLabel.text = user.bio
         guard let nbPost = user.posts?.count else { return }
         postsCountButton.setTitle("\(nbPost)", for: .normal)
+        setupButtons()
     }
     
     private func notCurrentUserConfiguration() {

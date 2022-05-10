@@ -107,10 +107,10 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier, for: indexPath)
             guard let ProfileHeaderView = headerView as? ProfileHeaderCollectionReusableView else { return headerView }
             ProfileHeaderView.user = user
-            ProfileHeaderView.delegate = self
-            ProfileHeaderView.configure()
             guard let currentID = self.currentUserUid else { return headerView }
-            ProfileHeaderView.setupButtons(userUid: user.id!, currentUserUid: currentID)
+            ProfileHeaderView.currentUserUid = currentID
+            ProfileHeaderView.configure()
+            ProfileHeaderView.delegate = self
             return ProfileHeaderView
         default:
             return UICollectionReusableView()
@@ -119,22 +119,30 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
 }
 
 extension ProfileViewController: ProfileViewModelOutPut {
+    func subedUnsubed(user: User) {
+        self.user = user
+        print(user.subed)
+//        fetchUserSubscriptionStatus()
+    }
+    
     
     func setUserInformations(user: User) {
         self.user = user
-        fetchUserSubscriptionStatus()
+        print(user.subed)
+        fetchCurrentUserPosts()
     }
     
     func setUserSubscriptionStatus(user: User) {
         self.user = user
-        fetchCurrentUserPosts()
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+        
     }
 
     func setUserPosts(user: User) {
         self.user.posts = user.posts
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
+        fetchUserSubscriptionStatus()
     }
     
     func showError(Error: Error) {
@@ -157,6 +165,7 @@ extension ProfileViewController: ProfileHeaderCollectionReusableViewDelegate {
     }
     
     func didTapSubUnsub() {
-        print("DEBUG: SUB")
+        print(user.subed)
+        viewModel.subUnsubToUser()
     }
 }
