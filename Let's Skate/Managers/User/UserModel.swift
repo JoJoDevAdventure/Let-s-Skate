@@ -20,4 +20,7 @@ struct User: Identifiable, Decodable {
     
     var posts : [Post]?
     var subed : Bool?
+    
+    var followers : [User]?
+    var following : [User]?
 }

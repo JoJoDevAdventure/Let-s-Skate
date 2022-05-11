@@ -103,4 +103,9 @@ class UserManager: FeedUserService, ProfileUserService {
         }
     }
     
+    func fetchFollowing(user: User, completion: @escaping (Result<[User], Error>) -> Void) {
+        guard let uid = user.id else { return }
+        fireRef.collection("users").document(uid).collection("user-following")
+    }
+    
 }
