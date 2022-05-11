@@ -103,9 +103,30 @@ class UserManager: FeedUserService, ProfileUserService {
         }
     }
     
-    func fetchFollowing(user: User, completion: @escaping (Result<[User], Error>) -> Void) {
+    func fetchFollowers(user: User, completion: @escaping (Result<[User], Error>) -> Void) {
         guard let uid = user.id else { return }
-        fireRef.collection("users").document(uid).collection("user-following")
+        fireRef.collection("users").document(uid).collection("user-following").getDocuments { snapshot, error in
+            guard error == nil else {
+                completion(.failure(error!))
+                return
+            }
+            guard let documents = snapshot?.documents else { return }
+            
+            var following: [User] = []
+            documents.forEach { document in
+                if let userId = try? document.data(as: String.self) {
+                    self.fetchUser(withUid: userId) { results in
+                        switch results {
+                        case .success(let user) :
+                            following.append(user)
+                        case .failure(let error) :
+                            completion(.failure(error))
+                        }
+                    }
+                }
+            }
+            completion(.success(following))
+        }
     }
     
 }

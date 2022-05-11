@@ -313,6 +313,8 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     
     //setup buttons ui
     func setupButtons() {
+        editProfileOrSubButton.isHidden = true
+        messageOrPostPhotoButton.isHidden = true
         guard let userUid = user?.id else { return }
         guard let currentUserUid = currentUserUid else {
             return
@@ -391,6 +393,8 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     }
     
     private func setupButtonsActions() {
+        messageOrPostPhotoButton.isHidden = false
+        editProfileOrSubButton.isHidden = false
         if currentUser {
             editProfileOrSubButton.addAction(UIAction(handler: { _ in
                 self.delegate?.didTapEditProfile()
