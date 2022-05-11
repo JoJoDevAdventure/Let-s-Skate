@@ -39,7 +39,7 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
     
     let currentUserUid = Auth.auth().currentUser?.uid
     
-    
+    // get current user nickname
     func getCurrentUserNickname(completion: @escaping (Result<String, Error>) -> Void ){
         
         guard let uid = currentUserUid else {
@@ -54,6 +54,7 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
         }
     }
     
+    //upload new post to database
     func uploadNewPost(post: UIImage, bio: String, completion: @escaping (Result<Void, Error>) -> Void) {
         imageUploaderService.uploadNewPostImage(image: post) {[weak self] results in
             //upload the image
@@ -87,6 +88,7 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
         }
     }
     
+    // get all posts for feed
     func fetchAllPosts(completion: @escaping (Result<[Post], Error>) -> Void) {
         storeRef.collection("posts")
             .order(by: "timestamp", descending: true)
@@ -124,6 +126,7 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
             }
     }
     
+    // fetch all posts for a user
     func fetchUserPosts(uid: String, completion: @escaping (Result<User,Error>) -> Void) {
         storeRef.collection("posts").whereField("uid", isEqualTo: uid).getDocuments { snapshot, error in
             if error != nil {
@@ -147,4 +150,5 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
             }
         }
     }
+    
 }

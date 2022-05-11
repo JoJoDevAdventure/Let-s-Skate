@@ -25,17 +25,17 @@ protocol ProfileUserService {
 
 class UserManager: FeedUserService, ProfileUserService {
     
-    init() {
-        
-    }
+    init() {}
     
     let fireRef = Firestore.firestore()
     
+    // get the current user
     func getCurrentUser() -> String? {
         guard let user = Auth.auth().currentUser else { return nil }
         return user.uid
     }
     
+    // fetch user
     func fetchUser(withUid uid: String, completion: @escaping (Result<User,Error>) -> Void) {
         fireRef.collection("users")
             .document(uid)
@@ -49,6 +49,7 @@ class UserManager: FeedUserService, ProfileUserService {
             }
     }
     
+    // check if the user == current user
     func verifyIfUserIsCurrentUser(user: User) -> Bool? {
         guard let currentUid =  Auth.auth().currentUser?.uid else { return nil }
         if currentUid == user.id {
@@ -58,6 +59,7 @@ class UserManager: FeedUserService, ProfileUserService {
         }
     }
     
+    // check if current user is subbed to user
     func checkIfUserIsSubbed(user: User, completion: @escaping (Result<User, Error>) -> Void) {
         guard let currentUser = Auth.auth().currentUser else { return }
         guard let userId = user.id else { return }
@@ -78,6 +80,7 @@ class UserManager: FeedUserService, ProfileUserService {
         }
     }
     
+    // follow & unfollow user
     func followUnfollowUser(user: User, completion: @escaping (Result<User,Error>) -> Void) {
         guard let currentUser = Auth.auth().currentUser else { return }
         guard let userUid = user.id else { return }
