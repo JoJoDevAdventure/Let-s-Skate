@@ -42,8 +42,9 @@ class LoadingAnimationView {
             animation.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
             animation.play()
         } else {
-            upView.removeFromSuperview()
             animation.removeFromSuperview()
+            blurView.removeFromSuperview()
+            upView.removeFromSuperview()
         }
     }
 }

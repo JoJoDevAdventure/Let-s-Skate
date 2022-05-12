@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 final class ProfileViewController: UIViewController {
     
@@ -28,6 +29,17 @@ final class ProfileViewController: UIViewController {
         collection.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: PostCollectionViewCell.identifier)
 
         return collection
+    }()
+    
+    private let loadingAnimation: AnimationView = {
+        let animationView = AnimationView()
+        animationView.animation = Animation.named("darkLoadingView")
+        animationView.contentMode = .scaleAspectFill
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        animationView.heightAnchor.constraint(equalToConstant: 120).isActive = true
+        animationView.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        animationView.loopMode = .loop
+        return animationView
     }()
     
     // MARK: - ViewModel
@@ -129,6 +141,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
                 let deleteAction = UIAction(title: "Delete Post", image: UIImage(systemName: "trash"), identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
                     self?.deleteItemAt(indexPath)
                 }
+                deleteAction.image?.withTintColor(.systemRed)
                 return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [deleteAction, seePostAction])
             }
             return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [seePostAction])
@@ -141,7 +154,13 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
 extension ProfileViewController: ProfileViewModelOutPut {
     
     func showItemDeletionAnimation() {
-        print("DEBUG : ITEM DELETED")
+        view.addSubview(loadingAnimation)
+        loadingAnimation.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        loadingAnimation.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        loadingAnimation.play()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.loadingAnimation.removeFromSuperview()
+        }
     }
     
     
