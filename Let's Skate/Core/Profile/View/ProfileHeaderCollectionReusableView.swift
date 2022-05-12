@@ -47,7 +47,6 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         let label = UILabel()
         label.font = .systemFont(ofSize: 24, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "xxxxxxx xxxxx"
         label.textColor = .black
         return label
     }()
@@ -57,7 +56,6 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .light)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "@xxxxxx xxxx"
         label.textColor = .black
         return label
     }()
@@ -67,7 +65,6 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "xxxx xxx xxxxxx x x xxxxx xxxx x xxxxxx xx xxx xxxx xxxxxxx xxxx xxx x xxx xxxxxxx xx xx xx xxxxx xxxx xxxxxxxxxxx xxxxxxx xxxx xxx x xxx xxxxxxx xx xx xx xxxxx xxxx xxxxxxxxxxx xxxxxxx xxxx xxx x xxx xxxxxxx xx xx xx xxxxx xxxx xxxxxxxxxxx."
         label.numberOfLines = 4
         label.textColor = .black
         return label
@@ -122,11 +119,9 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     // posts count button
     private let postsCountButton: UIButton = {
         let button = UIButton()
-
         button.setTitleColor(.black, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .black
-        button.setTitle("24", for: .normal)
         return button
     }()
     
@@ -147,7 +142,6 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     // followers count
     private let followersCountButton: UIButton = {
         let button = UIButton()
-        button.setTitle("1M", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .black
@@ -171,7 +165,6 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     // following count
     private let followingCountButton: UIButton = {
         let button = UIButton()
-        button.setTitle("1044", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .black
@@ -350,10 +343,16 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         bioLabel.text = user.bio
         guard let nbPost = user.posts?.count else { return }
         postsCountButton.setTitle("\(nbPost)", for: .normal)
+        guard let nbFollowers = user.followers?.count else { return }
+        followersCountButton.setTitle("\(nbFollowers)", for: .normal)
+        guard let nbFollowing = user.following?.count else { return }
+        followingCountButton.setTitle("\(nbFollowing)", for: .normal)
         setupButtons()
     }
     
     private func notCurrentUserConfiguration() {
+        messageOrPostPhotoButton.isHidden = false
+        editProfileOrSubButton.isHidden = false
         guard let isSubed = user?.subed else { return }
         if isSubed {
             //FOLLOW
@@ -377,6 +376,8 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     
     private func isCurrentUserConfiguration() {
         //EDIT PROFILE
+        messageOrPostPhotoButton.isHidden = false
+        editProfileOrSubButton.isHidden = false
         editProfileOrSubButton.setTitle("Edit Profile", for: .normal)
         editProfileOrSubButton.setTitleColor(UIColor().DarkMainColor(), for: .normal)
         editProfileOrSubButton.backgroundColor = UIColor().lightMainColor()
@@ -393,8 +394,6 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     }
     
     private func setupButtonsActions() {
-        messageOrPostPhotoButton.isHidden = false
-        editProfileOrSubButton.isHidden = false
         if currentUser {
             editProfileOrSubButton.addAction(UIAction(handler: { _ in
                 self.delegate?.didTapEditProfile()

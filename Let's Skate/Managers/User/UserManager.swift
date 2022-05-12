@@ -21,6 +21,8 @@ protocol ProfileUserService {
     func verifyIfUserIsCurrentUser(user: User) -> Bool?
     func checkIfUserIsSubbed(user: User, completion: @escaping (Result<User, Error>)  -> Void)
     func followUnfollowUser(user: User, completion: @escaping (Result<User,Error>) -> Void)
+    func fetchFollowers(user: User, completion: @escaping (Result<[User], Error>) -> Void)
+    func fetchFollowing(user: User, completion: @escaping (Result<[User], Error>) -> Void)
 }
 
 class UserManager: FeedUserService, ProfileUserService {
@@ -105,6 +107,35 @@ class UserManager: FeedUserService, ProfileUserService {
     
     func fetchFollowers(user: User, completion: @escaping (Result<[User], Error>) -> Void) {
         guard let uid = user.id else { return }
+        fireRef.collection("users").document(uid).collection("user-followers").getDocuments { snapshot, error in
+            guard error == nil else {
+                completion(.failure(error!))
+                return
+            }
+            guard let documents = snapshot?.documents else { return }
+            
+            var followers: [User] = []
+            guard !documents.isEmpty else {
+                completion(.success(followers))
+                return
+            }
+            documents.forEach { document in
+                let userId = document.documentID
+                self.fetchUser(withUid: userId) { results in
+                    switch results {
+                    case .success(let user) :
+                        followers.append(user)
+                        completion(.success(followers))
+                    case .failure(let error) :
+                        completion(.failure(error))
+                    }
+                }
+            }
+        }
+    }
+    
+    func fetchFollowing(user: User, completion: @escaping (Result<[User], Error>) -> Void) {
+        guard let uid = user.id else { return }
         fireRef.collection("users").document(uid).collection("user-following").getDocuments { snapshot, error in
             guard error == nil else {
                 completion(.failure(error!))
@@ -113,19 +144,22 @@ class UserManager: FeedUserService, ProfileUserService {
             guard let documents = snapshot?.documents else { return }
             
             var following: [User] = []
+            guard !documents.isEmpty else {
+                completion(.success(following))
+                return
+            }
             documents.forEach { document in
-                if let userId = try? document.data(as: String.self) {
-                    self.fetchUser(withUid: userId) { results in
-                        switch results {
-                        case .success(let user) :
-                            following.append(user)
-                        case .failure(let error) :
-                            completion(.failure(error))
-                        }
+                let userId = document.documentID
+                self.fetchUser(withUid: userId) { results in
+                    switch results {
+                    case .success(let user) :
+                        following.append(user)
+                        completion(.success(following))
+                    case .failure(let error) :
+                        completion(.failure(error))
                     }
                 }
             }
-            completion(.success(following))
         }
     }
     

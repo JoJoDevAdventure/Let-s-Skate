@@ -84,6 +84,10 @@ final class ProfileViewController: UIViewController {
         self.viewModel.getUserPosts()
     }
     
+    private func fetchCurrentUserFollowersFollowing() {
+        viewModel.fetchFollowingFollowers()
+    }
+    
 }
 // MARK: - Extensions : CollectionView
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -123,6 +127,12 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
 
 // MARK: - Extensions : viewModel output
 extension ProfileViewController: ProfileViewModelOutPut {
+    
+    func setUserFollowersFollowing(user: User) {
+        self.user = user
+        fetchUserSubscriptionStatus()
+    }
+    
     func subedUnsubed(user: User) {
         self.user = user
         fetchUserSubscriptionStatus()
@@ -132,10 +142,12 @@ extension ProfileViewController: ProfileViewModelOutPut {
     func setUserInformations(user: User) {
         self.user = user
         fetchCurrentUserPosts()
+        fetchCurrentUserFollowersFollowing()
     }
     
     func setUserSubscriptionStatus(user: User) {
         self.user = user
+        fetchCurrentUserFollowersFollowing()
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
@@ -143,7 +155,6 @@ extension ProfileViewController: ProfileViewModelOutPut {
 
     func setUserPosts(user: User) {
         self.user.posts = user.posts
-        fetchUserSubscriptionStatus()
         NotificationCenter.default.post(name: NSNotification.Name("setupButtonsActions"), object: nil)
     }
     

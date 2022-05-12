@@ -15,6 +15,7 @@ protocol ProfileViewModelOutPut : AnyObject {
     func showError(Error: Error)
     func setUserPosts(user: User)
     func subedUnsubed(user: User)
+    func setUserFollowersFollowing(user: User)
 }
 
 class ProfileViewModel {
@@ -55,7 +56,7 @@ class ProfileViewModel {
             case .failure(let error):
                 self.output?.showError(Error: error)
             case .success(let user):
-                self.user = user
+                self.user.subed = user.subed
                 self.output?.setUserSubscriptionStatus(user: user)
             }
         }
@@ -69,7 +70,7 @@ class ProfileViewModel {
             case .failure(let error):
                 self.output?.showError(Error: error)
             case .success(let user):
-                self.user = user
+                self.user.posts = user.posts
                 self.output?.setUserPosts(user: user)
             }
         }
@@ -81,10 +82,31 @@ class ProfileViewModel {
         userService.followUnfollowUser(user: user) { results in
             switch results {
             case .success(let user) :
-                self.user = user
+                self.user.subed = user.subed
                 self.output?.subedUnsubed(user: user)
             case .failure(let error) :
                 self.output?.showError(Error: error)
+            }
+        }
+    }
+    
+    //get user followers and following users
+    func fetchFollowingFollowers() {
+        userService.fetchFollowers(user: user) { results in
+            switch results {
+            case .failure(let error) :
+                self.output?.showError(Error: error)
+            case .success(let followers) :
+                self.user.followers = followers
+                self.userService.fetchFollowing(user: self.user) { results in
+                    switch results {
+                    case .failure(let error) :
+                        self.output?.showError(Error: error)
+                    case .success(let followings) :
+                        self.user.following = followings
+                        self.output?.setUserFollowersFollowing(user: self.user)
+                    }
+                }
             }
         }
     }
