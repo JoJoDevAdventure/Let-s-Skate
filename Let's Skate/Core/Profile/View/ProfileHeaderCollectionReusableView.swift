@@ -13,6 +13,8 @@ protocol ProfileHeaderCollectionReusableViewDelegate: AnyObject {
     func didTapNewPost()
     func didTapMessage()
     func didTapSubUnsub()
+    func didTapShowFollowers()
+    func didTapShowFollowing()
 }
 
 class ProfileHeaderCollectionReusableView: UICollectionReusableView {
@@ -179,6 +181,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         setupConstraints()
         setupButtons()
         setupObservers()
+        setupFollowerFollowing()
     }
     
     required init?(coder: NSCoder) {
@@ -411,6 +414,16 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
                 self.delegate?.didTapSubUnsub()
             }), for: .touchUpInside)
         }
+    }
+    
+    private func setupFollowerFollowing() {
+        followersCountButton.addAction(UIAction(handler: { _ in
+            self.delegate?.didTapShowFollowers()
+        }), for: .touchUpInside)
+        
+        followingCountButton.addAction(UIAction(handler: { _ in
+            self.delegate?.didTapShowFollowing()
+        }), for: .touchUpInside)
     }
 }
 // MARK: - Extensions
