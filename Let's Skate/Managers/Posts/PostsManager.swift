@@ -28,11 +28,9 @@ protocol ProfilePostsService {
 class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
     
     let imageUploaderService: ImageUploader
-    let userService: FeedUserService
     
     init(imageUploaderService: ImageUploader ,userService: FeedUserService) {
         self.imageUploaderService = imageUploaderService
-        self.userService = userService
     }
     
     let storeRef = Firestore.firestore()
@@ -108,8 +106,8 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
                 }
                 
             var finalPosts: [Post] = []
-                posts.forEach { post in
-                    self.userService.fetchUser(withUid: post.uid) { results in
+                posts.forEach {[weak self] post in
+                    self?.userService.fetchUser(withUid: post.uid) { results in
                         switch results {
                         case .failure(let error):
                             completion(.failure(error))
@@ -128,13 +126,13 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
     
     // fetch all posts for a user
     func fetchUserPosts(uid: String, completion: @escaping (Result<User,Error>) -> Void) {
-        storeRef.collection("posts").whereField("uid", isEqualTo: uid).getDocuments { snapshot, error in
+        storeRef.collection("posts").whereField("uid", isEqualTo: uid).getDocuments {[weak self] snapshot, error in
             if error != nil {
                 completion(.failure(error!))
             }
             guard let documents = snapshot?.documents else { return }
             
-            self.userService.fetchUser(withUid: uid) { results in
+            self?.userService.fetchUser(withUid: uid) { results in
                 switch results {
                 case .failure(let error):
                     completion(.failure(error))

@@ -22,6 +22,7 @@ class ListTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .semibold)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
         return label
     }()
     
@@ -29,6 +30,7 @@ class ListTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .light)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
         return label
     }()
     
@@ -39,6 +41,7 @@ class ListTableViewCell: UITableViewCell {
         setupSubviews()
         setupConstraints()
         backgroundColor = UIColor().lightMainColor()
+        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
@@ -61,16 +64,16 @@ class ListTableViewCell: UITableViewCell {
             profileImage.widthAnchor.constraint(equalToConstant: 60),
             profileImage.heightAnchor.constraint(equalToConstant: 60),
             profileImage.leftAnchor.constraint(equalTo: leftAnchor, constant: 10),
-            profileImage.centerXAnchor.constraint(equalTo: centerXAnchor),
+            profileImage.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-//            //nickname label
-//            nicknameLabel.leadingAnchor.constraint(equalTo: profileImage.trailingAnchor, constant: 10),
-//            nicknameLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-//            
-//            //username label
-//            usernameLabel.leadingAnchor.constraint(equalTo: nicknameLabel.trailingAnchor, constant: 10),
-//            usernameLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-//            usernameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
+            //nickname label
+            nicknameLabel.leadingAnchor.constraint(equalTo: profileImage.trailingAnchor, constant: 10),
+            nicknameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            
+            //username label
+            usernameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            usernameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
+            usernameLabel.leadingAnchor.constraint(equalTo: nicknameLabel.trailingAnchor, constant: 10),
             
         ]
         NSLayoutConstraint.activate(constraints)

@@ -175,7 +175,11 @@ extension ProfileViewController: ProfileHeaderCollectionReusableViewDelegate {
     }
     
     func didTapShowFollowing() {
-        //
+        let vc = ListViewController()
+        vc.title = "Followers"
+        guard let following = user.following else { return }
+        vc.users = following
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func didTapEditProfile() {

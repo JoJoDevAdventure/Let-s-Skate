@@ -119,9 +119,9 @@ class UserManager: FeedUserService, ProfileUserService {
                 completion(.success(followers))
                 return
             }
-            documents.forEach { document in
+            documents.forEach {[weak self] document in
                 let userId = document.documentID
-                self.fetchUser(withUid: userId) { results in
+                self?.fetchUser(withUid: userId) { results in
                     switch results {
                     case .success(let user) :
                         followers.append(user)
@@ -148,9 +148,9 @@ class UserManager: FeedUserService, ProfileUserService {
                 completion(.success(following))
                 return
             }
-            documents.forEach { document in
+            documents.forEach {[weak self] document in
                 let userId = document.documentID
-                self.fetchUser(withUid: userId) { results in
+                self?.fetchUser(withUid: userId) { results in
                     switch results {
                     case .success(let user) :
                         following.append(user)

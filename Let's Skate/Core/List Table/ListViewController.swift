@@ -52,7 +52,7 @@ class ListViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        tableViewList.frame = CGRect(x: 0, y: 50, width: view.bounds.width, height: view.bounds.height - 50)
+        tableViewList.frame = CGRect(x: 0, y: 100, width: view.bounds.width, height: view.bounds.height - 100)
     }
     
     // MARK: - Network Manager calls
@@ -82,6 +82,17 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let userSelected = users[indexPath.row]
+        let imageUpload : ImageUploader = StorageManager()
+        let feedUserService: FeedUserService = UserManager()
+        let postsService: ProfilePostsService = PostsManager(imageUploaderService: imageUpload, userService: feedUserService)
+        let userService: ProfileUserService = UserManager()
+        let profileViewModel = ProfileViewModel(user: userSelected, userService: userService, postsService: postsService)
+        let vc = ProfileViewController(viewModel: profileViewModel)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
 }
