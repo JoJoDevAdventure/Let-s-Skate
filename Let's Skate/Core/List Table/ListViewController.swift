@@ -87,8 +87,7 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let userSelected = users[indexPath.row]
         let imageUpload : ImageUploader = StorageManager()
-        let feedUserService: FeedUserService = UserManager()
-        let postsService: ProfilePostsService = PostsManager(imageUploaderService: imageUpload, userService: feedUserService)
+        let postsService: ProfilePostsService = PostsManager(imageUploaderService: imageUpload)
         let userService: ProfileUserService = UserManager()
         let profileViewModel = ProfileViewModel(user: userSelected, userService: userService, postsService: postsService)
         let vc = ProfileViewController(viewModel: profileViewModel)

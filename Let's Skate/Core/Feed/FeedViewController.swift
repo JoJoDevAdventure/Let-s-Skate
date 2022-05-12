@@ -155,8 +155,7 @@ final class FeedViewController: UIViewController {
     private func setupAddButton() {
         addPostButton.addAction(UIAction(handler: { _ in
             let imageUploadService: ImageUploader = StorageManager()
-            let feedUserService: FeedUserService = UserManager()
-            let service: NewPostService = PostsManager(imageUploaderService: imageUploadService , userService: feedUserService)
+            let service: NewPostService = PostsManager(imageUploaderService: imageUploadService)
             let viewModel = NewPostViewModel(postsService: service)
             let vc = AddNewPostViewController(viewModel: viewModel)
             self.present(vc, animated: true)
@@ -299,9 +298,8 @@ extension FeedViewController: FeedTableViewCellDelegate {
     //show user profile
     func FeedTableViewCellShowProfile(user: User) {
         let userService : ProfileUserService = UserManager()
-        let feedUserService: FeedUserService = UserManager()
         let imageUploader: ImageUploader = StorageManager()
-        let postService: ProfilePostsService = PostsManager(imageUploaderService: imageUploader, userService: feedUserService)
+        let postService: ProfilePostsService = PostsManager(imageUploaderService: imageUploader)
         let viewModel = ProfileViewModel(user: user, userService: userService, postsService: postService)
         let vc = ProfileViewController(viewModel: viewModel)
         navigationController?.pushViewController(vc, animated: true)
@@ -371,9 +369,8 @@ extension FeedViewController: FeedViewModelOutPut {
     //show current user profile : Side mennu
     func getCurrentUserProfile(user: User) {
         let userService: ProfileUserService = UserManager()
-        let feedUserService: FeedUserService = UserManager()
         let imageUploader: ImageUploader = StorageManager()
-        let postsService: ProfilePostsService = PostsManager(imageUploaderService: imageUploader, userService: feedUserService)
+        let postsService: ProfilePostsService = PostsManager(imageUploaderService: imageUploader)
         let viewModel = ProfileViewModel(user: user, userService: userService,postsService: postsService)
         let vc = ProfileViewController(viewModel: viewModel)
         navigationController?.pushViewController(vc, animated: true)

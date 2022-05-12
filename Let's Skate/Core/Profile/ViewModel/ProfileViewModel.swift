@@ -11,11 +11,9 @@ import SDWebImage
 
 protocol ProfileViewModelOutPut : AnyObject {
     func setUserInformations(user: User)
-    func setUserSubscriptionStatus(user: User)
     func showError(Error: Error)
-    func setUserPosts(user: User)
     func subedUnsubed(user: User)
-    func setUserFollowersFollowing(user: User)
+    func setButtons()
 }
 
 class ProfileViewModel {
@@ -36,13 +34,18 @@ class ProfileViewModel {
     // MARK: - Functions
     
     //get displayed user informations
-    func getUserInformations() {
+    func fetchUserInformations() {
+        getUserInformations()
+    }
+    
+    
+    private func getUserInformations() {
         guard let uid = user.id else {return}
         userService.fetchUser(withUid: uid) {[weak self] results in
             switch results {
             case .success(let user):
                 self?.user = user
-                self?.output?.setUserInformations(user: user)
+                self?.checkIfUserIsSubed()
             case .failure(let error):
                 self?.output?.showError(Error: error)
             }
@@ -50,28 +53,29 @@ class ProfileViewModel {
     }
     
     //check if current user is subbed to displayed user
-    func checkIfUserIsSubed() {
-        userService.checkIfUserIsSubbed(user: user) { resuls in
+    private func checkIfUserIsSubed() {
+        userService.checkIfUserIsSubbed(user: user) {[weak self] resuls in
             switch resuls {
             case .failure(let error):
-                self.output?.showError(Error: error)
+                self?.output?.showError(Error: error)
             case .success(let user):
-                self.user.subed = user.subed
-                self.output?.setUserSubscriptionStatus(user: user)
+                self?.user.subed = user.subed
+                self?.output?.setButtons()
+                self?.getUserPosts()
             }
         }
     }
     
     //show dispayed user posts
-    func getUserPosts() {
+    private func getUserPosts() {
         guard let uid = user.id else { return }
-        postsService.fetchUserPosts(uid: uid) { Results in
+        postsService.fetchUserPosts(uid: uid) {[weak self] Results in
             switch Results {
             case .failure(let error):
-                self.output?.showError(Error: error)
+                self?.output?.showError(Error: error)
             case .success(let user):
-                self.user.posts = user.posts
-                self.output?.setUserPosts(user: user)
+                self?.user.posts = user.posts
+                self?.fetchFollowers()
             }
         }
     }
@@ -79,32 +83,59 @@ class ProfileViewModel {
     //check if subbed to displayed user
         //sub or unsub
     func subUnsubToUser() {
-        userService.followUnfollowUser(user: user) { results in
+        userService.followUnfollowUser(user: user) {[weak self] results in
             switch results {
             case .success(let user) :
-                self.user.subed = user.subed
-                self.output?.subedUnsubed(user: user)
+                self?.user.subed = user.subed
+                guard let strongSelf = self else { return }
+                self?.fetchFollowingAndFollowers()
             case .failure(let error) :
-                self.output?.showError(Error: error)
+                self?.output?.showError(Error: error)
             }
         }
     }
     
     //get user followers and following users
-    func fetchFollowingFollowers() {
-        userService.fetchFollowers(user: user) { results in
+    private func fetchFollowers() {
+        userService.fetchFollowers(user: user) {[weak self] results in
             switch results {
             case .failure(let error) :
-                self.output?.showError(Error: error)
+                self?.output?.showError(Error: error)
             case .success(let followers) :
-                self.user.followers = followers
-                self.userService.fetchFollowing(user: self.user) { results in
+                self?.user.followers = followers
+                self?.fetchFollowing()
+            }
+        }
+    }
+    
+    private func fetchFollowing() {
+        userService.fetchFollowing(user: user) {[weak self] results in
+            switch results {
+            case .failure(let error) :
+                self?.output?.showError(Error: error)
+            case .success(let followings) :
+                self?.user.following = followings
+                guard let strongSelf = self else { return }
+                self?.output?.setUserInformations(user: strongSelf.user)
+            }
+        }
+    }
+    
+    private func fetchFollowingAndFollowers() {
+        userService.fetchFollowing(user: user) {[weak self] results in
+            switch results {
+            case .failure(let error) :
+                self?.output?.showError(Error: error)
+            case .success(let following) :
+                self?.user.following = following
+                guard let strongSelf = self else { return }
+                self?.userService.fetchFollowers(user: strongSelf.user) { results in
                     switch results {
+                    case .success(let followers) :
+                        self?.user.followers = followers
+                        self?.output?.subedUnsubed(user: strongSelf.user)
                     case .failure(let error) :
-                        self.output?.showError(Error: error)
-                    case .success(let followings) :
-                        self.user.following = followings
-                        self.output?.setUserFollowersFollowing(user: self.user)
+                        self?.output?.showError(Error: error)
                     }
                 }
             }

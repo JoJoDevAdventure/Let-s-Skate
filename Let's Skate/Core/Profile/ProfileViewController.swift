@@ -73,19 +73,7 @@ final class ProfileViewController: UIViewController {
     // MARK: - Functions
     
     private func fetchCurrentInformations() {
-        self.viewModel.getUserInformations()
-    }
-    
-    private func fetchUserSubscriptionStatus() {
-        self.viewModel.checkIfUserIsSubed()
-    }
-    
-    private func fetchCurrentUserPosts() {
-        self.viewModel.getUserPosts()
-    }
-    
-    private func fetchCurrentUserFollowersFollowing() {
-        viewModel.fetchFollowingFollowers()
+        self.viewModel.fetchUserInformations()
     }
     
 }
@@ -128,34 +116,23 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
 // MARK: - Extensions : viewModel output
 extension ProfileViewController: ProfileViewModelOutPut {
     
-    func setUserFollowersFollowing(user: User) {
-        self.user = user
-        fetchUserSubscriptionStatus()
+    func setButtons() {
+        NotificationCenter.default.post(name: NSNotification.Name("setupButtonsActions"), object: nil)
     }
+    
     
     func subedUnsubed(user: User) {
         self.user = user
-        fetchUserSubscriptionStatus()
-    }
-    
-    
-    func setUserInformations(user: User) {
-        self.user = user
-        fetchCurrentUserPosts()
-        fetchCurrentUserFollowersFollowing()
-    }
-    
-    func setUserSubscriptionStatus(user: User) {
-        self.user = user
-        fetchCurrentUserFollowersFollowing()
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
     }
-
-    func setUserPosts(user: User) {
-        self.user.posts = user.posts
-        NotificationCenter.default.post(name: NSNotification.Name("setupButtonsActions"), object: nil)
+    
+    func setUserInformations(user: User) {
+        self.user = user
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
     
     func showError(Error: Error) {

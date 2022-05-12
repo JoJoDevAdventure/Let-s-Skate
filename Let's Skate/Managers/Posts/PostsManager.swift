@@ -29,7 +29,7 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
     
     let imageUploaderService: ImageUploader
     
-    init(imageUploaderService: ImageUploader ,userService: FeedUserService) {
+    init(imageUploaderService: ImageUploader) {
         self.imageUploaderService = imageUploaderService
     }
     
@@ -100,43 +100,41 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
                 // get array of posts
                 var posts : [Post] = []
                 documents.forEach { document in
-                    if let post = try? document.data(as: Post.self) {
-                        posts.append(post)
-                    }
-                }
-                
-            var finalPosts: [Post] = []
-                posts.forEach {[weak self] post in
-                    self?.userService.fetchUser(withUid: post.uid) { results in
-                        switch results {
-                        case .failure(let error):
-                            completion(.failure(error))
-                        case .success(let user):
-                            var Npost = post
-                            Npost.user = user
-                            finalPosts.append(Npost)
-                            completion(.success(finalPosts))
-                        }
-                        
+                    if var post = try? document.data(as: Post.self) {
+                        self.storeRef.collection("users")
+                            .document(post.uid)
+                            .getDocument { snapshot , error in
+                                guard let snapshot = snapshot else {
+                                    completion(.failure(error!))
+                                    return
+                                }
+                                guard let user = try? snapshot.data(as: User.self) else { return }
+                                post.user = user
+                                posts.append(post)
+                                completion(.success(posts))
+                            }
                     }
                 }
                 
             }
+        
+        // fetch all posts for a us
     }
     
-    // fetch all posts for a user
     func fetchUserPosts(uid: String, completion: @escaping (Result<User,Error>) -> Void) {
         storeRef.collection("posts").whereField("uid", isEqualTo: uid).getDocuments {[weak self] snapshot, error in
             if error != nil {
                 completion(.failure(error!))
             }
             guard let documents = snapshot?.documents else { return }
-            
-            self?.userService.fetchUser(withUid: uid) { results in
-                switch results {
-                case .failure(let error):
-                    completion(.failure(error))
-                case .success(var user):
+            self?.storeRef.collection("users")
+                .document(uid)
+                .getDocument { snapshot , error in
+                    guard let snapshot = snapshot else {
+                        completion(.failure(error!))
+                        return
+                    }
+                    guard var user = try? snapshot.data(as: User.self) else { return }
                     user.posts = []
                     documents.forEach { document in
                         if let post = try? document.data(as: Post.self) {
@@ -145,8 +143,7 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
                     }
                     completion(.success(user))
                 }
-            }
+            
         }
     }
-    
 }
