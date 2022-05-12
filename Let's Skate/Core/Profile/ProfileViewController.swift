@@ -18,10 +18,10 @@ final class ProfileViewController: UIViewController {
     // inital collectionview + Header
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width/3 - 6, height: UIScreen.main.bounds.height/5)
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width/3 - 4, height: UIScreen.main.bounds.height/5)
         layout.scrollDirection = .vertical
-        layout.minimumInteritemSpacing = 4
-        layout.minimumLineSpacing = 9
+        layout.minimumInteritemSpacing = 2
+        layout.minimumLineSpacing = 5.5
         layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: (UIScreen.main.bounds.height/3)*2 - 180)
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.backgroundColor = UIColor().lightMainColor()

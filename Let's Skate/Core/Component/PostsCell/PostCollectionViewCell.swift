@@ -17,6 +17,7 @@ class PostCollectionViewCell: UICollectionViewCell {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
+        image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
@@ -24,6 +25,8 @@ class PostCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupSubViews()
+        setupConstraints()
+        backgroundColor = UIColor().DarkMainColor()
     }
     
     required init?(coder: NSCoder) {
@@ -36,8 +39,13 @@ class PostCollectionViewCell: UICollectionViewCell {
         addSubview(postImage)
     }
     
-    override func layoutSubviews() {
-        postImage.frame = bounds
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            postImage.topAnchor.constraint(equalTo: topAnchor, constant: 2),
+            postImage.leftAnchor.constraint(equalTo: leftAnchor, constant: 2),
+            postImage.rightAnchor.constraint(equalTo: rightAnchor, constant: -2),
+            postImage.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2),
+        ])
     }
     
     // MARK: - Functions
