@@ -14,6 +14,7 @@ protocol ProfileViewModelOutPut : AnyObject {
     func showError(Error: Error)
     func subedUnsubed(user: User)
     func setButtons()
+    func showItemDeletionAnimation()
 }
 
 class ProfileViewModel {
@@ -87,7 +88,6 @@ class ProfileViewModel {
             switch results {
             case .success(let user) :
                 self?.user.subed = user.subed
-                guard let strongSelf = self else { return }
                 self?.fetchFollowingAndFollowers()
             case .failure(let error) :
                 self?.output?.showError(Error: error)
@@ -140,6 +140,18 @@ class ProfileViewModel {
                 }
             }
         }
+    }
+    
+    func deletePost(post: Post) {
+//        postsService.deletePost(post: post) {[weak self] results in
+//            switch results {
+//            case .failure(let error):
+//                self?.output?.showError(Error: error)
+//            case .success(()):
+//                self?.output?.showItemDeletionAnimation()
+//            }
+//        }
+        output?.showItemDeletionAnimation()
     }
     
 }

@@ -22,6 +22,7 @@ protocol FeedPostsService {
 }
 
 protocol ProfilePostsService {
+    func deletePost(post: Post, completion: @escaping (Result<Void, Error>) -> Void)
     func fetchUserPosts(uid: String, completion: @escaping (Result<User,Error>) -> Void)
 }
 
@@ -144,6 +145,17 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
                     completion(.success(user))
                 }
             
+        }
+    }
+    
+    func deletePost(post: Post, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let postId = post.id else { return  }
+        storeRef.collection("posts").document(postId).delete { error in
+            guard error == nil else {
+                completion(.failure(error!))
+                return
+            }
+            completion(.success(()))
         }
     }
 }

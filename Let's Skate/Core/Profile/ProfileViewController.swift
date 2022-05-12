@@ -76,6 +76,12 @@ final class ProfileViewController: UIViewController {
         self.viewModel.fetchUserInformations()
     }
     
+    private func deleteItemAt(_ indexPath: IndexPath) {
+        guard let posts = user.posts else { return }
+        let post = posts[indexPath.row]
+        viewModel.deletePost(post: post)
+    }
+    
 }
 // MARK: - Extensions : CollectionView
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -111,10 +117,33 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             return UICollectionReusableView()
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        guard let currentUserUid = currentUserUid else { return nil}
+        guard let userId = user.id else { return nil }
+        let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self] _ in
+            let seePostAction = UIAction(title: "See post", image: UIImage(systemName: "eye"), state: .off) { _ in
+                print("DEBUG : SEE POST")
+            }
+            if currentUserUid == userId {
+                let deleteAction = UIAction(title: "Delete Post", image: UIImage(systemName: "trash"), identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
+                    self?.deleteItemAt(indexPath)
+                }
+                return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [deleteAction, seePostAction])
+            }
+            return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [seePostAction])
+        }
+        return config
+    }
 }
 
 // MARK: - Extensions : viewModel output
 extension ProfileViewController: ProfileViewModelOutPut {
+    
+    func showItemDeletionAnimation() {
+        print("DEBUG : ITEM DELETED")
+    }
+    
     
     func setButtons() {
         NotificationCenter.default.post(name: NSNotification.Name("setupButtonsActions"), object: nil)
