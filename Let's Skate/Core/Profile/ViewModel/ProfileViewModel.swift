@@ -143,15 +143,14 @@ class ProfileViewModel {
     }
     
     func deletePost(post: Post) {
-//        postsService.deletePost(post: post) {[weak self] results in
-//            switch results {
-//            case .failure(let error):
-//                self?.output?.showError(Error: error)
-//            case .success(()):
-//                self?.output?.showItemDeletionAnimation()
-//            }
-//        }
-        output?.showItemDeletionAnimation()
+        postsService.deletePost(post: post) {[weak self] results in
+            switch results {
+            case .failure(let error):
+                self?.output?.showError(Error: error)
+            case .success(()):
+                self?.output?.showItemDeletionAnimation()
+            }
+        }
     }
     
 }

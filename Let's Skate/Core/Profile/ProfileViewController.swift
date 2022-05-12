@@ -161,13 +161,12 @@ extension ProfileViewController: ProfileViewModelOutPut {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.loadingAnimation.removeFromSuperview()
         }
+        
     }
-    
     
     func setButtons() {
         NotificationCenter.default.post(name: NSNotification.Name("setupButtonsActions"), object: nil)
     }
-    
     
     func subedUnsubed(user: User) {
         self.user = user
