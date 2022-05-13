@@ -312,7 +312,9 @@ extension FeedViewController: FeedTableViewCellDelegate {
     
     //comment post
     func FeedTableViewCellDidTapComment() {
-        print("DEBUG: TAP COMMENT")
+        let vc = CommentsViewController()
+        vc.modalPresentationStyle = .pageSheet
+        navigationController?.present(vc, animated: true)
     }
     
     //share post

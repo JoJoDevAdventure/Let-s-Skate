@@ -34,6 +34,7 @@ class MoreInformationsViewController: UIViewController {
         let label = UILabel()
         label.text = "Tell us more about you!"
         label.font = .systemFont(ofSize: 36, weight: .semibold)
+        label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
