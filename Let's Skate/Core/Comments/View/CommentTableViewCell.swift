@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class CommentTableViewCell: UITableViewCell {
     
@@ -36,8 +37,6 @@ class CommentTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .light)
         label.textColor = .black
-        label.text = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        label.backgroundColor = .gray
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -47,8 +46,6 @@ class CommentTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .light)
         label.textColor = .black
-        label.text = "xxxxxxxxxx"
-        label.backgroundColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -116,11 +113,15 @@ class CommentTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate(constraints)
     }
     
+    // MARK: - Functions
     
-    // MARK: - Navigation
-    
-    
-    // MARK: - Network Manager calls
+    func configure(comment: Comment) {
+        nicknameLabel.text = comment.user?.nickname
+        commentLabel.text = comment.comment
+        datePostedLabel.text = comment.date.description
+        guard let profileImageUrl = comment.user?.profileImageUrl else { return }
+        profileImageView.sd_setImage(with: URL(string: profileImageUrl))
+    }
     
     
     // MARK: - Extensions

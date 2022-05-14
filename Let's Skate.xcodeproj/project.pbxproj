@@ -24,6 +24,7 @@
 		A32F45CA281BB75200F7CB8A /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F45C9281BB75200F7CB8A /* StorageManager.swift */; };
 		A334C0CF281F712C00EC694F /* MoreInformationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A334C0CE281F712B00EC694F /* MoreInformationsViewModel.swift */; };
 		A334C0D1281F71DF00EC694F /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A334C0D0281F71DF00EC694F /* DataManager.swift */; };
+		A33846A4282F47EE00166AC7 /* CommentsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33846A3282F47EE00166AC7 /* CommentsManager.swift */; };
 		A34655712818A31E004EA487 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = A34655702818A31E004EA487 /* FirebaseAnalytics */; };
 		A34655732818A31E004EA487 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = A34655722818A31E004EA487 /* FirebaseAuth */; };
 		A34655752818A31E004EA487 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = A34655742818A31E004EA487 /* FirebaseFirestore */; };
@@ -126,6 +127,7 @@
 		A32F45C9281BB75200F7CB8A /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		A334C0CE281F712B00EC694F /* MoreInformationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInformationsViewModel.swift; sourceTree = "<group>"; };
 		A334C0D0281F71DF00EC694F /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		A33846A3282F47EE00166AC7 /* CommentsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsManager.swift; sourceTree = "<group>"; };
 		A349900A2816831D00311493 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		A349900C281683AF00311493 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		A349901128173DAB00311493 /* MainWelcomeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWelcomeLabel.swift; sourceTree = "<group>"; };
@@ -250,6 +252,15 @@
 			path = Animations;
 			sourceTree = "<group>";
 		};
+		A33846A2282F47D700166AC7 /* Comments */ = {
+			isa = PBXGroup;
+			children = (
+				A33846A3282F47EE00166AC7 /* CommentsManager.swift */,
+				A34A9486282DD73000DEB58B /* CommentModel.swift */,
+			);
+			path = Comments;
+			sourceTree = "<group>";
+		};
 		A349901028173D3300311493 /* WelcomeViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -322,7 +333,6 @@
 			isa = PBXGroup;
 			children = (
 				A34A9480282DD3D000DEB58B /* CommentsViewModel.swift */,
-				A34A9486282DD73000DEB58B /* CommentModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -483,6 +493,7 @@
 		A3A2F8F6280B2C7C004234AB /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				A33846A2282F47D700166AC7 /* Comments */,
 				A30C3886282599D800907F17 /* Posts */,
 				A30C387B282308F700907F17 /* User */,
 				A3872B62281FC5AD00676106 /* Storage */,
@@ -912,6 +923,7 @@
 				A3A2F918280B38A0004234AB /* ProfileViewController.swift in Sources */,
 				A3872B64281FCD2D00676106 /* StorageError.swift in Sources */,
 				A3A2F904280B367F004234AB /* TabBarModel.swift in Sources */,
+				A33846A4282F47EE00166AC7 /* CommentsManager.swift in Sources */,
 				A30C388528255AF000907F17 /* NewPostViewModel.swift in Sources */,
 				A349900D281683AF00311493 /* WelcomeViewController.swift in Sources */,
 				A349900B2816831D00311493 /* AuthManager.swift in Sources */,

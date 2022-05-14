@@ -10,6 +10,7 @@ import UIKit
 class CommentsViewController: UIViewController {
     
     var comments: [Comment] = []
+    var isTyping = false
     
     // MARK: - Properties
     
@@ -54,6 +55,31 @@ class CommentsViewController: UIViewController {
         return view
     }()
     
+    private let noCommentsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "No comments for now.\nBe the first to comment !"
+        label.font = .systemFont(ofSize: 20, weight: .semibold)
+        label.textColor = .white
+        label.isHidden = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    // MARK: - ViewModel
+    
+    let viewModel: CommentsViewModel
+    
+    init(viewModel: CommentsViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        viewModel.output = self
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Life cycle
 
     override func viewDidLoad() {
@@ -61,10 +87,13 @@ class CommentsViewController: UIViewController {
         setupSubviews()
         setupTableView()
         setupNavBar()
-        setupConstraints()
         setupTextfield()
+        setupConstraints()
         setupObserver()
         setupGesture()
+        hideKeyBoard()
+        fetchComments()
+        setupSendButton()
     }
     
     
@@ -83,16 +112,17 @@ class CommentsViewController: UIViewController {
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.bold) ]
     }
     
+    private func setupTextfield() {
+        commentTextField.delegate = self
+    }
+    
     private func setupSubviews() {
         view.addSubview(commentsTableView)
         view.addSubview(textFieldView)
         textFieldView.addSubview(sendCommentButton)
         textFieldView.addSubview(underTF)
         textFieldView.addSubview(commentTextField)
-    }
-    
-    private func setupTextfield() {
-        commentTextField.delegate = self
+        view.addSubview(noCommentsLabel)
     }
     
     private func setupTableView() {
@@ -110,7 +140,7 @@ class CommentsViewController: UIViewController {
             
             // send button
             sendCommentButton.rightAnchor.constraint(equalTo: textFieldView.rightAnchor, constant: -30),
-            sendCommentButton.centerYAnchor.constraint(equalTo: textFieldView.centerYAnchor, constant: -17),
+            sendCommentButton.centerYAnchor.constraint(equalTo: textFieldView.centerYAnchor, constant: -10),
             sendCommentButton.heightAnchor.constraint(equalToConstant: 25),
             sendCommentButton.widthAnchor.constraint(equalToConstant: 25),
             
@@ -123,8 +153,11 @@ class CommentsViewController: UIViewController {
             commentTextField.widthAnchor.constraint(equalTo: underTF.widthAnchor, constant: -5),
             commentTextField.heightAnchor.constraint(equalToConstant: 50),
             commentTextField.centerXAnchor.constraint(equalTo: underTF.centerXAnchor, constant: 5),
-            commentTextField.bottomAnchor.constraint(equalTo: underTF.topAnchor, constant: 5)
+            commentTextField.bottomAnchor.constraint(equalTo: underTF.topAnchor, constant: 5),
             
+            // no comments label
+            noCommentsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noCommentsLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
         ]
         NSLayoutConstraint.activate(constraints)
     }
@@ -139,33 +172,64 @@ class CommentsViewController: UIViewController {
     }
     
     @objc func keyboardWillShown(_ notification: NSNotification) {
-        print("show keyboard")
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            self.textFieldView.transform = self.textFieldView.transform.translatedBy(x: 0, y: -keyboardHeight + 17)
+        if !isTyping {
+            print("show keyboard")
+            if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                let keyboardRectangle = keyboardFrame.cgRectValue
+                let keyboardHeight = keyboardRectangle.height
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {
+                    self.textFieldView.transform = self.textFieldView.transform.translatedBy(x: 0, y: -keyboardHeight+17)
+                }
+                isTyping.toggle()
+            }
         }
     }
     
     @objc func keyboardWillBeHidden(_ notification: NSNotification) {
-        print("hide keyboard")
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            self.textFieldView.transform = self.textFieldView.transform.translatedBy(x: 0, y: keyboardHeight - 17)
+        if isTyping {
+            print("hide keyboard")
+            if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                let keyboardRectangle = keyboardFrame.cgRectValue
+                let keyboardHeight = keyboardRectangle.height
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {
+                    self.textFieldView.transform = self.textFieldView.transform.translatedBy(x: 0, y: keyboardHeight-17)
+                }
+                isTyping.toggle()
+            }
         }
     }
     
     private func setupGesture() {
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(hideKeyBoard)))
     }
-    
+    
     @objc func hideKeyBoard() {
-        commentTextField.endEditing(true)
+        commentTextField.endEditing(false)
+        commentTextField.resignFirstResponder()
+    }
+    
+    private func setupSendButton() {
+        sendCommentButton.addAction(UIAction(handler: { _ in
+            guard let comment = self.commentTextField.text else { return }
+            self.viewModel.uploadComment(comment: comment)
+            self.commentTextField.resignFirstResponder()
+            self.commentTextField.text = ""
+        }), for: .touchUpInside)
     }
     
     //MARK: - Functions
-
+    
+    private func fetchComments() {
+        viewModel.fetchAllComments()
+    }
+    
+    private func verifyIfThereAreComments() {
+        if comments.isEmpty {
+            noCommentsLabel.isHidden = false
+        } else {
+            noCommentsLabel.isHidden = true
+        }
+    }
     
 }
 // MARK: - Extensions
@@ -176,22 +240,14 @@ extension CommentsViewController :  UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 11
+        return comments.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CommentTableViewCell.identifier) as? CommentTableViewCell else { return UITableViewCell()
         }
-        
-        switch indexPath.row {
-        case 1 : cell.commentLabel.text = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        case 3 : cell.commentLabel.text = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        case 6 : cell.commentLabel.text = "xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        case 8 :  cell.commentLabel.text = "xxxxxxxxxxxxxxx"
-        case 10 : cell.commentLabel.text = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-        default:
-            return cell
-        }
+        let currentComment = comments[indexPath.row]
+        cell.configure(comment: currentComment)
         return cell
     }
     
@@ -205,6 +261,31 @@ extension CommentsViewController :  UITableViewDelegate, UITableViewDataSource {
     
 }
 
-
 extension CommentsViewController : UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if textField.text == "" {
+            sendCommentButton.isEnabled = false
+        } else {
+            sendCommentButton.isEnabled = true
+        }
+    }
+}
+
+extension CommentsViewController : CommentsViewModelOutPut {
+    
+    func fetchComments(comments: [Comment]) {
+        self.comments = comments
+        DispatchQueue.main.async {
+            self.commentsTableView.reloadData()
+        }
+        verifyIfThereAreComments()
+    }
+    
+    func showError(error: Error) {
+        AlertManager().showErrorAlert(viewcontroller: self, error: error.localizedDescription)
+    }
 }

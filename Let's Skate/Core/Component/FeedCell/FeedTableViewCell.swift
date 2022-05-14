@@ -12,7 +12,7 @@ protocol FeedTableViewCellDelegate: AnyObject {
     
     func FeedTableViewCellShowProfile(user: User)
     func FeedTableViewCellDidTapLike()
-    func FeedTableViewCellDidTapComment()
+    func FeedTableViewCellDidTapComment(post: Post)
     func FeedTableViewCellDidTapShare()
     func FeedTableViewCellDidTapSeeMore()
     
@@ -181,7 +181,10 @@ class FeedTableViewCell: UITableViewCell {
         }), for: .touchUpInside)
         
         commentButton.addAction(UIAction(handler: {[weak self] _ in
-            self?.delegate?.FeedTableViewCellDidTapComment()
+            guard let post = self?.post else {
+                return
+            }
+            self?.delegate?.FeedTableViewCellDidTapComment(post: post)
         }), for: .touchUpInside)
         
         shareButton.addAction(UIAction(handler: {[weak self] _ in
