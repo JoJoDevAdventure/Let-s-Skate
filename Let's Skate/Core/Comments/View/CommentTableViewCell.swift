@@ -118,7 +118,12 @@ class CommentTableViewCell: UITableViewCell {
     func configure(comment: Comment) {
         nicknameLabel.text = comment.user?.nickname
         commentLabel.text = comment.comment
-        datePostedLabel.text = comment.date.description
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat =  "yyyy-MM-dd'T'HH"
+        dateFormatter.date(from: comment.date.description)
+        let updatedTimeStamp = comment.date
+        let cellDate = DateFormatter.localizedString(from: updatedTimeStamp as Date, dateStyle: DateFormatter.Style.full, timeStyle: DateFormatter.Style.medium)
+        datePostedLabel.text = 
         guard let profileImageUrl = comment.user?.profileImageUrl else { return }
         profileImageView.sd_setImage(with: URL(string: profileImageUrl))
     }
