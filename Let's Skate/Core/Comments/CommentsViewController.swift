@@ -19,6 +19,41 @@ class CommentsViewController: UIViewController {
         return tableView
     }()
     
+    private let textFieldView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor().DarkMainColor()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private let commentTextField: UITextField = {
+        let tf = UITextField()
+        tf.attributedPlaceholder = NSAttributedString(
+            string: "Comment this post...",
+            attributes : [NSAttributedString.Key.foregroundColor: UIColor.white]
+        )
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        return tf
+    }()
+    
+    private let sendCommentButton: UIButton = {
+        let button = UIButton()
+        let image = UIImage(systemName: "paperplane", withConfiguration: UIImage.SymbolConfiguration.init(pointSize: 45))
+        button.tintColor = UIColor().lightMainColor()
+        button.setImage(image, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private let underTF: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: 1.5).isActive = true
+        view.backgroundColor = UIColor().lightMainColor()
+        view.layer.cornerRadius = 0.5
+        return view
+    }()
+    
     // MARK: - Life cycle
 
     override func viewDidLoad() {
@@ -26,6 +61,10 @@ class CommentsViewController: UIViewController {
         setupSubviews()
         setupTableView()
         setupNavBar()
+        setupConstraints()
+        setupTextfield()
+        setupObserver()
+        setupGesture()
     }
     
     
@@ -46,6 +85,14 @@ class CommentsViewController: UIViewController {
     
     private func setupSubviews() {
         view.addSubview(commentsTableView)
+        view.addSubview(textFieldView)
+        textFieldView.addSubview(sendCommentButton)
+        textFieldView.addSubview(underTF)
+        textFieldView.addSubview(commentTextField)
+    }
+    
+    private func setupTextfield() {
+        commentTextField.delegate = self
     }
     
     private func setupTableView() {
@@ -54,8 +101,67 @@ class CommentsViewController: UIViewController {
         commentsTableView.dataSource = self
     }
     
+    private func setupConstraints() {
+        let constraints = [
+            // textfield view
+            textFieldView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            textFieldView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            textFieldView.heightAnchor.constraint(equalToConstant: 100),
+            
+            // send button
+            sendCommentButton.rightAnchor.constraint(equalTo: textFieldView.rightAnchor, constant: -30),
+            sendCommentButton.centerYAnchor.constraint(equalTo: textFieldView.centerYAnchor, constant: -17),
+            sendCommentButton.heightAnchor.constraint(equalToConstant: 25),
+            sendCommentButton.widthAnchor.constraint(equalToConstant: 25),
+            
+            // underline
+            underTF.widthAnchor.constraint(equalTo: textFieldView.widthAnchor, constant: -110),
+            underTF.bottomAnchor.constraint(equalTo: textFieldView.bottomAnchor, constant: -45),
+            underTF.leftAnchor.constraint(equalTo: textFieldView.leftAnchor, constant: 20),
+            
+            // textfield
+            commentTextField.widthAnchor.constraint(equalTo: underTF.widthAnchor, constant: -5),
+            commentTextField.heightAnchor.constraint(equalToConstant: 50),
+            commentTextField.centerXAnchor.constraint(equalTo: underTF.centerXAnchor, constant: 5),
+            commentTextField.bottomAnchor.constraint(equalTo: underTF.topAnchor, constant: 5)
+            
+        ]
+        NSLayoutConstraint.activate(constraints)
+    }
+    
     override func viewDidLayoutSubviews() {
         commentsTableView.frame = view.bounds
+    }
+    
+    private func setupObserver() {
+        NotificationCenter.default.addObserver(self, selector:#selector(keyboardWillShown(_:)),name: UIResponder.keyboardWillShowNotification, object: nil)
+      NotificationCenter.default.addObserver(self, selector:#selector(keyboardWillBeHidden(_:)),name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShown(_ notification: NSNotification) {
+        print("show keyboard")
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            self.textFieldView.transform = self.textFieldView.transform.translatedBy(x: 0, y: -keyboardHeight + 17)
+        }
+    }
+    
+    @objc func keyboardWillBeHidden(_ notification: NSNotification) {
+        print("hide keyboard")
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            self.textFieldView.transform = self.textFieldView.transform.translatedBy(x: 0, y: keyboardHeight - 17)
+        }
+    }
+    
+    private func setupGesture() {
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(hideKeyBoard)))
+    }
+    
+    @objc func hideKeyBoard() {
+        commentTextField.endEditing(true)
     }
     
     //MARK: - Functions
@@ -97,4 +203,8 @@ extension CommentsViewController :  UITableViewDelegate, UITableViewDataSource {
         return 70
     }
     
+}
+
+
+extension CommentsViewController : UITextFieldDelegate {
 }
