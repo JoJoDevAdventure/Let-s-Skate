@@ -27,8 +27,6 @@ class CommentTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .semibold)
         label.textColor = .black
-        label.text = "xxxxxxxxxx"
-        label.backgroundColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -118,14 +116,38 @@ class CommentTableViewCell: UITableViewCell {
     func configure(comment: Comment) {
         nicknameLabel.text = comment.user?.nickname
         commentLabel.text = comment.comment
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat =  "yyyy-MM-dd'T'HH"
-        dateFormatter.date(from: comment.date.description)
-        let updatedTimeStamp = comment.date
-        let cellDate = DateFormatter.localizedString(from: updatedTimeStamp as Date, dateStyle: DateFormatter.Style.full, timeStyle: DateFormatter.Style.medium)
-        datePostedLabel.text = 
+        let timestamp = getReadableDate(timeStamp: Double(comment.date.seconds))
+        datePostedLabel.text = timestamp
         guard let profileImageUrl = comment.user?.profileImageUrl else { return }
         profileImageView.sd_setImage(with: URL(string: profileImageUrl))
+    }
+    
+    func getReadableDate(timeStamp: TimeInterval) -> String? {
+        let date = Date(timeIntervalSince1970: timeStamp)
+        let dateFormatter = DateFormatter()
+        
+        if Calendar.current.isDateInTomorrow(date) {
+            return "Tomorrow"
+        } else if Calendar.current.isDateInYesterday(date) {
+            return "Yesterday"
+        } else if dateFallsInCurrentWeek(date: date) {
+            if Calendar.current.isDateInToday(date) {
+                dateFormatter.dateFormat = "h:mm a"
+                return dateFormatter.string(from: date)
+            } else {
+                dateFormatter.dateFormat = "EEEE"
+                return dateFormatter.string(from: date)
+            }
+        } else {
+            dateFormatter.dateFormat = "MMM d, yyyy"
+            return dateFormatter.string(from: date)
+        }
+    }
+
+    func dateFallsInCurrentWeek(date: Date) -> Bool {
+        let currentWeek = Calendar.current.component(Calendar.Component.weekOfYear, from: Date())
+        let datesWeek = Calendar.current.component(Calendar.Component.weekOfYear, from: date)
+        return (currentWeek == datesWeek)
     }
     
     
