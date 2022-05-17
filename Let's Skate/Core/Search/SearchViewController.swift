@@ -13,7 +13,10 @@ class SearchViewController: UIViewController {
     private let searchController: UISearchController = {
         let controller = UISearchController(searchResultsController: SearchResultViewController())
         controller.searchBar.placeholder = "Search for your skate mate"
-        controller.searchBar.searchBarStyle = .minimal
+        controller.searchBar.searchBarStyle = .prominent
+        controller.searchBar.tintColor = .white
+        controller.searchBar.barTintColor = .white
+        controller.searchBar.scopeBarButtonTitleTextAttributes(for: .normal)
         return controller
     }()
     
@@ -32,9 +35,15 @@ class SearchViewController: UIViewController {
         view.backgroundColor = UIColor().DarkMainColor()
         setupSubViews()
         setupTableView()
+        setupNavBar()
     }
     
     // MARK: - Set up
+    
+    private func setupNavBar() {
+        navigationItem.searchController = searchController
+        searchController.searchResultsUpdater = self
+    }
     
     private func setupSubViews() {
         view.addSubview(recentResearchTableView)
@@ -73,5 +82,18 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 85
+    }
+}
+
+extension SearchViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchbar = searchController.searchBar
+        guard let query = searchbar.text,
+              !query.trimmingCharacters(in: .whitespaces).isEmpty,
+              query.trimmingCharacters(in: .whitespaces).count >= 3,
+              let resultsController = searchController.searchResultsController as? SearchResultViewController else {
+                  return
+              }
+        
     }
 }
