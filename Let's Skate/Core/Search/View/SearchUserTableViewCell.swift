@@ -25,6 +25,29 @@ class SearchUserTableViewCell: UITableViewCell {
         return view
     }()
     
+    private let profileImageView: ProfileRoundedImageView = {
+        let image = ProfileRoundedImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        image.backgroundColor = .gray
+        return image
+    }()
+    
+    private let nickNameLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.text = "XXXXXXXXXXXXX"
+        label.font = .systemFont(ofSize: 20, weight: .semibold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let usernameLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 16, weight: .light)
+        label.text = "@XXXXXXXXXX"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     // MARK: - View Model
     
     
@@ -32,6 +55,7 @@ class SearchUserTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = UIColor().DarkMainColor()
+        selectionStyle = .none
         setupSubViews()
         setupConstraints()
     }
@@ -44,15 +68,32 @@ class SearchUserTableViewCell: UITableViewCell {
     // MARK: - Set up
     private func setupSubViews() {
         addSubview(cellBackGroundView)
+        addSubview(profileImageView)
+        addSubview(nickNameLabel)
+        addSubview(usernameLabel)
     }
     
     private func setupConstraints() {
         let constraints = [
+            //background
             cellBackGroundView.topAnchor.constraint(equalTo: topAnchor, constant: 7),
             cellBackGroundView.leftAnchor.constraint(equalTo: leftAnchor, constant: 7),
-            cellBackGroundView.rightAnchor.constraint(equalTo: rightAnchor, constant: 7),
-            cellBackGroundView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 7),
+            cellBackGroundView.rightAnchor.constraint(equalTo: rightAnchor, constant: -7),
+            cellBackGroundView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -7),
             
+            //profile image
+            profileImageView.centerYAnchor.constraint(equalTo: cellBackGroundView.centerYAnchor),
+            profileImageView.heightAnchor.constraint(equalToConstant: 50),
+            profileImageView.widthAnchor.constraint(equalToConstant: 50),
+            profileImageView.leftAnchor.constraint(equalTo: cellBackGroundView.leftAnchor, constant: 15),
+        
+            //nickname Label
+            nickNameLabel.centerYAnchor.constraint(equalTo: cellBackGroundView.centerYAnchor, constant: -15),
+            nickNameLabel.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 10),
+            
+            //username Label
+            usernameLabel.topAnchor.constraint(equalTo: nickNameLabel.bottomAnchor, constant: 5),
+            usernameLabel.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 15)
         ]
         NSLayoutConstraint.activate(constraints)
     }
