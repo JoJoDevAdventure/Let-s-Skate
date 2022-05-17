@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+class SearchViewModel {
+    
+    
+    
+}
