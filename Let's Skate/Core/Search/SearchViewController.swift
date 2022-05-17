@@ -9,14 +9,13 @@ import UIKit
 
 class SearchViewController: UIViewController {
     
+    var users: [User] = []
+    
     // MARK: - Properties
     private let searchController: UISearchController = {
         let controller = UISearchController(searchResultsController: SearchResultViewController())
         controller.searchBar.placeholder = "Search for your skate mate"
-        controller.searchBar.searchBarStyle = .prominent
-        controller.searchBar.tintColor = .white
-        controller.searchBar.barTintColor = .white
-        controller.searchBar.scopeBarButtonTitleTextAttributes(for: .normal)
+        controller.searchBar.searchBarStyle = .minimal
         return controller
     }()
     
@@ -41,8 +40,12 @@ class SearchViewController: UIViewController {
     // MARK: - Set up
     
     private func setupNavBar() {
+        title = "Search"
         navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationItem.largeTitleDisplayMode = .always
+        navigationController?.navigationBar.tintColor = .white
     }
     
     private func setupSubViews() {
@@ -94,6 +97,7 @@ extension SearchViewController: UISearchResultsUpdating {
               let resultsController = searchController.searchResultsController as? SearchResultViewController else {
                   return
               }
+        
         
     }
 }

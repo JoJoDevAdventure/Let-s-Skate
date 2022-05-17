@@ -105,6 +105,7 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService, Explo
                 // get array of posts
                 var posts : [Post] = []
                 documents.forEach { document in
+                    
                     if var post = try? document.data(as: Post.self) {
                         self.storeRef.collection("users")
                             .document(post.uid)
@@ -120,7 +121,6 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService, Explo
                             }
                     }
                 }
-                
             }
         
         // fetch all posts for a us
