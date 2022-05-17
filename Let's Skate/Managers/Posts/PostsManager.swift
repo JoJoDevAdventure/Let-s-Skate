@@ -26,7 +26,11 @@ protocol ProfilePostsService {
     func fetchUserPosts(uid: String, completion: @escaping (Result<User,Error>) -> Void)
 }
 
-class PostsManager: NewPostService, FeedPostsService, ProfilePostsService {
+protocol ExplorePostService {
+    func fetchAllPosts(completion: @escaping (Result<[Post], Error>) -> Void)
+}
+
+class PostsManager: NewPostService, FeedPostsService, ProfilePostsService, ExplorePostService {
     
     let imageUploaderService: ImageUploader
     

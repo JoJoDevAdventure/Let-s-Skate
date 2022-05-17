@@ -15,9 +15,9 @@ enum TabBarModel: CaseIterable {
     case messagesView
 
     var viewController: UIViewController {
+        let imageUploaderService: ImageUploader = StorageManager()
         switch self {
         case .feedView :
-            let imageUploaderService: ImageUploader = StorageManager()
             let service: LogOutService = AuthManager()
             let userService: FeedUserService = UserManager()
             let feedPostsService: FeedPostsService = PostsManager(imageUploaderService: imageUploaderService)
@@ -25,7 +25,9 @@ enum TabBarModel: CaseIterable {
             return FeedViewController(viewModel: viewModel)
             
         case .exploreView :
-            return ExploreViewController()
+            let explorePostsService: ExplorePostService = PostsManager(imageUploaderService: imageUploaderService)
+            let viewModel = ExploreViewModel(postService: explorePostsService)
+            return ExploreViewController(viewModel: viewModel)
             
         case .seachView :
             return SearchViewController()

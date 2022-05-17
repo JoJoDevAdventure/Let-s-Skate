@@ -10,24 +10,44 @@ import UIKit
 final class ExploreViewController: UIViewController {
 
     // MARK: - Properties
+    
+    var posts : [Post] = []
+    
     private let exploreCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width/3 - 8, height: UIScreen.main.bounds.height/4)
-        layout.minimumLineSpacing = 10
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width/3 - 3.5, height: UIScreen.main.bounds.height/4-30)
+        layout.minimumLineSpacing = 5
+        layout.minimumInteritemSpacing = 5
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: PostCollectionViewCell.identifier)
+        collectionView.backgroundColor = UIColor().DarkMainColor()
         return collectionView
     }()
 
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor().DarkMainColor()
         setupSubviews()
         setupCollectionView()
         setupNavBar()
+        fetchExplorePosts()
     }
-
+    
+    //MARK: - ViewModel
+    let viewModel: ExploreViewModel
+    
+    init(viewModel: ExploreViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        viewModel.output = self
+    }
+        
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Set up
     
     private func setupNavBar() {
@@ -49,12 +69,11 @@ final class ExploreViewController: UIViewController {
         exploreCollectionView.dataSource = self
     }
     
-    
-
-    
     // MARK: - Network Manager calls
     
-    
+    private func fetchExplorePosts() {
+        viewModel.fetchAllPosts()
+    }
 
 
 }
@@ -66,12 +85,28 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PostCollectionViewCell.identifier, for: indexPath) as? PostCollectionViewCell else { return UICollectionViewCell() }
-        cell.backgroundColor = .systemMint
+        guard !posts.isEmpty else { return cell}
+        let currentPost = posts[indexPath.row]
+        cell.configure(postUrl: currentPost.postUrl)
+        cell.backgroundColor = UIColor().lightMainColor()
         return cell
+    }
+}
+
+extension ExploreViewController: ExploreViewModelOutPut {
+    func displayError(error: Error) {
+        AlertManager().showErrorAlert(viewcontroller: self, error: error.localizedDescription)
+    }
+    
+    func setExplorePosts(posts: [Post]) {
+        self.posts = posts
+        DispatchQueue.main.async {
+            self.exploreCollectionView.reloadData()
+        }
     }
 }

@@ -18,11 +18,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         
         let verificationService : UserVerificationService = AuthManager()
-        
-//        let imageUploader: ImageUploader = StorageManager()
-//        let service: AddMoreInformationsService = DataManager(imageUploadService: imageUploader)
-//        let viewModel = MoreInformationsViewModel(service: service)
-//        window?.rootViewController = MoreInformationsViewController(viewModel: viewModel)
         if verificationService.checkIfUserIsLoggedIn() == false {
             let loginService: LoginService = AuthManager()
             let viewModel = LoginViewModel(loginService: loginService)
@@ -36,7 +31,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.rootViewController = mainNavigationBar()
             }
         }
-//        window?.rootViewController = SignInViewController(viewModel: viewModel)
         window?.backgroundColor = UIColor().DarkMainColor()
         window?.safeAreaLayoutGuide.owningView?.backgroundColor = UIColor().DarkMainColor()
         window?.makeKeyAndVisible()
