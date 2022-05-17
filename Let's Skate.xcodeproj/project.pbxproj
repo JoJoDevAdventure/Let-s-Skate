@@ -65,6 +65,9 @@
 		A3872B64281FCD2D00676106 /* StorageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3872B63281FCD2D00676106 /* StorageError.swift */; };
 		A3872B66281FD50200676106 /* ConstantUrls.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3872B65281FD50200676106 /* ConstantUrls.swift */; };
 		A3872B682821D1E900676106 /* ImageErrorAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3872B672821D1E900676106 /* ImageErrorAnimations.swift */; };
+		A389969A28342A1F00522796 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A389969928342A1F00522796 /* SearchResultViewController.swift */; };
+		A389969C28342B1C00522796 /* SearchUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A389969B28342B1C00522796 /* SearchUserTableViewCell.swift */; };
+		A389969E28342B8800522796 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A389969D28342B8800522796 /* SearchViewModel.swift */; };
 		A3923556281315340016C6A3 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3923555281315340016C6A3 /* SignInViewController.swift */; };
 		A3923558281315480016C6A3 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3923557281315480016C6A3 /* SignUpViewController.swift */; };
 		A392355C28135D240016C6A3 /* AuthTextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = A392355B28135D240016C6A3 /* AuthTextfield.swift */; };
@@ -158,6 +161,9 @@
 		A3872B63281FCD2D00676106 /* StorageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageError.swift; sourceTree = "<group>"; };
 		A3872B65281FD50200676106 /* ConstantUrls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantUrls.swift; sourceTree = "<group>"; };
 		A3872B672821D1E900676106 /* ImageErrorAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageErrorAnimations.swift; sourceTree = "<group>"; };
+		A389969928342A1F00522796 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
+		A389969B28342B1C00522796 /* SearchUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserTableViewCell.swift; sourceTree = "<group>"; };
+		A389969D28342B8800522796 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		A3923555281315340016C6A3 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		A3923557281315480016C6A3 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		A392355B28135D240016C6A3 /* AuthTextfield.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextfield.swift; sourceTree = "<group>"; };
@@ -702,6 +708,7 @@
 				A3A2F91A280B39CB004234AB /* View */,
 				A3A2F91B280B39D3004234AB /* ViewModel */,
 				A3A2F91C280B4D60004234AB /* SearchViewController.swift */,
+				A389969928342A1F00522796 /* SearchResultViewController.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -709,6 +716,7 @@
 		A3A2F91A280B39CB004234AB /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A389969B28342B1C00522796 /* SearchUserTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -716,6 +724,7 @@
 		A3A2F91B280B39D3004234AB /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				A389969D28342B8800522796 /* SearchViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -878,6 +887,7 @@
 				A334C0D1281F71DF00EC694F /* DataManager.swift in Sources */,
 				A39E37E928103EF900DD600A /* SideMenuView.swift in Sources */,
 				A3872B66281FD50200676106 /* ConstantUrls.swift in Sources */,
+				A389969C28342B1C00522796 /* SearchUserTableViewCell.swift in Sources */,
 				A3950197280BDB69001257E7 /* FeedTableViewCell.swift in Sources */,
 				A39CD084281138EE0004F73B /* SettingsViewController.swift in Sources */,
 				A34990302817DD8200311493 /* AddNewPostViewController.swift in Sources */,
@@ -918,6 +928,7 @@
 				A3950199280BE01E001257E7 /* ProfileRoundedImageView.swift in Sources */,
 				A32F45CA281BB75200F7CB8A /* StorageManager.swift in Sources */,
 				A30C388828259A6D00907F17 /* PostsManager.swift in Sources */,
+				A389969A28342A1F00522796 /* SearchResultViewController.swift in Sources */,
 				A34990222817ADF500311493 /* EmailVerificationViewController.swift in Sources */,
 				A3E2A452282C878D00935484 /* ListViewController.swift in Sources */,
 				A3A2F8E0280B2A50004234AB /* SceneDelegate.swift in Sources */,
@@ -932,6 +943,7 @@
 				A349900D281683AF00311493 /* WelcomeViewController.swift in Sources */,
 				A349900B2816831D00311493 /* AuthManager.swift in Sources */,
 				A3BB44ED2818FD790076E135 /* LoginAuthModel.swift in Sources */,
+				A389969E28342B8800522796 /* SearchViewModel.swift in Sources */,
 				A34A9485282DD48200DEB58B /* CommentsViewController.swift in Sources */,
 				A3950193280BD6BD001257E7 /* mainNavigationBar.swift in Sources */,
 				A30C387F2823091E00907F17 /* UserManager.swift in Sources */,
