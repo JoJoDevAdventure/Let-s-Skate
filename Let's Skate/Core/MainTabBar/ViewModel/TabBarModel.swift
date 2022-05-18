@@ -30,7 +30,9 @@ enum TabBarModel: CaseIterable {
             return ExploreViewController(viewModel: viewModel)
             
         case .seachView :
-            return SearchViewController()
+            let seachService: SearchUserService = UserManager()
+            let viewModel = SearchViewModel(searchUserService: seachService)
+            return SearchViewController(viewModel: viewModel)
             
         case .messagesView :
             return MessagesViewController()

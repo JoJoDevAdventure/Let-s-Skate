@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class SearchUserTableViewCell: UITableViewCell {
     
@@ -101,7 +102,11 @@ class SearchUserTableViewCell: UITableViewCell {
     
     // MARK: - Functions
 
-    
+    func configure(user: User) {
+        profileImageView.sd_setImage(with: URL(string: user.profileImageUrl))
+        nickNameLabel.text = user.nickname
+        usernameLabel.text = user.username
+    }
     
     // MARK: - Extensions
     

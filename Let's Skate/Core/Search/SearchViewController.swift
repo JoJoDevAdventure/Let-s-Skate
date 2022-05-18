@@ -26,7 +26,17 @@ class SearchViewController: UIViewController {
     }()
     
     // MARK: - View Model
+    let viewModel: SearchViewModel
     
+    init(viewModel: SearchViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        viewModel.output = self
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Life cycle
     override func viewDidLoad() {
@@ -80,6 +90,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchUserTableViewCell.identifier) as? SearchUserTableViewCell else {
             return UITableViewCell()
         }
+        
         return cell
     }
     
@@ -89,6 +100,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension SearchViewController: UISearchResultsUpdating {
+    
     func updateSearchResults(for searchController: UISearchController) {
         let searchbar = searchController.searchBar
         guard let query = searchbar.text,
@@ -98,6 +110,18 @@ extension SearchViewController: UISearchResultsUpdating {
                   return
               }
         
+    }
+}
+
+extension SearchViewController: searchViewModelOutPut {
+    
+    func updateUsers(users: [User]) {
         
     }
+    
+    func showError(error: Error) {
+        AlertManager().showErrorAlert(viewcontroller: self, error: error.localizedDescription)
+    }
+    
+    
 }

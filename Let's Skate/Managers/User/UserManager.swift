@@ -25,11 +25,11 @@ protocol ProfileUserService {
     func fetchFollowing(user: User, completion: @escaping (Result<[User], Error>) -> Void)
 }
 
-protocol SearchService {
+protocol SearchUserService {
     func searchUserByUsername(username: String, completion: @escaping (Result<[User], Error>) -> Void)
 }
 
-class UserManager: FeedUserService, ProfileUserService, SearchService {
+class UserManager: FeedUserService, ProfileUserService, SearchUserService {
     
     init() {}
     
@@ -167,22 +167,9 @@ class UserManager: FeedUserService, ProfileUserService, SearchService {
         }
     }
     
-    func searchUserByUsername(username: String, completion: @escaping (Result<[User], Error>) -> Void) {
-        fireRef.collection("users").whereField("username", isEqualTo: username).getDocuments { querySnapShot, error in
-            guard error == nil else {
-                completion(.failure(error!))
-                return
-            }
-            guard let documents = querySnapShot?.documents else { return }
-            
-            var users: [User] = []
-            documents.forEach { document in
-                if let user = try? document.data(as: User.self) {
-                    users.append(user)
-                }
-            }
-            completion(.success(users))
-        }
+    func searchUserByUsername(username: String, completion: @escaping (Result<[User], Error>) -> Void) async {
+        // fetch all users
+        
     }
     
 }

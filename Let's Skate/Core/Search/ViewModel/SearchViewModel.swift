@@ -15,14 +15,14 @@ protocol searchViewModelOutPut : AnyObject {
 class SearchViewModel {
     
     weak var output: searchViewModelOutPut?
-    let searchService: SearchService
+    let searchUserService: SearchUserService
     
-    init(searchService: SearchService) {
-        self.searchService = searchService
+    init(searchUserService: SearchUserService) {
+        self.searchUserService = searchUserService
     }
     
     func seachUserWithUserName(username: String) {
-        searchService.searchUserByUsername(username: username) {[weak self] results in
+        searchUserService.searchUserByUsername(username: username) {[weak self] results in
             switch results {
             case .success(let users):
                 self?.output?.updateUsers(users: users)
