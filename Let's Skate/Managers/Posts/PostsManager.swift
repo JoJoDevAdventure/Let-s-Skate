@@ -143,6 +143,7 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService, Explo
                     user.posts = []
                     documents.forEach { document in
                         if let post = try? document.data(as: Post.self) {
+                            
                             user.posts!.append(post)
                         }
                     }
@@ -162,4 +163,20 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService, Explo
             completion(.success(()))
         }
     }
+    
+    func likeUnlikePost(post: Post, completion: @escaping(Result<Post,Error>) -> Void) {
+        guard let currentUserUid = currentUserUid else { return }
+        guard let postId = post.id else { return }
+        guard let liked = post.liked else { return }
+        if liked {
+            storeRef.collection("users").document(currentUserUid).collection("likes").document(postId).delete()
+        } else {
+            storeRef.collection("users").document(currentUserUid).collection("likes").document(postId).setData([:])
+        }
+    }
+    
+    func checkLikedPost(post: Post) -> Post {
+        guard let currentUid = currentUserUid else { return }
+    }
+
 }

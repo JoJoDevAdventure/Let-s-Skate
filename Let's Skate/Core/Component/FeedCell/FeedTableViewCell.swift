@@ -204,7 +204,6 @@ class FeedTableViewCell: UITableViewCell {
         nickNameLabel.addGestureRecognizer(showProfileTap)
     }
 
-    
     @objc func didTapProfile() {
         guard let user = post?.user else { return }
         delegate?.FeedTableViewCellShowProfile(user: user)
@@ -223,6 +222,15 @@ class FeedTableViewCell: UITableViewCell {
         }
         feedPost.sd_setImage(with: URL(string: post.postUrl))
         descriptionLabel.text = post.bio
+    }
+    
+    func setupLikeButtonUI() {
+        guard let liked = post?.liked else { return }
+        if liked {
+            likeButton.setupButton(with: "heart.fill")
+        } else {
+            likeButton.setupButton(with: "heart")
+        }
     }
 
 }
