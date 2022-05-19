@@ -85,6 +85,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         button.layer.shadowRadius = 0.3
         button.layer.shadowOpacity = 0.4
         button.layer.shadowOffset = CGSize(width: 1, height: 1)
+        button.isHidden = true
         return button
     }()
     
@@ -101,6 +102,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         button.layer.shadowRadius = 0.3
         button.layer.shadowOpacity = 0.4
         button.layer.shadowOffset = CGSize(width: 1, height: 1)
+        button.isHidden = true
         return button
     }()
     
@@ -179,7 +181,6 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         super.init(frame: frame)
         setupSubViews()
         setupConstraints()
-        setupButtons()
         setupObservers()
         setupFollowerFollowing()
     }
@@ -309,12 +310,11 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     
     //setup buttons ui
     func setupButtons() {
-        editProfileOrSubButton.isHidden = true
-        messageOrPostPhotoButton.isHidden = true
         guard let userUid = user?.id else { return }
         guard let currentUserUid = currentUserUid else {
             return
         }
+        guard user?.subed != nil else { return }
         guard userUid == currentUserUid else {
             currentUser = false
             notCurrentUserConfiguration()
@@ -327,7 +327,6 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     //observer to know buttons actions
     func setupObservers() {
         NotificationCenter.default.addObserver(forName: NSNotification.Name("setupButtonsActions"), object: nil, queue: nil) { _ in
-            self.setupButtons()
             self.setupButtonsActions()
         }
     }
@@ -354,9 +353,14 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     }
     
     private func notCurrentUserConfiguration() {
+        guard let isSubed = user?.subed else { return }
+        
         messageOrPostPhotoButton.isHidden = false
         editProfileOrSubButton.isHidden = false
-        guard let isSubed = user?.subed else { return }
+        
+        //MESSAGE
+        messageOrPostPhotoButton.setTitle("Message", for: .normal)
+        
         if isSubed {
             //FOLLOW
             editProfileOrSubButton.setTitle("UnFollow", for: .normal)
@@ -372,15 +376,15 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
             editProfileOrSubButton.layer.borderColor = UIColor.black.cgColor
             editProfileOrSubButton.layer.borderWidth = 1
         }
-        
-        //MESSAGE
-        messageOrPostPhotoButton.setTitle("Message", for: .normal)
+    
     }
     
     private func isCurrentUserConfiguration() {
-        //EDIT PROFILE
+        
         messageOrPostPhotoButton.isHidden = false
         editProfileOrSubButton.isHidden = false
+        
+        //EDIT PROFILE
         editProfileOrSubButton.setTitle("Edit Profile", for: .normal)
         editProfileOrSubButton.setTitleColor(UIColor().DarkMainColor(), for: .normal)
         editProfileOrSubButton.backgroundColor = UIColor().lightMainColor()

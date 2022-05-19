@@ -483,7 +483,6 @@
 				A3A2F908280B376A004234AB /* Messages */,
 				A3A2F919280B39C6004234AB /* Search */,
 				A3A2F907280B3763004234AB /* Explore */,
-				A3A2F914280B3874004234AB /* ExploreViewController.swift */,
 				A3A2F8FC280B2DE5004234AB /* Feed */,
 				A3A2F8F8280B2D9D004234AB /* MainTabBar */,
 			);
@@ -639,6 +638,7 @@
 		A3A2F907280B3763004234AB /* Explore */ = {
 			isa = PBXGroup;
 			children = (
+				A3A2F914280B3874004234AB /* ExploreViewController.swift */,
 				A3A2F90C280B37D9004234AB /* View */,
 				A3A2F90B280B37D4004234AB /* ViewModel */,
 			);
