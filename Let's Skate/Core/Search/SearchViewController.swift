@@ -109,6 +109,12 @@ extension SearchViewController: UISearchResultsUpdating {
               let resultsController = searchController.searchResultsController as? SearchResultViewController else {
                   return
               }
+        resultsController.delegate = self
+        viewModel.seachUserWithUserName(username: query)
+        resultsController.users = self.users
+        DispatchQueue.main.async {
+            resultsController.resultResearchTableView.reloadData()
+        }
         
     }
 }
@@ -116,12 +122,22 @@ extension SearchViewController: UISearchResultsUpdating {
 extension SearchViewController: searchViewModelOutPut {
     
     func updateUsers(users: [User]) {
-        
+        self.users = users
     }
     
     func showError(error: Error) {
         AlertManager().showErrorAlert(viewcontroller: self, error: error.localizedDescription)
     }
     
-    
+}
+
+extension SearchViewController: SearchResultViewControllerDelegate {
+    func didSelectUser(user: User) {
+        let imageUploader : ImageUploader = StorageManager()
+        let postsService : ProfilePostsService = PostsManager(imageUploaderService: imageUploader)
+        let userService : ProfileUserService = UserManager()
+        let viewModel = ProfileViewModel(user: user, userService: userService, postsService: postsService)
+        let vc = ProfileViewController(viewModel: viewModel)
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }

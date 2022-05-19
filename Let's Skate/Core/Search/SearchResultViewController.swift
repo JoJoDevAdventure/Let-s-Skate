@@ -7,8 +7,13 @@
 
 import UIKit
 
+protocol SearchResultViewControllerDelegate : AnyObject {
+    func didSelectUser(user: User)
+}
+
 class SearchResultViewController: UIViewController {
     
+    weak var delegate: SearchResultViewControllerDelegate?
     var users: [User] = []
     
     // MARK: - Properties
@@ -68,5 +73,12 @@ extension SearchResultViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 85
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //show user profile
+        delegate?.didSelectUser(user: users[indexPath.row])
+        //save selected user to core data
+        // TODO: CoreData
     }
 }

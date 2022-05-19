@@ -167,8 +167,27 @@ class UserManager: FeedUserService, ProfileUserService, SearchUserService {
         }
     }
     
-    func searchUserByUsername(username: String, completion: @escaping (Result<[User], Error>) -> Void) async {
+    func searchUserByUsername(username: String, completion: @escaping (Result<[User], Error>) -> Void) {
         // fetch all users
+        
+        fireRef.collection("users").getDocuments { snapshot, error in
+            guard let documents = snapshot?.documents else { return }
+            
+            var users: [User] = []
+            
+            documents.forEach { document in
+                if let user = try?  document.data(as: User.self) {
+                    users.append(user)
+                }
+            }
+            users = users.filter({
+                $0.username.contains("@\(username.lowercased())") || $0.nickname.contains(username.lowercased())
+            })
+            completion(.success(users))
+        }
+        
+        
+        // filter by username
         
     }
     
