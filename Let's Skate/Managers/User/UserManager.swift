@@ -181,7 +181,7 @@ class UserManager: FeedUserService, ProfileUserService, SearchUserService {
                 }
             }
             users = users.filter({
-                $0.username.contains("@\(username.lowercased())") || $0.nickname.contains(username.lowercased())
+                $0.username.contains("@\(username.lowercased())") || $0.nickname.contains(username)
             })
             completion(.success(users))
         }

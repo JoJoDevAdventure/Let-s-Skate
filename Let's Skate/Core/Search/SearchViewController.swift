@@ -16,10 +16,7 @@ class SearchViewController: UIViewController {
         let controller = UISearchController(searchResultsController: SearchResultViewController())
         controller.searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "Tonny Hawks...", attributes: [NSAttributedString.Key.foregroundColor: UIColor().DarkMainColor()])
         controller.searchBar.searchTextField.backgroundColor = UIColor().lightMainColor()
-        controller.searchBar.barTintColor = .black
-        controller.searchBar.tintColor = .black
-        controller.searchBar.searchTextField.tokenBackgroundColor = .black
-        controller.searchBar.searchTextField.tintColor = .black
+        controller.searchBar.searchTextField.leftView?.tintColor = UIColor().DarkMainColor()
         controller.searchBar.searchBarStyle = .minimal
         return controller
     }()
