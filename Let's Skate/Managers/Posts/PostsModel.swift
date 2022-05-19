@@ -14,6 +14,7 @@ struct Post: Identifiable, Decodable {
     var bio: String
     var postUrl: String
     var uid: String
-
+    
     var user: User?
+    var liked: Bool?
 }
