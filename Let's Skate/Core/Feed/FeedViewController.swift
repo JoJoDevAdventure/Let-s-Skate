@@ -335,6 +335,16 @@ extension FeedViewController: FeedTableViewCellDelegate {
 // MARK: - Extensions : View Model Delegate
 extension FeedViewController: FeedViewModelOutPut {
     
+    func likedPost(post: Post) {
+        if let replacePostIndex = posts.firstIndex(where: {$0.id == post.id}) {
+            posts[replacePostIndex] = post
+        }
+        DispatchQueue.main.async {
+            self.feedTableView.reloadData()
+        }
+    }
+    
+    
     // fetch all feed posts / TODO: Fetch only following posts
     func didFetchPosts(posts: [Post]) {
         self.posts = posts

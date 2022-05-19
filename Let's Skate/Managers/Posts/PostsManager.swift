@@ -19,6 +19,7 @@ protocol NewPostService {
 
 protocol FeedPostsService {
     func fetchAllPosts(completion: @escaping (Result<[Post], Error>) -> Void)
+    func likeUnlikePost(post: Post, completion: @escaping(Result<Post,Error>) -> Void)
 }
 
 protocol ProfilePostsService {

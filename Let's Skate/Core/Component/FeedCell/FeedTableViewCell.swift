@@ -222,6 +222,7 @@ class FeedTableViewCell: UITableViewCell {
         }
         feedPost.sd_setImage(with: URL(string: post.postUrl))
         descriptionLabel.text = post.bio
+        setupLikeButtonUI()
     }
     
     func setupLikeButtonUI() {
