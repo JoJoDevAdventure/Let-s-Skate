@@ -14,7 +14,12 @@ class SearchViewController: UIViewController {
     // MARK: - Properties
     private let searchController: UISearchController = {
         let controller = UISearchController(searchResultsController: SearchResultViewController())
-        controller.searchBar.placeholder = "Search for your skate mate"
+        controller.searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "Tonny Hawks...", attributes: [NSAttributedString.Key.foregroundColor: UIColor().DarkMainColor()])
+        controller.searchBar.searchTextField.backgroundColor = UIColor().lightMainColor()
+        controller.searchBar.barTintColor = .black
+        controller.searchBar.tintColor = .black
+        controller.searchBar.searchTextField.tokenBackgroundColor = .black
+        controller.searchBar.searchTextField.tintColor = .black
         controller.searchBar.searchBarStyle = .minimal
         return controller
     }()
@@ -50,12 +55,15 @@ class SearchViewController: UIViewController {
     // MARK: - Set up
     
     private func setupNavBar() {
-        title = "Search"
+        title = "Search for mates"
         navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
+        navigationController?.navigationBar.barTintColor = UIColor().DarkMainColor()
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationItem.largeTitleDisplayMode = .always
         navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 31, weight: UIFont.Weight.bold) ]
+
     }
     
     private func setupSubViews() {
@@ -83,7 +91,7 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
