@@ -21,6 +21,8 @@ protocol FeedViewModelOutPut: AnyObject {
     func didFetchPosts(posts: [Post])
 
     func showErrorFetchingPosts(ErrorLocalizedDescription: String)
+    
+    func likedPost(post: Post)
 }
 
 class FeedViewModel: ObservableObject {
@@ -89,6 +91,17 @@ class FeedViewModel: ObservableObject {
                 self?.output?.didFetchPosts(posts: posts)
             case .failure(let error):
                 self?.output?.showErrorFetchingCurrentUser(errorLocalizedDescription: error.localizedDescription)
+            }
+        }
+    }
+    
+    func likedUnlikedPost(post: Post) {
+        postsService.likeUnlikePost(post: post) {[weak self] results in
+            switch results {
+            case .success(let post):
+                self?.output?.likedPost(post: post)
+            case .failure(let error):
+                self?.output?.showErrorFetchingPosts(ErrorLocalizedDescription: error.localizedDescription)
             }
         }
     }

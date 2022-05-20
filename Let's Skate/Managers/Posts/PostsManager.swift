@@ -19,6 +19,7 @@ protocol NewPostService {
 
 protocol FeedPostsService {
     func fetchAllPosts(completion: @escaping (Result<[Post], Error>) -> Void)
+    func likeUnlikePost(post: Post, completion: @escaping(Result<Post,Error>) -> Void)
 }
 
 protocol ProfilePostsService {
@@ -116,8 +117,17 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService, Explo
                                 }
                                 guard let user = try? snapshot.data(as: User.self) else { return }
                                 post.user = user
-                                posts.append(post)
-                                completion(.success(posts))
+                                self.checkLikedPost(post: post) { results in
+                                    switch results {
+                                    case .failure(let error):
+                                        completion(.failure(error))
+                                    case .success(let post) :
+                                        posts.append(post)
+                                        completion(.success(posts))
+                                    }
+                                }
+                                
+                                
                             }
                     }
                 }
@@ -162,4 +172,45 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService, Explo
             completion(.success(()))
         }
     }
+    
+    func likeUnlikePost(post: Post, completion: @escaping(Result<Post,Error>) -> Void) {
+        guard let currentUserUid = currentUserUid else { return }
+        guard let postId = post.id else { return }
+        guard var liked = post.liked else { return }
+        if liked {
+            storeRef.collection("users").document(currentUserUid).collection("likes").document(postId).delete()
+            var fpost = post
+            liked.toggle()
+            fpost.liked = liked
+            completion(.success(fpost))
+        } else {
+            storeRef.collection("users").document(currentUserUid).collection("likes").document(postId).setData([:])
+            var fpost = post
+            liked.toggle()
+            fpost.liked = liked
+            completion(.success(fpost))
+        }
+    }
+    
+    func checkLikedPost(post: Post, completion: @escaping (Result<Post, Error>) -> Void) {
+        guard let currentUid = currentUserUid else { return }
+        guard let postId = post.id else { return }
+        var liked = false
+        storeRef.collection("users").document(currentUid).collection("likes").getDocuments { snapshot, error in
+            guard error == nil else {
+                completion(.failure(error!))
+                return
+            }
+            guard let documents = snapshot?.documents else { return }
+            documents.forEach { document in
+                if document.documentID == postId {
+                    liked = true
+                }
+            }
+            var fpost = post
+            fpost.liked = liked
+            completion(.success(fpost))
+        }
+    }
+
 }
