@@ -306,8 +306,8 @@ extension FeedViewController: FeedTableViewCellDelegate {
     }
     
     //like post
-    func FeedTableViewCellDidTapLike() {
-        print("DEBUG: TAP LIKE")
+    func FeedTableViewCellDidTapLike(post: Post) {
+        viewModel.likedUnlikedPost(post: post)
     }
     
     //comment post
@@ -343,7 +343,6 @@ extension FeedViewController: FeedViewModelOutPut {
             self.feedTableView.reloadData()
         }
     }
-    
     
     // fetch all feed posts / TODO: Fetch only following posts
     func didFetchPosts(posts: [Post]) {
