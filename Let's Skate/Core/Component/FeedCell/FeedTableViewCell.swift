@@ -11,7 +11,7 @@ import SDWebImage
 protocol FeedTableViewCellDelegate: AnyObject {
     
     func FeedTableViewCellShowProfile(user: User)
-    func FeedTableViewCellDidTapLike()
+    func FeedTableViewCellDidTapLike(post: Post)
     func FeedTableViewCellDidTapComment(post: Post)
     func FeedTableViewCellDidTapShare()
     func FeedTableViewCellDidTapSeeMore()
@@ -177,7 +177,10 @@ class FeedTableViewCell: UITableViewCell {
     
     private func setupActions() {
         likeButton.addAction(UIAction(handler: {[weak self] _ in
-            self?.delegate?.FeedTableViewCellDidTapLike()
+            guard let post = self?.post else {
+                return
+            }
+            self?.delegate?.FeedTableViewCellDidTapLike(post: post)
         }), for: .touchUpInside)
         
         commentButton.addAction(UIAction(handler: {[weak self] _ in
