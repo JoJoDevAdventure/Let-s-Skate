@@ -11,12 +11,12 @@ import FirebaseFirestoreSwift
 import FirebaseAuth
 
 protocol FeedUserService {
-    func fetchUser(withUid uid: String, completion: @escaping (Result<User,Error>) -> Void)
+    func fetchUser(withUid uid: String) async throws -> User
     func getCurrentUser() -> String?
 }
 
 protocol ProfileUserService {
-    func fetchUser(withUid uid: String, completion: @escaping (Result<User,Error>) -> Void)
+    func fetchUser(withUid uid: String) async throws -> User
     func getCurrentUser() -> String?
     func verifyIfUserIsCurrentUser(user: User) -> Bool?
     func checkIfUserIsSubbed(user: User, completion: @escaping (Result<User, Error>)  -> Void)
@@ -42,17 +42,19 @@ class UserManager: FeedUserService, ProfileUserService, SearchUserService {
     }
     
     // fetch user
-    func fetchUser(withUid uid: String, completion: @escaping (Result<User,Error>) -> Void) {
-        fireRef.collection("users")
-            .document(uid)
-            .getDocument { snapshot , error in
-                guard let snapshot = snapshot else {
-                    completion(.failure(error!))
-                    return
-                }
-                guard let user = try? snapshot.data(as: User.self) else { return }
-                completion(.success(user))
+    func fetchUser(withUid uid: String) async throws -> User {
+        do {
+            let document = try await fireRef.collection("users")
+                .document(uid)
+                .getDocument()
+            if let user = try? document.data(as: User.self) {
+                return user
+            } else {
+                throw LoginErrors.FIRAuthErrorCodeInvalidEmail
             }
+        } catch {
+            throw error
+        }
     }
     
     // check if the user == current user
@@ -118,22 +120,22 @@ class UserManager: FeedUserService, ProfileUserService, SearchUserService {
             }
             guard let documents = snapshot?.documents else { return }
             
-            var followers: [User] = []
             guard !documents.isEmpty else {
-                completion(.success(followers))
+                completion(.success([]))
                 return
             }
-            documents.forEach {[weak self] document in
-                let userId = document.documentID
-                self?.fetchUser(withUid: userId) { results in
-                    switch results {
-                    case .success(let user) :
+            Task(priority: .medium) {
+                var followers: [User] = []
+                for document in documents {
+                    let userID = document.documentID
+                    do {
+                        let user = try await self.fetchUser(withUid: userID)
                         followers.append(user)
-                        completion(.success(followers))
-                    case .failure(let error) :
+                    } catch {
                         completion(.failure(error))
                     }
                 }
+                completion(.success(followers))
             }
         }
     }
@@ -146,24 +148,25 @@ class UserManager: FeedUserService, ProfileUserService, SearchUserService {
                 return
             }
             guard let documents = snapshot?.documents else { return }
-            
-            var following: [User] = []
+    
             guard !documents.isEmpty else {
-                completion(.success(following))
+                completion(.success([]))
                 return
             }
-            documents.forEach {[weak self] document in
-                let userId = document.documentID
-                self?.fetchUser(withUid: userId) { results in
-                    switch results {
-                    case .success(let user) :
+            Task(priority: .medium) {
+                var following: [User] = []
+                for document in documents {
+                    let userID = document.documentID
+                    do {
+                        let user = try await self.fetchUser(withUid: userID)
                         following.append(user)
-                        completion(.success(following))
-                    case .failure(let error) :
+                    } catch {
                         completion(.failure(error))
                     }
                 }
+                completion(.success(following))
             }
+            
         }
     }
     

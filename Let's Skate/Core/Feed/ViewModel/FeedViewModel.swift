@@ -69,18 +69,24 @@ class FeedViewModel: ObservableObject {
     
     //return current User
     func fetchCurrentUserProfile() {
-        let uid = userService.getCurrentUser()
-        guard let uid = uid else {
-            return
-        }
-        userService.fetchUser(withUid: uid) {[weak self] results in
-            switch results {
-            case .success(let user):
-                self?.output?.getCurrentUserProfile(user: user)
-            case .failure(let error):
-                self?.output?.showErrorFetchingCurrentUser(errorLocalizedDescription: error.localizedDescription as String)
+        Task(priority: .medium) {
+            let uid = userService.getCurrentUser()
+            guard let uid = uid else {
+                return
+            }
+            do {
+                
+            }
+            userService.fetchUser(withUid: uid) {[weak self] results in
+                switch results {
+                case .success(let user):
+                    self?.output?.getCurrentUserProfile(user: user)
+                case .failure(let error):
+                    self?.output?.showErrorFetchingCurrentUser(errorLocalizedDescription: error.localizedDescription as String)
+                }
             }
         }
+        
     }
     
     //get all Posts

@@ -86,8 +86,6 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService, Explo
                     })
                 })
                 //add post to the user account
-                
-                
             }
         }
     }

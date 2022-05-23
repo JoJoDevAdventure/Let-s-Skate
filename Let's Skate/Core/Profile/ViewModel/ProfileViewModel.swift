@@ -41,14 +41,14 @@ class ProfileViewModel {
     
     
     private func getUserInformations() {
-        guard let uid = user.id else {return}
-        userService.fetchUser(withUid: uid) {[weak self] results in
-            switch results {
-            case .success(let user):
-                self?.user = user
-                self?.checkIfUserIsSubed()
-            case .failure(let error):
-                self?.output?.showError(Error: error)
+        Task(priority: .medium) {
+            guard let uid = user.id else {return}
+            do {
+                let user = try await userService.fetchUser(withUid: uid)
+                self.user = user
+                checkIfUserIsSubed()
+            } catch {
+                output?.showError(Error: error)
             }
         }
     }
