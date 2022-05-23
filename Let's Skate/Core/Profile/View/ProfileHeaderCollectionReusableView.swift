@@ -431,5 +431,6 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
             self.delegate?.didTapShowFollowing()
         }), for: .touchUpInside)
     }
+    
 }
 // MARK: - Extensions

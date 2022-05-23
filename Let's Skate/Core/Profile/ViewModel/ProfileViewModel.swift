@@ -15,6 +15,7 @@ protocol ProfileViewModelOutPut : AnyObject {
     func subedUnsubed(user: User)
     func setButtons()
     func showItemDeletionAnimation()
+    func userDidUploadNewPost(user: User)
 }
 
 class ProfileViewModel {
@@ -135,6 +136,18 @@ class ProfileViewModel {
                 self?.output?.showError(Error: error)
             case .success(()):
                 self?.output?.showItemDeletionAnimation()
+            }
+        }
+    }
+    
+    func userDidUploadNewPost() {
+        guard let uid = user.id else { return }
+        postsService.fetchUserPosts(uid: uid) {[weak self] Results in
+            switch Results {
+            case .failure(let error):
+                self?.output?.showError(Error: error)
+            case .success(let user):
+                self?.output?.userDidUploadNewPost(user: user)
             }
         }
     }
