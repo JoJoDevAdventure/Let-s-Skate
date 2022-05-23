@@ -327,7 +327,9 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     //observer to know buttons actions
     func setupObservers() {
         NotificationCenter.default.addObserver(forName: NSNotification.Name("setupButtonsActions"), object: nil, queue: nil) { _ in
-            self.setupButtonsActions()
+            DispatchQueue.main.async {
+                self.setupButtonsActions()
+            }
         }
     }
     
@@ -400,7 +402,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
 
     }
     
-    private func setupButtonsActions() {
+    func setupButtonsActions() {
         if currentUser {
             editProfileOrSubButton.addAction(UIAction(handler: { _ in
                 self.delegate?.didTapEditProfile()
