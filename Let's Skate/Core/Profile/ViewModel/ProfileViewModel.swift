@@ -36,21 +36,7 @@ class ProfileViewModel {
     
     //get displayed user informations
     func fetchUserInformations() {
-        getUserInformations()
-    }
-    
-    
-    private func getUserInformations() {
-        Task(priority: .medium) {
-            guard let uid = user.id else {return}
-            do {
-                let user = try await userService.fetchUser(withUid: uid)
-                self.user = user
-                checkIfUserIsSubed()
-            } catch {
-                output?.showError(Error: error)
-            }
-        }
+        checkIfUserIsSubed()
     }
     
     //check if current user is subbed to displayed user
