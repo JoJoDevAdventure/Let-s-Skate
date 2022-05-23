@@ -219,13 +219,15 @@ final class FeedViewController: UIViewController {
     }
     
     private func checkIfThereArePosts() {
-        if posts.isEmpty {
-            feedTableView.isHidden = true
-            noPostsLabel.isHidden = false
-        } else {
-            noPostsLabel.isHidden = true
-            feedTableView.isHidden = false
-            feedTableView.reloadData()
+        DispatchQueue.main.async { [self] in
+            if posts.isEmpty {
+                feedTableView.isHidden = true
+                noPostsLabel.isHidden = false
+            } else {
+                noPostsLabel.isHidden = true
+                feedTableView.isHidden = false
+                feedTableView.reloadData()
+            }
         }
     }
 
