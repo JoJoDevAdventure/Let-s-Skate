@@ -69,14 +69,16 @@ class FeedViewModel: ObservableObject {
     
     //return current User
     func fetchCurrentUserProfile() {
-        Task(priority: .medium) {
+        Task(priority: .high) {
             let uid = userService.getCurrentUser()
             guard let uid = uid else {
                 return
             }
             do {
                 let user = try await userService.fetchUser(withUid: uid)
-                self.output?.getCurrentUserProfile(user: user)
+                DispatchQueue.main.async {
+                    self.output?.getCurrentUserProfile(user: user)
+                }
             } catch {
                 self.output?.showErrorFetchingPosts(ErrorLocalizedDescription: error.localizedDescription)
             }
