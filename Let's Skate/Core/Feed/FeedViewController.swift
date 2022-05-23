@@ -166,9 +166,6 @@ final class FeedViewController: UIViewController {
         NotificationCenter.default.addObserver(forName: NSNotification.Name("uploadedImageFetchUser"), object: nil, queue: nil) { _ in
             self.viewModel.fetchAllPosts()
         }
-            
-        
-        
     }
     
     // MARK: - Network Manager calls

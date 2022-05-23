@@ -65,6 +65,7 @@ final class ProfileViewController: UIViewController {
         fetchCurrentInformations()
         setupSubviews()
         setupCollectionView()
+        setupObservers()
     }
     
     // MARK: - Set up
@@ -80,6 +81,13 @@ final class ProfileViewController: UIViewController {
     private func setupCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
+    }
+    
+    private func setupObservers() {
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("uploadedImageFetchUser"), object: nil, queue: nil) { _ in
+            //notification to refetch profile posts when user uploads New one
+            self.viewModel.userDidUploadNewPost()
+        }
     }
     
     // MARK: - Functions
@@ -152,6 +160,13 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
 
 // MARK: - Extensions : viewModel output
 extension ProfileViewController: ProfileViewModelOutPut {
+    func userDidUploadNewPost(user: User) {
+        self.user = user
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+    
     
     func showItemDeletionAnimation() {
         view.addSubview(loadingAnimation)
@@ -212,7 +227,11 @@ extension ProfileViewController: ProfileHeaderCollectionReusableViewDelegate {
     }
     
     func didTapNewPost() {
-        print("POST")
+        let imageUploadService: ImageUploader = StorageManager()
+        let service: NewPostService = PostsManager(imageUploaderService: imageUploadService)
+        let viewModel = NewPostViewModel(postsService: service)
+        let vc = AddNewPostViewController(viewModel: viewModel)
+        self.present(vc, animated: true)
     }
     
     func didTapMessage() {
