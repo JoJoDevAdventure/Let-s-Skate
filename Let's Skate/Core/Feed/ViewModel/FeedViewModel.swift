@@ -46,23 +46,23 @@ class FeedViewModel: ObservableObject {
     
     // fetch user + download images -> Set UI via output
     func fetchCurrentUser() {
-        let uid = userService.getCurrentUser()
-        guard let uid = uid else {
-            return
-        }
-        userService.fetchUser(withUid: uid) {[weak self] results in
-            switch results {
-            case .success(let user):
+        Task(priority: .medium) {
+            let uid = userService.getCurrentUser()
+            guard let uid = uid else {
+                return
+            }
+            do {
+                let user = try await userService.fetchUser(withUid: uid)
                 let nickName = user.nickname == "" ? user.username : user.nickname
                 SDWebImageDownloader.shared.downloadImage(with: URL(string: user.profileImageUrl)) { image, _, error, _ in
                     guard let image = image else {
-                        self?.output?.showErrorFetchingCurrentUser(errorLocalizedDescription: error!.localizedDescription as String)
+                        self.output?.showErrorFetchingCurrentUser(errorLocalizedDescription: error!.localizedDescription as String)
                         return
                     }
-                    self?.output?.setUserInformations(profileImage: image , username: user.username, nickname: nickName)
+                    self.output?.setUserInformations(profileImage: image , username: user.username, nickname: nickName)
                 }
-            case .failure(let error):
-                self?.output?.showErrorFetchingCurrentUser(errorLocalizedDescription: error.localizedDescription as String)
+            } catch {
+                output?.showErrorFetchingPosts(ErrorLocalizedDescription: error.localizedDescription)
             }
         }
     }
@@ -75,15 +75,10 @@ class FeedViewModel: ObservableObject {
                 return
             }
             do {
-                
-            }
-            userService.fetchUser(withUid: uid) {[weak self] results in
-                switch results {
-                case .success(let user):
-                    self?.output?.getCurrentUserProfile(user: user)
-                case .failure(let error):
-                    self?.output?.showErrorFetchingCurrentUser(errorLocalizedDescription: error.localizedDescription as String)
-                }
+                let user = try await userService.fetchUser(withUid: uid)
+                self.output?.getCurrentUserProfile(user: user)
+            } catch {
+                self.output?.showErrorFetchingPosts(ErrorLocalizedDescription: error.localizedDescription)
             }
         }
         

@@ -90,6 +90,22 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService, Explo
         }
     }
     
+    //fetch user with uid
+    func fetchUser(withUid uid: String) async throws -> User {
+        do {
+            let document = try await storeRef.collection("users")
+                .document(uid)
+                .getDocument()
+            if let user = try? document.data(as: User.self) {
+                return user
+            } else {
+                throw LoginErrors.FIRAuthErrorCodeInvalidEmail
+            }
+        } catch {
+            throw error
+        }
+    }
+    
     // get all posts for feed
     func fetchAllPosts(completion: @escaping (Result<[Post], Error>) -> Void) {
         storeRef.collection("posts")
@@ -100,6 +116,20 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService, Explo
                 }
                 guard let documents = snapshot?.documents else {
                     return
+                }
+                
+                Task(priority: .medium) {
+                    do {
+                        for document in documents {
+                            guard var post = try? document.data(as: Post.self) else { return }
+                            let user = try await self.fetchUser(withUid: post.uid)
+                            post.user = user
+                            
+                        }
+                        
+                    } catch {
+                        
+                    }
                 }
                 // get array of posts
                 var posts : [Post] = []
@@ -190,15 +220,17 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService, Explo
         }
     }
     
-    func checkLikedPost(post: Post, completion: @escaping (Result<Post, Error>) -> Void) {
+    func checkLikedPost(post: Post) async throws {
         guard let currentUid = currentUserUid else { return }
         guard let postId = post.id else { return }
         var liked = false
+        do {
+            let documents = try await storeRef.collection("users").document(currentUid).collection("likes").getDocuments()
+        } catch {
+            
+        }
         storeRef.collection("users").document(currentUid).collection("likes").getDocuments { snapshot, error in
-            guard error == nil else {
-                completion(.failure(error!))
-                return
-            }
+
             guard let documents = snapshot?.documents else { return }
             documents.forEach { document in
                 if document.documentID == postId {
