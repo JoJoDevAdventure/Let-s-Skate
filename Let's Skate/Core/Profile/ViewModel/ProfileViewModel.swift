@@ -47,7 +47,6 @@ class ProfileViewModel {
                 self?.output?.showError(Error: error)
             case .success(let user):
                 self?.user.subed = user.subed
-                self?.output?.setButtons()
                 self?.getUserPosts()
             }
         }
@@ -103,6 +102,7 @@ class ProfileViewModel {
                 self?.user.following = followings
                 guard let strongSelf = self else { return }
                 self?.output?.setUserInformations(user: strongSelf.user)
+                self?.output?.setButtons()
             }
         }
     }
