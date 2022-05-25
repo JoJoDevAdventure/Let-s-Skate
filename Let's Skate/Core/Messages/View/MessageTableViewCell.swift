@@ -20,7 +20,7 @@ class MessageTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "xxxxxxx xxxxx"
-        label.font = .systemFont(ofSize: 26, weight: .semibold)
+        label.font = .systemFont(ofSize: 24, weight: .semibold)
         label.textColor = .white
         return label
     }()
@@ -38,7 +38,7 @@ class MessageTableViewCell: UITableViewCell {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.image = UIImage(systemName: "chevron.right")
-        image.tintColor = .white
+        image.tintColor = UIColor().lightMainColor()
         image.contentMode = .scaleAspectFit
         return image
     }()
