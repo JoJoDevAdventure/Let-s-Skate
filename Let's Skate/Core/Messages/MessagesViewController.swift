@@ -13,6 +13,8 @@ final class MessagesViewController: UIViewController {
     private let messagesTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(MessageTableViewCell.self, forCellReuseIdentifier: MessageTableViewCell.identifier)
+        tableView.backgroundColor = UIColor().DarkMainColor()
+        tableView.separatorColor = UIColor().lightMainColor()
         return tableView
     }()
     
@@ -22,6 +24,7 @@ final class MessagesViewController: UIViewController {
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor().DarkMainColor()
         setupSubviews()
         setupTableView()
     }
@@ -55,5 +58,9 @@ extension MessagesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MessageTableViewCell.identifier, for: indexPath) as? MessageTableViewCell else { return UITableViewCell() }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 85
     }
 }
