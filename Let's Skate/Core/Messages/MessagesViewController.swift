@@ -25,11 +25,23 @@ final class MessagesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor().DarkMainColor()
+        setupNavBar()
         setupSubviews()
         setupTableView()
     }
     
     // MARK: - Set up
+    private func setupNavBar() {
+        title = "Messages"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationItem.largeTitleDisplayMode = .always
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.backgroundColor = UIColor().DarkMainColor()
+        navigationController?.navigationBar.barTintColor = UIColor().DarkMainColor()
+        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 31, weight: UIFont.Weight.bold) ]
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.bold) ]
+    }
+    
     private func setupSubviews() {
         view.addSubview(messagesTableView)
     }

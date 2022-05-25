@@ -11,7 +11,7 @@ class MessageTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     private let profileImage: ProfileRoundedImageView = {
-        let image = ProfileRoundedImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        let image = ProfileRoundedImageView(frame: CGRect(x: 0, y: 0, width: 55, height: 55))
         image.layer.borderColor = UIColor().lightMainColor().cgColor
         return image
     }()
@@ -20,7 +20,7 @@ class MessageTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "xxxxxxx xxxxx"
-        label.font = .systemFont(ofSize: 24, weight: .semibold)
+        label.font = .systemFont(ofSize: 26, weight: .semibold)
         label.textColor = .white
         return label
     }()
@@ -33,6 +33,15 @@ class MessageTableViewCell: UITableViewCell {
         label.textColor = .white
         return label
     }()
+    
+    private let arrowCell: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.image = UIImage(systemName: "chevron.right")
+        image.tintColor = .white
+        image.contentMode = .scaleAspectFit
+        return image
+    }()
     // MARK: - View Model
     
     
@@ -42,6 +51,7 @@ class MessageTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = UIColor().DarkMainColor()
+        selectionStyle = .none
         setupSubviews()
         setupConstraints()
     }
@@ -55,20 +65,26 @@ class MessageTableViewCell: UITableViewCell {
         addSubview(profileImage)
         addSubview(nickNameLabel)
         addSubview(usernameLabel)
+        addSubview(arrowCell)
     }
     
     private func setupConstraints() {
         let constraints = [
             profileImage.leftAnchor.constraint(equalTo: leftAnchor, constant: 10),
             profileImage.centerYAnchor.constraint(equalTo: centerYAnchor),
-            profileImage.widthAnchor.constraint(equalToConstant: 50),
-            profileImage.heightAnchor.constraint(equalToConstant: 50),
+            profileImage.widthAnchor.constraint(equalToConstant: 55),
+            profileImage.heightAnchor.constraint(equalToConstant: 55),
             
             nickNameLabel.leftAnchor.constraint(equalTo: profileImage.rightAnchor, constant: 15),
             nickNameLabel.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor),
             
             usernameLabel.leftAnchor.constraint(equalTo: nickNameLabel.rightAnchor, constant: 15),
             usernameLabel.centerYAnchor.constraint(equalTo: nickNameLabel.centerYAnchor),
+            
+            arrowCell.centerYAnchor.constraint(equalTo: centerYAnchor),
+            arrowCell.rightAnchor.constraint(equalTo: rightAnchor, constant: -10),
+            arrowCell.widthAnchor.constraint(equalToConstant: 25),
+            arrowCell.heightAnchor.constraint(equalToConstant: 25),
         ]
         NSLayoutConstraint.activate(constraints)
     }
