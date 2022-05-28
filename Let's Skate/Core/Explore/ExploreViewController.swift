@@ -10,17 +10,13 @@ import UIKit
 final class ExploreViewController: UIViewController {
 
     // MARK: - Properties
-    
     var posts : [Post] = []
     
+    // MARK: - UI
     private let exploreCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width/3 - 3.5, height: UIScreen.main.bounds.height/4-30)
-        layout.minimumLineSpacing = 5
-        layout.minimumInteritemSpacing = 5
-        layout.scrollDirection = .vertical
+        let layout = UICollectionViewFlowLayout().exploreLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: PostCollectionViewCell.identifier)
+        collectionView.registerCell(PostCollectionViewCell.self)
         collectionView.backgroundColor = UIColor().DarkMainColor()
         return collectionView
     }()
@@ -52,10 +48,10 @@ final class ExploreViewController: UIViewController {
     
     private func setupNavBar() {
         title = "Explore"
-        navigationController?.navigationBar.tintColor = .label
+        navigationController?.navigationBar.tintColor = .white
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "globe"), style: .plain, target: self, action: nil)
     }
-    
+    // adding subviews
     private func setupSubviews() {
         view.addSubview(exploreCollectionView)
     }
@@ -63,7 +59,7 @@ final class ExploreViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         exploreCollectionView.frame = view.bounds
     }
-    
+    //collection view delegate / datasource
     private func setupCollectionView() {
         exploreCollectionView.delegate = self
         exploreCollectionView.dataSource = self
@@ -77,7 +73,7 @@ final class ExploreViewController: UIViewController {
 
 
 }
-// MARK: - Extensions
+// MARK: - Extensions : CollectionView
 extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -89,7 +85,7 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PostCollectionViewCell.identifier, for: indexPath) as? PostCollectionViewCell else { return UICollectionViewCell() }
+        let cell = collectionView.dequeResuableCell(for: PostCollectionViewCell.self, for: indexPath)
         guard !posts.isEmpty else { return cell}
         let currentPost = posts[indexPath.row]
         cell.configure(postUrl: currentPost.postUrl)
@@ -98,6 +94,7 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
 }
 
+// MARK: - Extensions : ViewModel Output
 extension ExploreViewController: ExploreViewModelOutPut {
     func displayError(error: Error) {
         AlertManager().showErrorAlert(viewcontroller: self, error: error.localizedDescription)

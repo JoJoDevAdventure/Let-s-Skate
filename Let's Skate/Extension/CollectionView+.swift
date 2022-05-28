@@ -26,3 +26,16 @@ extension UICollectionView {
     }
     
 }
+
+extension UICollectionViewFlowLayout {
+    
+    func exploreLayout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width/3 - 3.5, height: UIScreen.main.bounds.height/4-30)
+        layout.minimumLineSpacing = 5
+        layout.minimumInteritemSpacing = 5
+        layout.scrollDirection = .vertical
+        return layout
+    }
+    
+}
