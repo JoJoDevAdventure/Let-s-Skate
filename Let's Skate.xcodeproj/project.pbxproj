@@ -53,6 +53,9 @@
 		A34A9485282DD48200DEB58B /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34A9484282DD48200DEB58B /* CommentsViewController.swift */; };
 		A34A9487282DD73000DEB58B /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34A9486282DD73000DEB58B /* CommentModel.swift */; };
 		A34A9489282DE4FF00DEB58B /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34A9488282DE4FF00DEB58B /* CommentTableViewCell.swift */; };
+		A35AF2772842A39E00FA4477 /* addNewPostRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35AF2762842A39E00FA4477 /* addNewPostRoundedButton.swift */; };
+		A35AF2792842AD4A00FA4477 /* NavigationController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35AF2782842AD4A00FA4477 /* NavigationController+.swift */; };
+		A35AF27B2842B14800FA4477 /* TableView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35AF27A2842B14700FA4477 /* TableView+.swift */; };
 		A35D0B26281251AC00819F8E /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35D0B25281251AC00819F8E /* AlertManager.swift */; };
 		A36F0B402819376F009AE289 /* SignIn_UTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36F0B3F2819376F009AE289 /* SignIn_UTest.swift */; };
 		A36F0B47281937A3009AE289 /* SignUp_UTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36F0B46281937A2009AE289 /* SignUp_UTest.swift */; };
@@ -154,6 +157,9 @@
 		A34A9484282DD48200DEB58B /* CommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		A34A9486282DD73000DEB58B /* CommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
 		A34A9488282DE4FF00DEB58B /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
+		A35AF2762842A39E00FA4477 /* addNewPostRoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addNewPostRoundedButton.swift; sourceTree = "<group>"; };
+		A35AF2782842AD4A00FA4477 /* NavigationController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationController+.swift"; sourceTree = "<group>"; };
+		A35AF27A2842B14700FA4477 /* TableView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TableView+.swift"; sourceTree = "<group>"; };
 		A35D0B25281251AC00819F8E /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		A36F0B3D2819376F009AE289 /* Let's SkateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Let's SkateTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A36F0B3F2819376F009AE289 /* SignIn_UTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn_UTest.swift; sourceTree = "<group>"; };
@@ -527,6 +533,8 @@
 				A3155D1628165AEB00DADBE8 /* ColorsExtension.swift */,
 				A36F0B48281949F4009AE289 /* StringVerification.swift */,
 				A3872B65281FD50200676106 /* ConstantUrls.swift */,
+				A35AF2782842AD4A00FA4477 /* NavigationController+.swift */,
+				A35AF27A2842B14700FA4477 /* TableView+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -678,6 +686,7 @@
 				A395019A280BE44E001257E7 /* UnderFeedButton.swift */,
 				A39E37EA2810635E00DD600A /* sideViewButtonView.swift */,
 				A39E37E828103EF900DD600A /* SideMenuView.swift */,
+				A35AF2762842A39E00FA4477 /* addNewPostRoundedButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -952,12 +961,15 @@
 				A3E2289E283EC385008696AB /* MessaginManager.swift in Sources */,
 				A30C388828259A6D00907F17 /* PostsManager.swift in Sources */,
 				A389969A28342A1F00522796 /* SearchResultViewController.swift in Sources */,
+				A35AF27B2842B14800FA4477 /* TableView+.swift in Sources */,
 				A34990222817ADF500311493 /* EmailVerificationViewController.swift in Sources */,
 				A3E2A452282C878D00935484 /* ListViewController.swift in Sources */,
 				A3A2F8E0280B2A50004234AB /* SceneDelegate.swift in Sources */,
+				A35AF2772842A39E00FA4477 /* addNewPostRoundedButton.swift in Sources */,
 				A392355E2813711C0016C6A3 /* AuthButton.swift in Sources */,
 				A32F45C1281B026600F7CB8A /* WelcomeViewModel.swift in Sources */,
 				A32F45C6281B971A00F7CB8A /* WelcomeAnimations.swift in Sources */,
+				A35AF2792842AD4A00FA4477 /* NavigationController+.swift in Sources */,
 				A3A2F918280B38A0004234AB /* ProfileViewController.swift in Sources */,
 				A3872B64281FCD2D00676106 /* StorageError.swift in Sources */,
 				A3A2F904280B367F004234AB /* TabBarModel.swift in Sources */,

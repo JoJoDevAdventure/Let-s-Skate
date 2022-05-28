@@ -86,6 +86,8 @@ class sideViewButtonView: UIView {
     }
     
     func configureButton(with imageName: String, _ text: String) {
+        translatesAutoresizingMaskIntoConstraints = false
+        alpha = 0
         buttonImage.image = UIImage(systemName: imageName, withConfiguration: UIImage.SymbolConfiguration(pointSize: 15))
         buttonText.text = text
     }
