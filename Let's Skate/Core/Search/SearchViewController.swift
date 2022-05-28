@@ -9,21 +9,15 @@ import UIKit
 
 class SearchViewController: UIViewController {
     
+    // MARK: - Properties
     var users: [User] = []
     
-    // MARK: - Properties
-    private let searchController: UISearchController = {
-        let controller = UISearchController(searchResultsController: SearchResultViewController())
-        controller.searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "Tonny Hawks...", attributes: [NSAttributedString.Key.foregroundColor: UIColor().DarkMainColor()])
-        controller.searchBar.searchTextField.backgroundColor = UIColor().lightMainColor()
-        controller.searchBar.searchTextField.leftView?.tintColor = UIColor().DarkMainColor()
-        controller.searchBar.searchBarStyle = .minimal
-        return controller
-    }()
+    // MARK: - UI
+    private let searchController = CustomSeachViewController(searchResultsController: SearchResultViewController())
     
     private let recentResearchTableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(SearchUserTableViewCell.self, forCellReuseIdentifier: SearchUserTableViewCell.identifier)
+        tableView.registerCell(SearchUserTableViewCell.self)
         return tableView
     }()
     
@@ -55,14 +49,10 @@ class SearchViewController: UIViewController {
         title = "Search for mates"
         navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
-        navigationController?.navigationBar.barTintColor = UIColor().DarkMainColor()
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationItem.largeTitleDisplayMode = .always
-        navigationController?.navigationBar.tintColor = .white
-        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 31, weight: UIFont.Weight.bold) ]
-
+        navigationController?.whiteLargeTitle()
     }
     
+    //adding subviews
     private func setupSubViews() {
         view.addSubview(recentResearchTableView)
     }
@@ -83,8 +73,8 @@ class SearchViewController: UIViewController {
     // MARK: - Network Manager calls
 
 }
-// MARK: - Extensions
 
+// MARK: - Extension : TableView
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -92,10 +82,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchUserTableViewCell.identifier) as? SearchUserTableViewCell else {
-            return UITableViewCell()
-        }
-        
+        let cell = tableView.dequeResuableCell(for: SearchUserTableViewCell.self, for: indexPath)
         return cell
     }
     
@@ -104,6 +91,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+// MARK: - Extension : UISearchResult
 extension SearchViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -124,6 +112,7 @@ extension SearchViewController: UISearchResultsUpdating {
     }
 }
 
+// MARK: - Extension : ViewModel output
 extension SearchViewController: searchViewModelOutPut {
     
     func updateUsers(users: [User]) {
@@ -136,6 +125,7 @@ extension SearchViewController: searchViewModelOutPut {
     
 }
 
+// MARK: - Extension: SearchResult Delegate
 extension SearchViewController: SearchResultViewControllerDelegate {
     func didSelectUser(user: User) {
         let imageUploader : ImageUploader = StorageManager()
