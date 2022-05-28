@@ -46,7 +46,6 @@ class MessageTableViewCell: UITableViewCell {
     
     
     // MARK: - Life cycle
-    static let identifier = "MessageTableViewCell"
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

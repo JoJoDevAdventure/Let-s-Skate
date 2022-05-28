@@ -12,7 +12,7 @@ final class MessagesViewController: UIViewController {
     // MARK: - Properties
     private let messagesTableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(MessageTableViewCell.self, forCellReuseIdentifier: MessageTableViewCell.identifier)
+        tableView.registerCell(MessageTableViewCell.self)
         tableView.backgroundColor = UIColor().DarkMainColor()
         tableView.separatorColor = UIColor().lightMainColor()
         return tableView
@@ -33,19 +33,14 @@ final class MessagesViewController: UIViewController {
     // MARK: - Set up
     private func setupNavBar() {
         title = "Messages"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationItem.largeTitleDisplayMode = .always
-        navigationController?.navigationBar.tintColor = .white
-        navigationController?.navigationBar.backgroundColor = UIColor().DarkMainColor()
-        navigationController?.navigationBar.barTintColor = UIColor().DarkMainColor()
-        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 31, weight: UIFont.Weight.bold) ]
-        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.bold) ]
+        navigationController?.whiteLargeTitle()
     }
-    
+    //adding subviews
     private func setupSubviews() {
         view.addSubview(messagesTableView)
     }
     
+    //tableView delegate and datasource
     private func setupTableView() {
         messagesTableView.delegate = self
         messagesTableView.dataSource = self
@@ -61,14 +56,14 @@ final class MessagesViewController: UIViewController {
     // MARK: - Network Manager calls
     
 }
-// MARK: - Extensions
+// MARK: - Extension : TableView
 extension MessagesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MessageTableViewCell.identifier, for: indexPath) as? MessageTableViewCell else { return UITableViewCell() }
+        let cell = tableView.dequeResuableCell(for: MessageTableViewCell.self, for: indexPath)
         return cell
     }
     
