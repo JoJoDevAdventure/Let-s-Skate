@@ -18,6 +18,7 @@ class SearchViewController: UIViewController {
     private let recentResearchTableView: UITableView = {
         let tableView = UITableView()
         tableView.registerCell(SearchUserTableViewCell.self)
+        tableView.backgroundColor = UIColor().DarkMainColor()
         return tableView
     }()
     
@@ -58,7 +59,6 @@ class SearchViewController: UIViewController {
     }
     
     private func setupTableView() {
-        recentResearchTableView.backgroundColor = UIColor().DarkMainColor()
         recentResearchTableView.delegate = self
         recentResearchTableView.dataSource = self
     }
