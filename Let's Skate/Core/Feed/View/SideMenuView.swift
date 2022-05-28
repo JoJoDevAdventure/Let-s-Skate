@@ -15,9 +15,10 @@ protocol SideMenuViewDelegate : AnyObject {
 
 final class SideMenuView: UIView {
     
+    // MARK: - Properties
     weak var delegate: SideMenuViewDelegate?
     
-    // MARK: - Properties
+    // MARK: - UI
     private let container: UIView = {
         let container = UIView()
         container.transform = container.transform.rotated(by: -0.01)
@@ -25,49 +26,45 @@ final class SideMenuView: UIView {
         return container
     }()
     
+    // Full name
     private let fullnameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 22, weight: .bold)
-        label.text = "Youssef Bhl"
-        label.textColor = .systemBackground
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         return label
     }()
     
+    // Username
     private let usernameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .light)
-        label.text = "@youssefbhl2727"
-        label.textColor = .systemBackground
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         return label
     }()
     
+    // Profile Pic
     private let profilePic = ProfileRoundedImageView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
     
+    // Go to profile button
     private let profileButton: sideViewButtonView = {
         let button = sideViewButtonView()
         button.configureButton(with: "person", "Profile")
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.alpha = 0
         return button
     }()
     
+    // Go to settings button
     private let settingButton: sideViewButtonView = {
         let button = sideViewButtonView()
         button.configureButton(with: "gear", "Settings")
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.alpha = 0
         return button
     }()
     
+    // logout
     private let logoutButton: sideViewButtonView = {
         let button = sideViewButtonView()
         button.configureButton(with: "iphone.and.arrow.forward", "Log out")
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.alpha = 0
         return button
     }()
     
@@ -86,6 +83,7 @@ final class SideMenuView: UIView {
     
     // MARK: - Set up
     
+    // adding subviews
     private func setupSubviews() {
         addSubview(container)
         container.addSubview(fullnameLabel)
@@ -100,10 +98,11 @@ final class SideMenuView: UIView {
         container.frame = bounds
     }
     
+    // Constraints
     private func setupConstraints() {
         let fullNameLabelConstraints = [
-            fullnameLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -680),
-            fullnameLabel.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 70)
+            fullnameLabel.centerYAnchor.constraint(equalTo: container.centerYAnchor, constant: -300),
+            fullnameLabel.centerXAnchor.constraint(equalTo: container.centerXAnchor, constant: 70)
         ]
         NSLayoutConstraint.activate(fullNameLabelConstraints)
         
@@ -146,6 +145,7 @@ final class SideMenuView: UIView {
         NSLayoutConstraint.activate(logoutButtonConstraints)
     }
     
+    // setup Gesture Reconizers
     private func setupGestureReconizer() {
         profileButton.isUserInteractionEnabled = true
         profileButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapProfileButton)))
@@ -157,6 +157,7 @@ final class SideMenuView: UIView {
     
     // MARK: - Functions
     
+    // show side menu
     public func sideMenuDidApear() {
         UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {[weak self] in
             self?.profileButton.alpha = 1
@@ -171,30 +172,34 @@ final class SideMenuView: UIView {
         }
     }
     
+    // hide side menu
     public func sideMenuDisapear() {
         profileButton.alpha = 0
         settingButton.alpha = 0
         logoutButton.alpha = 0
     }
     
+    /// Delegate to FeedViewContoller
+    // profile button
     @objc func didTapProfileButton() {
         delegate?.SideMenuViewDidTapProfileButton()
     }
     
+    // settings button
     @objc func didTapSettingButton() {
         delegate?.SideMenuViewDidTapSettingButton()
     }
     
+    // Log out
     @objc func didTapLogoutButton() {
         delegate?.SideMenuViewDidTapLogOut()
     }
     
+    // configure with real user data
     func configure(profileImage: UIImage, username: String, nickname: String) {
         profilePic.image = profileImage
         fullnameLabel.text = nickname
         usernameLabel.text = "\(username)"
     }
-    
-    // MARK: - Extensions
 
 }

@@ -10,6 +10,7 @@ import UIKit
 import SDWebImage
 
 protocol FeedViewModelOutPut: AnyObject {
+    
     func returnToLoginScreen()
     
     func setUserInformations(profileImage: UIImage, username: String, nickname: String)

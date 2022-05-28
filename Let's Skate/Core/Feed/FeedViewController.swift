@@ -29,32 +29,12 @@ final class FeedViewController: UIViewController {
     
     private let feedTableView: UITableView = {
         let table = UITableView()
-        table.register(FeedTableViewCell.self, forCellReuseIdentifier: FeedTableViewCell.identifier)
-        table.isUserInteractionEnabled = true
-        table.allowsSelectionDuringEditing = true
+        table.registerCell(FeedTableViewCell.self)
         table.backgroundColor = UIColor().DarkMainColor()
         return table
     }()
     
-    private let addPostButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        let image = UIImage(systemName: "plus", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30))
-        button.tintColor = .white
-        button.setImage(image, for: .normal)
-        button.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        button.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        button.backgroundColor = UIColor().DarkMainColor()
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.white.cgColor
-        button.layer.cornerRadius = 35
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowRadius = 0.5
-        button.layer.shadowOpacity = 0.7
-        button.layer.shadowOffset = CGSize(width: 1, height: 1)
-        button.isHidden = false
-        return button
-    }()
+    private let addPostButton = addNewPostRoundedButton()
     
     private let unfocusView: UIView = {
         let view = UIView()
@@ -67,7 +47,7 @@ final class FeedViewController: UIViewController {
         return UIView()
     }()
     
-    private let sideMenu = SideMenuView(frame: CGRect(x: -UIScreen.main.bounds.width, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*2))
+    private let sideMenu = SideMenuView(frame: CGRect(x: -UIScreen.main.bounds.width, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
     
     // MARK: - ViewModel
     
@@ -100,6 +80,7 @@ final class FeedViewController: UIViewController {
     }
 
     // MARK: - Set up
+    // add Subviews
     private func setupSubViews() {
         view.addSubview(addPostButton)
         view.addSubview(noPostsLabel)
@@ -111,24 +92,11 @@ final class FeedViewController: UIViewController {
         addPostButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
     }
     
-    private func setupProfileImage() {
-        NavBarProfileImage = NavBarProfileImage?.withRenderingMode(.alwaysOriginal)
-        NavBarProfileImage = NavBarProfileImage?.sd_resizedImage(with: CGSize(width: 40, height: 40), scaleMode: .aspectFill)
-        NavBarProfileImage = NavBarProfileImage?.sd_roundedCornerImage(withRadius: 20, corners: .allCorners, borderWidth: 0, borderColor: .clear)
-    }
-    
+    // nav Bar
     private func setupNavBar() {
         title = "Skater's Home"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationItem.largeTitleDisplayMode = .always
-        navigationController?.navigationBar.tintColor = .white
-        navigationController?.navigationBar.backgroundColor = UIColor().DarkMainColor()
-        navigationController?.navigationBar.barTintColor = UIColor().DarkMainColor()
-        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 31, weight: UIFont.Weight.bold) ]
-        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 24, weight: UIFont.Weight.bold) ]
+        navigationController?.whiteLargeTitle()
         setupProfileImage()
-        NavBarProfileImage = NavBarProfileImage?.withRenderingMode(.alwaysOriginal)
-        NavBarProfileImage?.withTintColor(UIColor().lightMainColor())
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: NavBarProfileImage, style: .plain, target: self, action: #selector(didTapProfileImage))
     }
     
@@ -152,6 +120,7 @@ final class FeedViewController: UIViewController {
         sideMenu.delegate = self
     }
     
+    // add new post button setup
     private func setupAddButton() {
         addPostButton.addAction(UIAction(handler: { _ in
             let imageUploadService: ImageUploader = StorageManager()
@@ -162,18 +131,30 @@ final class FeedViewController: UIViewController {
         }), for: .touchUpInside)
     }
     
+    // observsers
     private func setupObserver() {
         NotificationCenter.default.addObserver(forName: NSNotification.Name("uploadedImageFetchUser"), object: nil, queue: nil) { _ in
             self.viewModel.fetchAllPosts()
         }
     }
     
+    // setup the top left image rendering
+    private func setupProfileImage() {
+        NavBarProfileImage = NavBarProfileImage?.withRenderingMode(.alwaysOriginal)
+        NavBarProfileImage = NavBarProfileImage?.sd_resizedImage(with: CGSize(width: 40, height: 40), scaleMode: .aspectFill)
+        NavBarProfileImage = NavBarProfileImage?.sd_roundedCornerImage(withRadius: 20, corners: .allCorners, borderWidth: 0, borderColor: .clear)
+        NavBarProfileImage?.withTintColor(UIColor().lightMainColor())
+        NavBarProfileImage = NavBarProfileImage?.withRenderingMode(.alwaysOriginal)
+    }
+    
     // MARK: - Network Manager calls
     
+    // fetch current user to  get the top left image
     private func fetchCurrentUser() {
         self.viewModel.fetchCurrentUser()
     }
     
+    //fetch all posts
     private func fetchPosts() {
         viewModel.fetchAllPosts()
     }
@@ -215,6 +196,7 @@ final class FeedViewController: UIViewController {
         addPostButton.isHidden = false
     }
     
+    //
     private func checkIfThereArePosts() {
         DispatchQueue.main.async { [self] in
             if posts.isEmpty {
@@ -241,7 +223,7 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.identifier) as? FeedTableViewCell else { return UITableViewCell() }
+        let cell = tableView.dequeResuableCell(for: FeedTableViewCell.self, for: indexPath)
         cell.selectionStyle = .none
         cell.delegate = self
         if !posts.isEmpty {
