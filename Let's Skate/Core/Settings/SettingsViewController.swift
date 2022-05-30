@@ -11,9 +11,10 @@ class SettingsViewController: UIViewController {
     
     // MARK: - Properties
     
+    // tableView
     private let settingTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.identifier)
+        tableView.registerCell(SettingTableViewCell.self)
         tableView.backgroundColor = UIColor().lightMainColor()
         return tableView
     }()
@@ -29,10 +30,12 @@ class SettingsViewController: UIViewController {
     
     // MARK: - Set up
     
+    // adding SubViews
     private func setupSubViews() {
         view.addSubview(settingTableView)
     }
     
+    // TableView delegate / data source
     private func setupTableView() {
         settingTableView.delegate = self
         settingTableView.dataSource = self
@@ -57,7 +60,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.identifier) as? SettingTableViewCell else { return UITableViewCell() }
+        let cell = tableView.dequeResuableCell(for: SettingTableViewCell.self, for: indexPath)
         SettingViewModel.allCases.forEach { model in
             if indexPath.row == model.row {
                 cell.configure(with: model.iconName, title: model.title)
