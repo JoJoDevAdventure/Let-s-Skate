@@ -7,6 +7,10 @@
 
 import Foundation
 
-class MessagingManager {
+protocol MessagingService {
+    
+}
+
+class MessagingManager: MessagingService {
     
 }
