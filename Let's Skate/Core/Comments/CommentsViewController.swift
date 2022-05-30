@@ -191,10 +191,12 @@ class CommentsViewController: UIViewController {
     
     //MARK: - Functions
     
+    // Hide Keyboard for gesture
     @objc func hideKeyBoard() {
         commentTextField.resignFirstResponder()
     }
     
+    // comments Verification
     private func verifyIfThereAreComments() {
         if comments.isEmpty {
             noCommentsLabel.isHidden = false
@@ -209,7 +211,7 @@ class CommentsViewController: UIViewController {
     }
     
 }
-// MARK: - Extensions
+// MARK: - Extension : TableView
 extension CommentsViewController :  UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -237,6 +239,7 @@ extension CommentsViewController :  UITableViewDelegate, UITableViewDataSource {
     
 }
 
+// MARK: - Extension : TextField
 extension CommentsViewController : UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -251,6 +254,7 @@ extension CommentsViewController : UITextFieldDelegate {
     }
 }
 
+// MARK: - Extension : ViewModel
 extension CommentsViewController : CommentsViewModelOutPut {
     
     func fetchComments(comments: [Comment]) {
@@ -266,7 +270,9 @@ extension CommentsViewController : CommentsViewModelOutPut {
     }
 }
 
+// MARK: - Extension : KeyBoardLayout
 extension CommentsViewController: KeyboardLayoutDelegate {
+    
     func keyBoardShown(keyboardHeight: CGFloat) {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {
             self.textFieldView.transform = self.textFieldView.transform.translatedBy(x: 0, y: -keyboardHeight+17)
@@ -278,4 +284,5 @@ extension CommentsViewController: KeyboardLayoutDelegate {
             self.textFieldView.transform = self.textFieldView.transform.translatedBy(x: 0, y: keyboardHeight-17)
         }
     }
+    
 }
