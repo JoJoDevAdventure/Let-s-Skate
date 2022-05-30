@@ -17,6 +17,7 @@ final class FeedViewController: UIViewController {
     
     // MARK: - UI
     
+    // 'No Posts' Label posts.isEmpty
     private let noPostsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -27,6 +28,7 @@ final class FeedViewController: UIViewController {
         return label
     }()
     
+    // Feed Table View
     private let feedTableView: UITableView = {
         let table = UITableView()
         table.registerCell(FeedTableViewCell.self)
@@ -36,6 +38,7 @@ final class FeedViewController: UIViewController {
     
     private let addPostButton = addNewPostRoundedButton()
     
+    // unfocus view ( when side menu apears )
     private let unfocusView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.gray
@@ -47,6 +50,7 @@ final class FeedViewController: UIViewController {
         return UIView()
     }()
     
+    // Side Menu
     private let sideMenu = SideMenuView(frame: CGRect(x: -UIScreen.main.bounds.width, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
     
     // MARK: - ViewModel
@@ -106,16 +110,19 @@ final class FeedViewController: UIViewController {
         unfocusView.frame = view.bounds
     }
     
+    // Table view
     private func setupTableView() {
         feedTableView.delegate = self
         feedTableView.dataSource = self
     }
     
+    // Side Menu
     private func setupSideMenu() {
         unfocusView.isUserInteractionEnabled = true
         unfocusView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapLeave)))
     }
     
+    // side View Delegate
     private func sideViewDelegate() {
         sideMenu.delegate = self
     }
