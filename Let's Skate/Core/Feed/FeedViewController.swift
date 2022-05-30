@@ -123,11 +123,7 @@ final class FeedViewController: UIViewController {
     // add new post button setup
     private func setupAddButton() {
         addPostButton.addAction(UIAction(handler: { _ in
-            let imageUploadService: ImageUploader = StorageManager()
-            let service: NewPostService = PostsManager(imageUploaderService: imageUploadService)
-            let viewModel = NewPostViewModel(postsService: service)
-            let vc = AddNewPostViewController(viewModel: viewModel)
-            self.present(vc, animated: true)
+            Navigation.shared.showNewPostViewController(from: self)
         }), for: .touchUpInside)
     }
     
@@ -285,7 +281,7 @@ extension FeedViewController: FeedTableViewCellDelegate {
     //comment post
     
     func FeedTableViewCellDidTapComment(post: Post) {
-        Navigation.shared.showCommentsViewController(viewController: self, post: post)
+        Navigation.shared.showCommentsViewController(from: self, post: post)
     }
     
     //share post

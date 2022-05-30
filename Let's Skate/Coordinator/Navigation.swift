@@ -64,11 +64,19 @@ final class Navigation: Coordinator {
     
     // MARK: - Present
     
-    public func showCommentsViewController(viewController: UIViewController, post: Post) {
+    public func showCommentsViewController(from viewController: UIViewController, post: Post) {
         let commentService: CommentService = CommentsManager()
         let vm = CommentsViewModel(post: post, commentService: commentService)
         let vc = CommentsViewController(viewModel: vm)
         vc.modalPresentationStyle = .pageSheet
         viewController.navigationController?.present(vc, animated: true)
+    }
+    
+    public func showNewPostViewController(from viewController: UIViewController) {
+        let imageUploadService: ImageUploader = StorageManager()
+        let service: NewPostService = PostsManager(imageUploaderService: imageUploadService)
+        let viewModel = NewPostViewModel(postsService: service)
+        let vc = AddNewPostViewController(viewModel: viewModel)
+        viewController.present(vc, animated: true)
     }
 }
