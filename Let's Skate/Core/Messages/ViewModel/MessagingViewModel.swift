@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MessagingViewModel {
+final class MessagingViewModel {
     
     let messageService: MessagingService
     

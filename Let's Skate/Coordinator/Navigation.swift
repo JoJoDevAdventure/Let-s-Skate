@@ -43,7 +43,8 @@ final class Navigation: Coordinator {
     
     public func getMessagesViewController() -> UIViewController {
         let messagingService: MessagingService = MessagingManager()
-        let viewModel = MessagingViewModel()
-        return MessagesViewController()
+        let viewModel = MessagingViewModel(messageService: messagingService)
+        return MessagesViewController(viewModel: viewModel)
     }
+    
 }
