@@ -31,6 +31,7 @@ final class ProfileViewController: UIViewController {
         return collection
     }()
     
+    // loading animation
     private let loadingAnimation: AnimationView = {
         let animationView = AnimationView()
         animationView.animation = Animation.named("darkLoadingView")
@@ -69,7 +70,7 @@ final class ProfileViewController: UIViewController {
     }
     
     // MARK: - Set up
-    
+    // adding subviews
     private func setupSubviews() {
         view.addSubview(collectionView)
     }
@@ -78,11 +79,13 @@ final class ProfileViewController: UIViewController {
         collectionView.frame = CGRect(x: 0, y: 100, width: view.bounds.width, height: view.bounds.height - 100)
     }
     
+    //collection view setup
     private func setupCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
     }
     
+    //Notification observers
     private func setupObservers() {
         NotificationCenter.default.addObserver(forName: NSNotification.Name("uploadedImageFetchUser"), object: nil, queue: nil) { _ in
             //notification to refetch profile posts when user uploads New one

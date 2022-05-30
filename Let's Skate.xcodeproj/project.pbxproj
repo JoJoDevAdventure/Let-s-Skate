@@ -60,6 +60,9 @@
 		A35AF27F2842C4C600FA4477 /* CustomSeachViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35AF27E2842C4C600FA4477 /* CustomSeachViewController.swift */; };
 		A35AF28428451DF700FA4477 /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35AF28328451DF700FA4477 /* Navigation.swift */; };
 		A35AF28628451FF400FA4477 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35AF28528451FF300FA4477 /* Coordinator.swift */; };
+		A35AF28A2845505A00FA4477 /* BioTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35AF2892845505A00FA4477 /* BioTextView.swift */; };
+		A35AF28D284552E900FA4477 /* ConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35AF28C284552E900FA4477 /* ConfirmButton.swift */; };
+		A35AF28F2845544C00FA4477 /* CancelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35AF28E2845544C00FA4477 /* CancelButton.swift */; };
 		A35D0B26281251AC00819F8E /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35D0B25281251AC00819F8E /* AlertManager.swift */; };
 		A36F0B402819376F009AE289 /* SignIn_UTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36F0B3F2819376F009AE289 /* SignIn_UTest.swift */; };
 		A36F0B47281937A3009AE289 /* SignUp_UTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36F0B46281937A2009AE289 /* SignUp_UTest.swift */; };
@@ -168,6 +171,9 @@
 		A35AF27E2842C4C600FA4477 /* CustomSeachViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSeachViewController.swift; sourceTree = "<group>"; };
 		A35AF28328451DF700FA4477 /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
 		A35AF28528451FF300FA4477 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		A35AF2892845505A00FA4477 /* BioTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioTextView.swift; sourceTree = "<group>"; };
+		A35AF28C284552E900FA4477 /* ConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmButton.swift; sourceTree = "<group>"; };
+		A35AF28E2845544C00FA4477 /* CancelButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelButton.swift; sourceTree = "<group>"; };
 		A35D0B25281251AC00819F8E /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		A36F0B3D2819376F009AE289 /* Let's SkateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Let's SkateTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A36F0B3F2819376F009AE289 /* SignIn_UTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn_UTest.swift; sourceTree = "<group>"; };
@@ -329,6 +335,7 @@
 			isa = PBXGroup;
 			children = (
 				A34990322817F0A300311493 /* upImageAnimation.json */,
+				A35AF2892845505A00FA4477 /* BioTextView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -374,6 +381,15 @@
 				A35AF28528451FF300FA4477 /* Coordinator.swift */,
 			);
 			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		A35AF28B2845517B00FA4477 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				A35AF28C284552E900FA4477 /* ConfirmButton.swift */,
+				A35AF28E2845544C00FA4477 /* CancelButton.swift */,
+			);
+			path = Buttons;
 			sourceTree = "<group>";
 		};
 		A36F0B3E2819376F009AE289 /* Let's SkateTests */ = {
@@ -633,6 +649,7 @@
 			children = (
 				A349901C281783EE00311493 /* LoadingViews */,
 				A3FF7933280E9F9800253DE4 /* PostsCell */,
+				A35AF28B2845517B00FA4477 /* Buttons */,
 				A3950194280BDB1F001257E7 /* FeedCell */,
 			);
 			path = Component;
@@ -939,6 +956,7 @@
 				A389969C28342B1C00522796 /* SearchUserTableViewCell.swift in Sources */,
 				A35AF28628451FF400FA4477 /* Coordinator.swift in Sources */,
 				A3950197280BDB69001257E7 /* FeedTableViewCell.swift in Sources */,
+				A35AF28A2845505A00FA4477 /* BioTextView.swift in Sources */,
 				A39CD084281138EE0004F73B /* SettingsViewController.swift in Sources */,
 				A34990302817DD8200311493 /* AddNewPostViewController.swift in Sources */,
 				A3923558281315480016C6A3 /* SignUpViewController.swift in Sources */,
@@ -1007,11 +1025,13 @@
 				A35AF27F2842C4C600FA4477 /* CustomSeachViewController.swift in Sources */,
 				A30C387F2823091E00907F17 /* UserManager.swift in Sources */,
 				A3923556281315340016C6A3 /* SignInViewController.swift in Sources */,
+				A35AF28D284552E900FA4477 /* ConfirmButton.swift in Sources */,
 				A3E2289C283EC331008696AB /* MessageModel.swift in Sources */,
 				A39CD08828113C580004F73B /* SettingViewModel.swift in Sources */,
 				A39E37EB2810635E00DD600A /* sideViewButtonView.swift in Sources */,
 				A3A2F913280B3865004234AB /* FeedViewController.swift in Sources */,
 				A32F45C8281BB4C700F7CB8A /* MoreInformationsViewController.swift in Sources */,
+				A35AF28F2845544C00FA4477 /* CancelButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
