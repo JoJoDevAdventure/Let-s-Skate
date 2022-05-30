@@ -36,7 +36,9 @@ class AlertManager {
         let alert = UIAlertController(title: "", message: "\(error)", preferredStyle: .alert)
         let ok = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         alert.addAction(ok)
-        viewcontroller.present(alert, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            viewcontroller.present(alert, animated: true, completion: nil)
+        }
     }
     
     func picPictureAlert(_ viewController : UIViewController,_ of: String, completion : (@escaping(pickingMod)->Void)) {

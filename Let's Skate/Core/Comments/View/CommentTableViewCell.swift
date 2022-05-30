@@ -12,8 +12,6 @@ class CommentTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     
-    static let identifier = "CommentTableViewCell"
-    
     private let stockView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor().lightMainColor()

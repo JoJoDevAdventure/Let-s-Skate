@@ -13,6 +13,7 @@ class SettingTableViewCell: UITableViewCell {
     
     static let identifier = "SettingTableViewCell"
 
+    // icon image
     private let iconImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleToFill
@@ -23,6 +24,7 @@ class SettingTableViewCell: UITableViewCell {
         return image
     }()
     
+    // setting description
     private let settingLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -44,11 +46,13 @@ class SettingTableViewCell: UITableViewCell {
     
     // MARK: - Set up
     
+    // adding subviews
     private func setupSubviews() {
         addSubview(iconImage)
         addSubview(settingLabel)
     }
     
+    // constraints
     private func setupConstraints() {
         let iconConstraints = [
             iconImage.leftAnchor.constraint(equalTo: leftAnchor, constant: 15),
@@ -65,6 +69,7 @@ class SettingTableViewCell: UITableViewCell {
     
     // MARK: - Functions
     
+    // configuration
     public func configure(with iconImageName: String, title: String ) {
         iconImage.image = UIImage(systemName: iconImageName)
         settingLabel.text = title

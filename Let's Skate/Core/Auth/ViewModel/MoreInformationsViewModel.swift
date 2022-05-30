@@ -26,7 +26,7 @@ class MoreInformationsViewModel {
     
     var isUploading = false
     
-    func updateUserInformations(view: UIView, loadingAnimation: AnimationView,bannerImage: UIImageView, profileImage: UIImageView, nickname: String?, bio: String?) {
+    func updateUserInformations(view: UIView, loadingAnimation: AnimationView, bannerImage: UIImageView, profileImage: UIImageView, nickname: String?, bio: String?) {
         
         let bannerImage = bannerImage.image
         let profileImage = profileImage.image
@@ -57,6 +57,10 @@ class MoreInformationsViewModel {
             return false
         }
         return true
+    }
+    
+    func userLeftWithoutMoreInformation() {
+        
     }
     
 }

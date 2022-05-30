@@ -19,6 +19,8 @@ class MoreInformationsViewController: UIViewController {
     var bannerCameraPicker = UIImagePickerController()
     var canUseCamera = UIImagePickerController.isSourceTypeAvailable(.camera)
     
+    // MARK: - UI
+    // loading
     private let loadingAnimation: AnimationView = {
         let animation = AnimationView()
         animation.animation = Animation.named("lightLoadingView")
@@ -30,6 +32,7 @@ class MoreInformationsViewController: UIViewController {
         return animation
     }()
     
+    // more informations label
     private let moreInformationsLabel: UILabel = {
         let label = UILabel()
         label.text = "Tell us more about you!"
@@ -39,6 +42,7 @@ class MoreInformationsViewController: UIViewController {
         return label
     }()
     
+    // banner image
     private let bannerImageView: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "skateBannerBackground")
@@ -49,6 +53,7 @@ class MoreInformationsViewController: UIViewController {
         return image
     }()
     
+    //profile image
     private let profileImageView: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "skateProfileImageBackground")
@@ -59,14 +64,16 @@ class MoreInformationsViewController: UIViewController {
         return image
     }()
     
+    // nickname TF
     private let nickNameTextField: AuthTextfield = {
         let tf = AuthTextfield()
         tf.placeholder = "Nickname 👽"
         return tf
     }()
     
-    private let bioText: UITextField = {
-        let tf = UITextField()
+    // bio Text
+    private let bioText: UITextView = {
+        let tf = UITextView()
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.heightAnchor.constraint(equalToConstant: 120).isActive = true
         tf.widthAnchor.constraint(equalToConstant: 280).isActive = true
@@ -80,10 +87,6 @@ class MoreInformationsViewController: UIViewController {
         tf.layer.shadowOpacity = 1
         tf.layer.shadowOffset = CGSize(width: 2, height: 2)
         tf.layer.cornerRadius = 10
-        tf.attributedPlaceholder = NSAttributedString(
-            string: "XXXXXXXXXXXXX",
-            attributes : [NSAttributedString.Key.foregroundColor: UIColor.white])
-        tf.placeholder = "Tell peoples more about you !"
         return tf
     }()
     
@@ -141,6 +144,14 @@ class MoreInformationsViewController: UIViewController {
         setupLibraryConfig()
         setupCamera()
         setupButtons()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if nickNameTextField.text == "" || bioText.text == nil || bioText.text == "" || bannerImageView.image == UIImage(named: "skateBannerBackground") {
+            // left without context
+            addInformationsLater()
+        }
     }
     
     // MARK: - Set up
