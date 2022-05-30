@@ -26,8 +26,6 @@ class FeedTableViewCell: UITableViewCell {
     
     weak var delegate: FeedTableViewCellDelegate?
     
-    static let identifier = "FeedTableViewCell"
-    
     private let nickNameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .semibold)
