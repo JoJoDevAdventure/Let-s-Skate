@@ -16,11 +16,9 @@ final class Navigation: Coordinator {
     
     
     /// Services :
-    let logOutService: LogOutService = AuthManager()
     let imageUploaderService: ImageUploader = StorageManager()
     
-    
-    // Core Tabs
+    // MARK: - Get Core ViewControllers
     public func getFeedViewController() -> UIViewController {
         let logOutService: LogOutService = AuthManager()
         let feedUserService: FeedUserService = UserManager()
@@ -47,4 +45,30 @@ final class Navigation: Coordinator {
         return MessagesViewController(viewModel: viewModel)
     }
     
+    
+    // MARK: - Navigation
+    
+    public func goToProfileViewController(from viewController: UIViewController, with user: User) {
+        let profilePostsService: ProfilePostsService = PostsManager(imageUploaderService: imageUploaderService)
+        let profileUserService: ProfileUserService = UserManager()
+        let viewModel = ProfileViewModel(user: user, userService: profileUserService, postsService: profilePostsService)
+        let profileVC = ProfileViewController(viewModel: viewModel)
+        viewController.navigationController?.pushViewController(profileVC, animated: true)
+    }
+    
+    public func goToSettingsViewController(from viewController: UIViewController) {
+        let settingsViewController = SettingsViewController()
+        settingsViewController.title = "Settings"
+        viewController.navigationController?.pushViewController(settingsViewController, animated: true)
+    }
+    
+    // MARK: - Present
+    
+    public func showCommentsViewController(viewController: UIViewController, post: Post) {
+        let commentService: CommentService = CommentsManager()
+        let vm = CommentsViewModel(post: post, commentService: commentService)
+        let vc = CommentsViewController(viewModel: vm)
+        vc.modalPresentationStyle = .pageSheet
+        viewController.navigationController?.present(vc, animated: true)
+    }
 }

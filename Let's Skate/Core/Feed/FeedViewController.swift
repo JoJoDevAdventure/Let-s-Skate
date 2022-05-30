@@ -247,17 +247,13 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
 extension FeedViewController: SideMenuViewDelegate {
     //Show profile
     func SideMenuViewDidTapProfileButton() {
-        print("DEBUG: Show Profile")
         didTapLeave()
         viewModel.fetchCurrentUserProfile()
     }
     
     //Show Setting
     func SideMenuViewDidTapSettingButton() {
-        let vc = SettingsViewController()
-        didTapLeave()
-        vc.title = "Settings"
-        navigationController?.pushViewController(vc, animated: true)
+        Navigation.shared.goToSettingsViewController(from: self)
     }
     
     //Log out
@@ -278,12 +274,7 @@ extension FeedViewController: FeedTableViewCellDelegate {
     
     //show user profile
     func FeedTableViewCellShowProfile(user: User) {
-        let userService : ProfileUserService = UserManager()
-        let imageUploader: ImageUploader = StorageManager()
-        let postService: ProfilePostsService = PostsManager(imageUploaderService: imageUploader)
-        let viewModel = ProfileViewModel(user: user, userService: userService, postsService: postService)
-        let vc = ProfileViewController(viewModel: viewModel)
-        navigationController?.pushViewController(vc, animated: true)
+        Navigation.shared.goToProfileViewController(from: self, with: user)
     }
     
     //like post
@@ -294,11 +285,7 @@ extension FeedViewController: FeedTableViewCellDelegate {
     //comment post
     
     func FeedTableViewCellDidTapComment(post: Post) {
-        let commentService: CommentService = CommentsManager()
-        let vm = CommentsViewModel(post: post, commentService: commentService)
-        let vc = CommentsViewController(viewModel: vm)
-        vc.modalPresentationStyle = .pageSheet
-        navigationController?.present(vc, animated: true)
+        Navigation.shared.showCommentsViewController(viewController: self, post: post)
     }
     
     //share post
@@ -363,12 +350,7 @@ extension FeedViewController: FeedViewModelOutPut {
     
     //show current user profile : Side mennu
     func getCurrentUserProfile(user: User) {
-        let userService: ProfileUserService = UserManager()
-        let imageUploader: ImageUploader = StorageManager()
-        let postsService: ProfilePostsService = PostsManager(imageUploaderService: imageUploader)
-        let viewModel = ProfileViewModel(user: user, userService: userService,postsService: postsService)
-        let vc = ProfileViewController(viewModel: viewModel)
-        navigationController?.pushViewController(vc, animated: true)
+        Navigation.shared.goToProfileViewController(from: self, with: user)
     }
     
 }
