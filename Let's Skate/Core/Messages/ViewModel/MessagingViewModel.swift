@@ -9,6 +9,10 @@ import Foundation
 
 class MessagingViewModel {
     
-    init() {}
+    let messageService: MessagingService
+    
+    init(messageService: MessagingService) {
+        self.messageService = messageService
+    }
     
 }

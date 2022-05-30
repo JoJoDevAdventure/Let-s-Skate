@@ -15,27 +15,15 @@ enum TabBarModel: CaseIterable {
     case messagesView
 
     var viewController: UIViewController {
-        let imageUploaderService: ImageUploader = StorageManager()
         switch self {
         case .feedView :
-            let service: LogOutService = AuthManager()
-            let userService: FeedUserService = UserManager()
-            let feedPostsService: FeedPostsService = PostsManager(imageUploaderService: imageUploaderService)
-            let viewModel = FeedViewModel(logoutService: service, userService: userService , postsService: feedPostsService)
-            return FeedViewController(viewModel: viewModel)
-            
+            return Navigation.shared.getFeedViewController()
         case .exploreView :
-            let explorePostsService: ExplorePostService = PostsManager(imageUploaderService: imageUploaderService)
-            let viewModel = ExploreViewModel(postService: explorePostsService)
-            return ExploreViewController(viewModel: viewModel)
-            
+            return Navigation.shared.getExploreViewController()
         case .seachView :
-            let seachService: SearchUserService = UserManager()
-            let viewModel = SearchViewModel(searchUserService: seachService)
-            return SearchViewController(viewModel: viewModel)
-            
+            return Navigation.shared.getSearchViewController()
         case .messagesView :
-            return MessagesViewController()
+            return Navigation.shared.getMessagesViewController()
         }
     }
     
