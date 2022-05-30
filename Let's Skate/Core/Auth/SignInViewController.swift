@@ -10,7 +10,7 @@ import UIKit
 class SignInViewController: UIViewController {
     
     // MARK: - Properties
-    
+    // header
     private let headerView: AuthHeaderView = {
         let view = AuthHeaderView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -19,6 +19,7 @@ class SignInViewController: UIViewController {
         return view
     }()
     
+    // background photo
     private let backgroundPhoto: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleToFill
@@ -27,12 +28,14 @@ class SignInViewController: UIViewController {
         return image
     }()
     
+    // email TF
     private let emailTextField: AuthTextfield = {
         let textfield = AuthTextfield()
         textfield.placeholder = "E-mail"
         return textfield
     }()
     
+    // passsword TF
     private let passwordTextField: AuthTextfield = {
         let textfield = AuthTextfield()
         textfield.placeholder = "Password"
@@ -41,12 +44,14 @@ class SignInViewController: UIViewController {
         return textfield
     }()
     
+    // SignIn Button
     private let signinButton: AuthButton = {
         let button = AuthButton()
         button.setTitle("Sign In", for: .normal)
         return button
     }()
     
+    // SignUp Label
     private let signupLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -56,6 +61,7 @@ class SignInViewController: UIViewController {
         return label
     }()
     
+    // SignUp
     private let signupButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -64,6 +70,7 @@ class SignInViewController: UIViewController {
         return button
     }()
     
+    // mail error label
     private let emailErrorLabel: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -72,6 +79,7 @@ class SignInViewController: UIViewController {
         return label
     }()
     
+    // password error label
     private let passwordErrorLabel: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -79,7 +87,8 @@ class SignInViewController: UIViewController {
         label.textColor = .white
         return label
     }()
-    
+
+    // MARK: - ViewModel
     private let viewModel: LoginViewModel
     
     init(viewModel: LoginViewModel){
@@ -100,10 +109,12 @@ class SignInViewController: UIViewController {
         setupConstraints()
         setupSignupButton()
         setupSignInButton()
+        setupTextfield()
+        setupGestures()
     }
     
     // MARK: - Set up
-    
+    // adding subviews
     private func setupSubView() {
         view.addSubview(backgroundPhoto)
         view.addSubview(headerView)
@@ -121,6 +132,7 @@ class SignInViewController: UIViewController {
         backgroundPhoto.frame = view.bounds
     }
     
+    // signup action
     private func setupSignupButton() {
         signupButton.addAction(UIAction(handler: { _ in
             let registrationService : RegistrationService = AuthManager()
@@ -130,15 +142,24 @@ class SignInViewController: UIViewController {
         }), for: .touchUpInside)
     }
     
+    // sign in action
     private func setupSignInButton() {
         signinButton.addAction(UIAction(handler: {[weak self] _ in
             guard let email = self?.emailTextField.text else { return }
             guard let password = self?.passwordTextField.text else { return }
             guard let strongSelf = self else { return }
+            self?.resignKeyboard()
             self?.viewModel.logInUser(email: email, emailTF: strongSelf.emailTextField, emailErrorLabel: strongSelf.emailErrorLabel, password: password, passwordTF: strongSelf.passwordTextField, passwordErrorLabel: strongSelf.passwordErrorLabel, viewController: strongSelf)
         }), for: .touchUpInside)
     }
     
+    // Setup TF
+    private func setupTextfield() {
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+    }
+    
+    // Constraints
     private func setupConstraints() {
         
         let headerViewConstraints = [
@@ -191,8 +212,16 @@ class SignInViewController: UIViewController {
         NSLayoutConstraint.activate(passwordErrorLabelConstraints)
     }
     
-    // MARK: - Functions
+    // SetupGesture
+    private func setupGestures() {
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(resignKeyboard)))
+    }
     
+    // MARK: - Functions
+    @objc private func resignKeyboard() {
+        emailTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+    }
 }
 
 // MARK: - Extensions
@@ -201,5 +230,13 @@ extension SignInViewController: LoginViewModelOutPut {
         let vc = mainNavigationBar()
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
+    }
+}
+
+extension SignInViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        emailTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+        return true
     }
 }
