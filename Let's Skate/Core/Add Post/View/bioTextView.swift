@@ -1,5 +1,5 @@
 //
-//  bioTextView.swift
+//  BioTextView.swift
 //  Let's Skate
 //
 //  Created by Youssef Bhl on 30/05/2022.
@@ -11,6 +11,7 @@ class BioTextView: UITextView {
 
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
+        setup()
     }
     
     required init?(coder: NSCoder) {
