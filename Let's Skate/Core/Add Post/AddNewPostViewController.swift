@@ -16,6 +16,7 @@ class AddNewPostViewController: UIViewController {
     var postLibraryPicker: PHPickerViewController?
     var postCameraPicker = UIImagePickerController()
     
+    // loading animation
     private let loadingAnimation: AnimationView = {
         let animation = AnimationView()
         animation.animation = Animation.named("lightLoadingView")
@@ -27,6 +28,7 @@ class AddNewPostViewController: UIViewController {
         return animation
     }()
     
+    // above post animation
     private let upPhotoAnimation: AnimationView = {
         let view = AnimationView()
         view.animation = Animation.named("upImageAnimation")
@@ -36,6 +38,7 @@ class AddNewPostViewController: UIViewController {
         return view
     }()
     
+    // under post animation
     private let downPhotoAnimation: AnimationView = {
         let view = AnimationView()
         view.animation = Animation.named("upImageAnimation")
@@ -45,6 +48,7 @@ class AddNewPostViewController: UIViewController {
         return view
     }()
     
+    // chosen image
     private let chosenImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -55,6 +59,7 @@ class AddNewPostViewController: UIViewController {
         return image
     }()
     
+    // hint on bio
     private let bioHintLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -63,49 +68,13 @@ class AddNewPostViewController: UIViewController {
         return label
     }()
     
-    private let bioTextZone: UITextView = {
-        let textf = UITextView()
-        textf.translatesAutoresizingMaskIntoConstraints = false
-        textf.allowsEditingTextAttributes = true
-        textf.layer.borderWidth = 2
-        textf.layer.cornerRadius = 5
-        textf.autocorrectionType = .no
-        textf.backgroundColor = UIColor().lightMainColor()
-        textf.textColor = .black
-        textf.layer.borderColor = UIColor().DarkMainColor().cgColor
-        return textf
-    }()
+    // bio text zone
+    private let bioTextZone = BioTextView(frame: .zero, textContainer: nil)
     
-    private let confirmButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Post", for: .normal)
-        button.backgroundColor = UIColor().DarkMainColor()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.borderColor = UIColor.white.cgColor
-        button.layer.borderWidth = 1
-        button.layer.cornerRadius = 10
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowRadius = 3
-        button.layer.shadowOpacity = 1
-        button.layer.shadowOffset = CGSize(width: 2, height: 2)
-        return button
-    }()
+    // confirm button
+    private let confirmButton = ConfirmButton(frame: .zero)
     
-    private let cancelButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Cancel", for: .normal)
-        button.setTitleColor(UIColor().DarkMainColor(), for: .normal)
-        button.backgroundColor = UIColor().lightMainColor()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.borderColor = UIColor().DarkMainColor().cgColor
-        button.layer.borderWidth = 1
-        button.layer.cornerRadius = 10
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowRadius = 3
-        button.layer.shadowOpacity = 1
-        button.layer.shadowOffset = CGSize(width: 2, height: 2)
-        return button
-    }()
+    private let cancelButton = CancelButton(frame: .zero)
     
     let viewModel: NewPostViewModel
     

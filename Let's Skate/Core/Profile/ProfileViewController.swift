@@ -26,11 +26,12 @@ final class ProfileViewController: UIViewController {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.backgroundColor = UIColor().lightMainColor()
         collection.register(ProfileHeaderCollectionReusableView.self, forSupplementaryViewOfKind: "UICollectionElementKindSectionHeader", withReuseIdentifier: ProfileHeaderCollectionReusableView.identifier)
-        collection.register(PostCollectionViewCell.self, forCellWithReuseIdentifier: PostCollectionViewCell.identifier)
+        collection.registerCell(PostCollectionViewCell.self)
 
         return collection
     }()
     
+    // loading animation
     private let loadingAnimation: AnimationView = {
         let animationView = AnimationView()
         animationView.animation = Animation.named("darkLoadingView")
@@ -69,7 +70,7 @@ final class ProfileViewController: UIViewController {
     }
     
     // MARK: - Set up
-    
+    // adding subviews
     private func setupSubviews() {
         view.addSubview(collectionView)
     }
@@ -78,11 +79,13 @@ final class ProfileViewController: UIViewController {
         collectionView.frame = CGRect(x: 0, y: 100, width: view.bounds.width, height: view.bounds.height - 100)
     }
     
+    //collection view setup
     private func setupCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
     }
     
+    //Notification observers
     private func setupObservers() {
         NotificationCenter.default.addObserver(forName: NSNotification.Name("uploadedImageFetchUser"), object: nil, queue: nil) { _ in
             //notification to refetch profile posts when user uploads New one
@@ -114,7 +117,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PostCollectionViewCell.identifier, for: indexPath) as? PostCollectionViewCell else { return UICollectionViewCell() }
+        let cell = collectionView.dequeResuableCell(for: PostCollectionViewCell.self, for: indexPath)
         if let posts = user.posts {
             let postUrl = posts[indexPath.row].postUrl
             cell.configure(postUrl: postUrl)
@@ -206,19 +209,11 @@ extension ProfileViewController: ProfileViewModelOutPut {
 // MARK: - Extensions : Header  Delegate
 extension ProfileViewController: ProfileHeaderCollectionReusableViewDelegate {
     func didTapShowFollowers() {
-        let vc = ListViewController()
-        vc.title = "Followers"
-        guard let followers = user.followers else { return }
-        vc.users = followers
-        navigationController?.pushViewController(vc, animated: true)
+        Navigation.shared.goToFollowersFollowing(from: self, followersFollowing: "Followers", user: user)
     }
     
     func didTapShowFollowing() {
-        let vc = ListViewController()
-        vc.title = "Followers"
-        guard let following = user.following else { return }
-        vc.users = following
-        navigationController?.pushViewController(vc, animated: true)
+        Navigation.shared.goToFollowersFollowing(from: self, followersFollowing: "Following", user: user)
     }
     
     func didTapEditProfile() {
@@ -227,11 +222,7 @@ extension ProfileViewController: ProfileHeaderCollectionReusableViewDelegate {
     }
     
     func didTapNewPost() {
-        let imageUploadService: ImageUploader = StorageManager()
-        let service: NewPostService = PostsManager(imageUploaderService: imageUploadService)
-        let viewModel = NewPostViewModel(postsService: service)
-        let vc = AddNewPostViewController(viewModel: viewModel)
-        self.present(vc, animated: true)
+        Navigation.shared.showNewPostViewController(from: self)
     }
     
     func didTapMessage() {

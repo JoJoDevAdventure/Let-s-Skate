@@ -62,6 +62,14 @@ final class Navigation: Coordinator {
         viewController.navigationController?.pushViewController(settingsViewController, animated: true)
     }
     
+    public func goToFollowersFollowing(from viewController: UIViewController, followersFollowing: String, user: User) {
+        let vc = ListViewController()
+        vc.title = followersFollowing
+        guard let followers = user.followers else { return }
+        vc.users = followers
+        viewController.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     // MARK: - Present
     
     public func showCommentsViewController(from viewController: UIViewController, post: Post) {
@@ -79,4 +87,5 @@ final class Navigation: Coordinator {
         let vc = AddNewPostViewController(viewModel: viewModel)
         viewController.present(vc, animated: true)
     }
+    
 }
