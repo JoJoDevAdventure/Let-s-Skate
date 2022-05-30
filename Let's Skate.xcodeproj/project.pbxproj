@@ -63,6 +63,7 @@
 		A35AF28D284552E900FA4477 /* ConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35AF28C284552E900FA4477 /* ConfirmButton.swift */; };
 		A35AF28F2845544C00FA4477 /* CancelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35AF28E2845544C00FA4477 /* CancelButton.swift */; };
 		A35AF2912845580200FA4477 /* bioTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35AF2902845580200FA4477 /* bioTextView.swift */; };
+		A35AF29428455D7400FA4477 /* KeyBoardLayout .swift in Sources */ = {isa = PBXBuildFile; fileRef = A35AF29328455D7400FA4477 /* KeyBoardLayout .swift */; };
 		A35D0B26281251AC00819F8E /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35D0B25281251AC00819F8E /* AlertManager.swift */; };
 		A36F0B402819376F009AE289 /* SignIn_UTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36F0B3F2819376F009AE289 /* SignIn_UTest.swift */; };
 		A36F0B47281937A3009AE289 /* SignUp_UTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36F0B46281937A2009AE289 /* SignUp_UTest.swift */; };
@@ -174,6 +175,7 @@
 		A35AF28C284552E900FA4477 /* ConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmButton.swift; sourceTree = "<group>"; };
 		A35AF28E2845544C00FA4477 /* CancelButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelButton.swift; sourceTree = "<group>"; };
 		A35AF2902845580200FA4477 /* bioTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bioTextView.swift; sourceTree = "<group>"; };
+		A35AF29328455D7400FA4477 /* KeyBoardLayout .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyBoardLayout .swift"; sourceTree = "<group>"; };
 		A35D0B25281251AC00819F8E /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		A36F0B3D2819376F009AE289 /* Let's SkateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Let's SkateTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A36F0B3F2819376F009AE289 /* SignIn_UTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn_UTest.swift; sourceTree = "<group>"; };
@@ -392,6 +394,14 @@
 			path = Buttons;
 			sourceTree = "<group>";
 		};
+		A35AF29228455D5700FA4477 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				A35AF29328455D7400FA4477 /* KeyBoardLayout .swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		A36F0B3E2819376F009AE289 /* Let's SkateTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -506,6 +516,7 @@
 				A3A2F8F5280B2C72004234AB /* Ressources */,
 				A3A2F8F7280B2C88004234AB /* Extension */,
 				A3A2F8F6280B2C7C004234AB /* Managers */,
+				A35AF29228455D5700FA4477 /* Utils */,
 				A35AF28228451DBD00FA4477 /* Coordinator */,
 				A3A2F8F4280B2C6D004234AB /* Core */,
 				A3A2F8E9280B2A53004234AB /* Assets.xcassets */,
@@ -976,6 +987,7 @@
 				A3FF7932280E9BE300253DE4 /* FeedViewModel.swift in Sources */,
 				A34A9481282DD3D100DEB58B /* CommentsViewModel.swift in Sources */,
 				A39CD08628113B740004F73B /* SettingTableViewCell.swift in Sources */,
+				A35AF29428455D7400FA4477 /* KeyBoardLayout .swift in Sources */,
 				A3155D1728165AEB00DADBE8 /* ColorsExtension.swift in Sources */,
 				A36F0B4F281A0D74009AE289 /* DatabaseErrors.swift in Sources */,
 				A34A9487282DD73000DEB58B /* CommentModel.swift in Sources */,
