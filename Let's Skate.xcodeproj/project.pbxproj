@@ -17,6 +17,7 @@
 		A30C388D2825F07D00907F17 /* loadingViewAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C388C2825F07D00907F17 /* loadingViewAnimation.swift */; };
 		A3155D1728165AEB00DADBE8 /* ColorsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3155D1628165AEB00DADBE8 /* ColorsExtension.swift */; };
 		A3155D1F2816768D00DADBE8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A3155D1E2816768D00DADBE8 /* GoogleService-Info.plist */; };
+		A32E09AA2847DF54004771A1 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A32F45C1281B026600F7CB8A /* WelcomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F45C0281B026500F7CB8A /* WelcomeViewModel.swift */; };
 		A32F45C3281B623C00F7CB8A /* EmailVerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F45C2281B623C00F7CB8A /* EmailVerificationViewModel.swift */; };
 		A32F45C6281B971A00F7CB8A /* WelcomeAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32F45C5281B971A00F7CB8A /* WelcomeAnimations.swift */; };
@@ -106,6 +107,8 @@
 		A3A2F915280B3874004234AB /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A2F914280B3874004234AB /* ExploreViewController.swift */; };
 		A3A2F918280B38A0004234AB /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A2F917280B38A0004234AB /* ProfileViewController.swift */; };
 		A3A2F91D280B4D60004234AB /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A2F91C280B4D60004234AB /* SearchViewController.swift */; };
+		A3B283DE2847E9E700A8E4FC /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = A3B283DD2847E9E700A8E4FC /* JGProgressHUD */; };
+		A3B283E12847ED8500A8E4FC /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = A3B283E02847ED8500A8E4FC /* MessageKit */; };
 		A3BB44ED2818FD790076E135 /* LoginAuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BB44EC2818FD790076E135 /* LoginAuthModel.swift */; };
 		A3BB44EF281902BF0076E135 /* TextFieldErrorAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BB44EE281902BF0076E135 /* TextFieldErrorAnimation.swift */; };
 		A3E2289C283EC331008696AB /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E2289B283EC331008696AB /* MessageModel.swift */; };
@@ -129,6 +132,20 @@
 			remoteInfo = "Let's Skate";
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A32E09AB2847DF54004771A1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A32E09AA2847DF54004771A1 /* (null) in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		A30C387C2823090E00907F17 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -248,7 +265,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A37A41B8281677D100B771BA /* SDWebImageMapKit in Frameworks */,
+				A3B283DE2847E9E700A8E4FC /* JGProgressHUD in Frameworks */,
 				A34655732818A31E004EA487 /* FirebaseAuth in Frameworks */,
+				A3B283E12847ED8500A8E4FC /* MessageKit in Frameworks */,
 				A346557D2818A31E004EA487 /* FirebaseMessaging in Frameworks */,
 				A34655772818A31E004EA487 /* FirebaseFirestoreSwift-Beta in Frameworks */,
 				A34655792818A31E004EA487 /* FirebaseInAppMessaging-Beta in Frameworks */,
@@ -865,6 +884,7 @@
 				A3A2F8D6280B2A50004234AB /* Sources */,
 				A3A2F8D7280B2A50004234AB /* Frameworks */,
 				A3A2F8D8280B2A50004234AB /* Resources */,
+				A32E09AB2847DF54004771A1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -884,6 +904,8 @@
 				A346557C2818A31E004EA487 /* FirebaseMessaging */,
 				A346557E2818A31E004EA487 /* FirebaseStorage */,
 				A34655802818A31E004EA487 /* FirebaseStorageSwift-Beta */,
+				A3B283DD2847E9E700A8E4FC /* JGProgressHUD */,
+				A3B283E02847ED8500A8E4FC /* MessageKit */,
 			);
 			productName = "Let's Skate";
 			productReference = A3A2F8DA280B2A50004234AB /* Let's Skate.app */;
@@ -921,6 +943,8 @@
 				A37A41B4281677D100B771BA /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				A349900728167F0400311493 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				A346556F2818A31E004EA487 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				A3B283DC2847E9E700A8E4FC /* XCRemoteSwiftPackageReference "JGProgressHUD" */,
+				A3B283DF2847ED8500A8E4FC /* XCRemoteSwiftPackageReference "MessageKit" */,
 			);
 			productRefGroup = A3A2F8DB280B2A50004234AB /* Products */;
 			projectDirPath = "";
@@ -1352,6 +1376,22 @@
 				kind = branch;
 			};
 		};
+		A3B283DC2847E9E700A8E4FC /* XCRemoteSwiftPackageReference "JGProgressHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/JonasGessner/JGProgressHUD.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+		A3B283DF2847ED8500A8E4FC /* XCRemoteSwiftPackageReference "MessageKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MessageKit/MessageKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1414,6 +1454,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A37A41B4281677D100B771BA /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImageMapKit;
+		};
+		A3B283DD2847E9E700A8E4FC /* JGProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A3B283DC2847E9E700A8E4FC /* XCRemoteSwiftPackageReference "JGProgressHUD" */;
+			productName = JGProgressHUD;
+		};
+		A3B283E02847ED8500A8E4FC /* MessageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A3B283DF2847ED8500A8E4FC /* XCRemoteSwiftPackageReference "MessageKit" */;
+			productName = MessageKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 
