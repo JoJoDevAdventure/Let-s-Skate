@@ -15,7 +15,18 @@ final class MessagesViewController: UIViewController {
         tableView.registerCell(MessageTableViewCell.self)
         tableView.backgroundColor = UIColor().DarkMainColor()
         tableView.separatorColor = UIColor().lightMainColor()
+        tableView.isHidden = true
         return tableView
+    }()
+    
+    private let noConversationsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "No Conversations!"
+        label.textColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 24, weight: .medium)
+        label.isHidden = true
+        return label
     }()
     
     // MARK: - View Model
@@ -37,6 +48,7 @@ final class MessagesViewController: UIViewController {
         setupNavBar()
         setupSubviews()
         setupTableView()
+        setupConversations()
     }
     
     // MARK: - Set up
@@ -61,9 +73,13 @@ final class MessagesViewController: UIViewController {
     
     // MARK: - Functions
     
+
     
     // MARK: - Network Manager calls
     
+    private func setupConversations() {
+        
+    }
 }
 // MARK: - Extension : TableView
 extension MessagesViewController: UITableViewDelegate, UITableViewDataSource {
