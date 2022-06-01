@@ -115,6 +115,7 @@
 		A3B283EA284805B400A8E4FC /* NSLayoutConstraints+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B283E9284805B400A8E4FC /* NSLayoutConstraints+Util.swift */; };
 		A3B283EC2848094A00A8E4FC /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B283EB2848094A00A8E4FC /* ChatViewController.swift */; };
 		A3B283EE2848164600A8E4FC /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B283ED2848164600A8E4FC /* ChatViewModel.swift */; };
+		A3B283F0284823C700A8E4FC /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B283EF284823C700A8E4FC /* NewConversationViewController.swift */; };
 		A3BB44ED2818FD790076E135 /* LoginAuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BB44EC2818FD790076E135 /* LoginAuthModel.swift */; };
 		A3BB44EF281902BF0076E135 /* TextFieldErrorAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BB44EE281902BF0076E135 /* TextFieldErrorAnimation.swift */; };
 		A3E2289C283EC331008696AB /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E2289B283EC331008696AB /* MessageModel.swift */; };
@@ -248,6 +249,7 @@
 		A3B283E9284805B400A8E4FC /* NSLayoutConstraints+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraints+Util.swift"; sourceTree = "<group>"; };
 		A3B283EB2848094A00A8E4FC /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		A3B283ED2848164600A8E4FC /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
+		A3B283EF284823C700A8E4FC /* NewConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationViewController.swift; sourceTree = "<group>"; };
 		A3BB44EC2818FD790076E135 /* LoginAuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAuthModel.swift; sourceTree = "<group>"; };
 		A3BB44EE281902BF0076E135 /* TextFieldErrorAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldErrorAnimation.swift; sourceTree = "<group>"; };
 		A3E2289B283EC331008696AB /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
@@ -762,6 +764,7 @@
 				A3A2F90E280B3803004234AB /* ViewModel */,
 				A3A2F90D280B37FE004234AB /* View */,
 				A3A2F90F280B383C004234AB /* AllMessagesViewController.swift */,
+				A3B283EF284823C700A8E4FC /* NewConversationViewController.swift */,
 				A3B283EB2848094A00A8E4FC /* ChatViewController.swift */,
 			);
 			path = Messages;
@@ -1046,6 +1049,7 @@
 				A39CD08628113B740004F73B /* SettingTableViewCell.swift in Sources */,
 				A35AF29428455D7400FA4477 /* KeyBoardLayout .swift in Sources */,
 				A3155D1728165AEB00DADBE8 /* ColorsExtension.swift in Sources */,
+				A3B283F0284823C700A8E4FC /* NewConversationViewController.swift in Sources */,
 				A36F0B4F281A0D74009AE289 /* DatabaseErrors.swift in Sources */,
 				A34A9487282DD73000DEB58B /* CommentModel.swift in Sources */,
 				A334C0CF281F712C00EC694F /* MoreInformationsViewModel.swift in Sources */,

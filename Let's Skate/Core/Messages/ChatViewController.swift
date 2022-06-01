@@ -7,8 +7,10 @@
 
 import UIKit
 import MessageKit
+import MessageUI
 
 class ChatViewController: MessagesViewController {
+    
     
     // MARK: - Properties
     private var messages = [Message]()
@@ -34,6 +36,7 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.backgroundColor = UIColor().DarkMainColor()
         messageInputBar.backgroundColor = UIColor().lightMainColor()
+        messageInputBar.tintColor = UIColor().DarkMainColor()
     }
     
     // MARK: - Functions
@@ -106,6 +109,5 @@ extension ChatViewController: MessagesDataSource, MessagesDisplayDelegate, Messa
             return .black
         }
     }
-    
-    
 }
+
