@@ -57,6 +57,9 @@ final class AllMessagesViewController: UIViewController {
     private func setupNavBar() {
         title = "Messages"
         navigationController?.whiteLargeTitle()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose,
+                                                            target: self,
+                                                            action: #selector(didTapComposeButton))
     }
     //adding subviews
     private func setupSubviews() {
@@ -75,7 +78,9 @@ final class AllMessagesViewController: UIViewController {
     
     // MARK: - Functions
     
-
+    @objc private func didTapComposeButton() {
+        Navigation.shared.showNewConversationViewController(from: self)
+    }
     
     // MARK: - Network Manager calls
     

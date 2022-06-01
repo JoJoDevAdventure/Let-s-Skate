@@ -95,4 +95,9 @@ final class Navigation: Coordinator {
         viewController.present(vc, animated: true)
     }
     
+    public func showNewConversationViewController(from viewController: UIViewController) {
+        let vc = NewConversationViewController()
+        viewController.present(vc, animated: true)
+    }
+    
 }
