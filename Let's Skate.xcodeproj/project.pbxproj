@@ -102,7 +102,7 @@
 		A3A2F8EA280B2A53004234AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3A2F8E9280B2A53004234AB /* Assets.xcassets */; };
 		A3A2F8ED280B2A53004234AB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3A2F8EB280B2A53004234AB /* LaunchScreen.storyboard */; };
 		A3A2F904280B367F004234AB /* TabBarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A2F903280B367F004234AB /* TabBarModel.swift */; };
-		A3A2F910280B383C004234AB /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A2F90F280B383C004234AB /* MessagesViewController.swift */; };
+		A3A2F910280B383C004234AB /* AllMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A2F90F280B383C004234AB /* AllMessagesViewController.swift */; };
 		A3A2F913280B3865004234AB /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A2F912280B3865004234AB /* FeedViewController.swift */; };
 		A3A2F915280B3874004234AB /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A2F914280B3874004234AB /* ExploreViewController.swift */; };
 		A3A2F918280B38A0004234AB /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A2F917280B38A0004234AB /* ProfileViewController.swift */; };
@@ -114,6 +114,7 @@
 		A3B283E8284804CE00A8E4FC /* LightLoadingAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B283E7284804CE00A8E4FC /* LightLoadingAnimation.swift */; };
 		A3B283EA284805B400A8E4FC /* NSLayoutConstraints+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B283E9284805B400A8E4FC /* NSLayoutConstraints+Util.swift */; };
 		A3B283EC2848094A00A8E4FC /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B283EB2848094A00A8E4FC /* ChatViewController.swift */; };
+		A3B283EE2848164600A8E4FC /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B283ED2848164600A8E4FC /* ChatViewModel.swift */; };
 		A3BB44ED2818FD790076E135 /* LoginAuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BB44EC2818FD790076E135 /* LoginAuthModel.swift */; };
 		A3BB44EF281902BF0076E135 /* TextFieldErrorAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BB44EE281902BF0076E135 /* TextFieldErrorAnimation.swift */; };
 		A3E2289C283EC331008696AB /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E2289B283EC331008696AB /* MessageModel.swift */; };
@@ -238,7 +239,7 @@
 		A3A2F8EC280B2A53004234AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A3A2F8EE280B2A53004234AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A3A2F903280B367F004234AB /* TabBarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarModel.swift; sourceTree = "<group>"; };
-		A3A2F90F280B383C004234AB /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
+		A3A2F90F280B383C004234AB /* AllMessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMessagesViewController.swift; sourceTree = "<group>"; };
 		A3A2F912280B3865004234AB /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		A3A2F914280B3874004234AB /* ExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
 		A3A2F917280B38A0004234AB /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -246,6 +247,7 @@
 		A3B283E7284804CE00A8E4FC /* LightLoadingAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightLoadingAnimation.swift; sourceTree = "<group>"; };
 		A3B283E9284805B400A8E4FC /* NSLayoutConstraints+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraints+Util.swift"; sourceTree = "<group>"; };
 		A3B283EB2848094A00A8E4FC /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		A3B283ED2848164600A8E4FC /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		A3BB44EC2818FD790076E135 /* LoginAuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAuthModel.swift; sourceTree = "<group>"; };
 		A3BB44EE281902BF0076E135 /* TextFieldErrorAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldErrorAnimation.swift; sourceTree = "<group>"; };
 		A3E2289B283EC331008696AB /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
@@ -759,7 +761,7 @@
 			children = (
 				A3A2F90E280B3803004234AB /* ViewModel */,
 				A3A2F90D280B37FE004234AB /* View */,
-				A3A2F90F280B383C004234AB /* MessagesViewController.swift */,
+				A3A2F90F280B383C004234AB /* AllMessagesViewController.swift */,
 				A3B283EB2848094A00A8E4FC /* ChatViewController.swift */,
 			);
 			path = Messages;
@@ -811,6 +813,7 @@
 			isa = PBXGroup;
 			children = (
 				A3E2289F283EC438008696AB /* MessagingViewModel.swift */,
+				A3B283ED2848164600A8E4FC /* ChatViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1028,7 +1031,7 @@
 				A395019B280BE44E001257E7 /* UnderFeedButton.swift in Sources */,
 				A3BB44EF281902BF0076E135 /* TextFieldErrorAnimation.swift in Sources */,
 				A34A9489282DE4FF00DEB58B /* CommentTableViewCell.swift in Sources */,
-				A3A2F910280B383C004234AB /* MessagesViewController.swift in Sources */,
+				A3A2F910280B383C004234AB /* AllMessagesViewController.swift in Sources */,
 				A392355C28135D240016C6A3 /* AuthTextfield.swift in Sources */,
 				A3E228A2283EC4B5008696AB /* MessageTableViewCell.swift in Sources */,
 				A3872B682821D1E900676106 /* ImageErrorAnimations.swift in Sources */,
@@ -1102,6 +1105,7 @@
 				A3B283EC2848094A00A8E4FC /* ChatViewController.swift in Sources */,
 				A3A2F913280B3865004234AB /* FeedViewController.swift in Sources */,
 				A32F45C8281BB4C700F7CB8A /* MoreInformationsViewController.swift in Sources */,
+				A3B283EE2848164600A8E4FC /* ChatViewModel.swift in Sources */,
 				A35AF28F2845544C00FA4477 /* CancelButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MessagesViewController: UIViewController {
+final class AllMessagesViewController: UIViewController {
     
     // MARK: - Properties
     private let messagesTableView: UITableView = {
@@ -88,7 +88,7 @@ final class MessagesViewController: UIViewController {
     }
 }
 // MARK: - Extension : TableView
-extension MessagesViewController: UITableViewDelegate, UITableViewDataSource {
+extension AllMessagesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }
