@@ -42,7 +42,7 @@ final class Navigation: Coordinator {
     public func getMessagesViewController() -> UIViewController {
         let messagingService: MessagingService = MessagingManager()
         let viewModel = MessagingViewModel(messageService: messagingService)
-        return MessagesViewController(viewModel: viewModel)
+        return AllMessagesViewController(viewModel: viewModel)
     }
     
     
@@ -67,6 +67,13 @@ final class Navigation: Coordinator {
         vc.title = followersFollowing
         guard let followers = user.followers else { return }
         vc.users = followers
+        viewController.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    public func goToChatViewController(from viewController: UIViewController) {
+        let vc = ChatViewController()
+        vc.title = "Jenny Smith"
+        vc.navigationItem.largeTitleDisplayMode = .never
         viewController.navigationController?.pushViewController(vc, animated: true)
     }
     

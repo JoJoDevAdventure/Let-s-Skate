@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MessagesViewController: UIViewController {
+final class AllMessagesViewController: UIViewController {
     
     // MARK: - Properties
     private let messagesTableView: UITableView = {
@@ -28,6 +28,8 @@ final class MessagesViewController: UIViewController {
         label.isHidden = true
         return label
     }()
+    
+    private let loadingSpinner = LightLoadingAnimation()
     
     // MARK: - View Model
     let viewModel: MessagingViewModel
@@ -78,11 +80,15 @@ final class MessagesViewController: UIViewController {
     // MARK: - Network Manager calls
     
     private func setupConversations() {
-        
+        loadingSpinner.show(view: view)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.messagesTableView.isHidden = false
+            self.loadingSpinner.dismiss()
+        }
     }
 }
 // MARK: - Extension : TableView
-extension MessagesViewController: UITableViewDelegate, UITableViewDataSource {
+extension AllMessagesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }
@@ -95,4 +101,10 @@ extension MessagesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 85
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        Navigation.shared.goToChatViewController(from: self)
+    }
+
 }

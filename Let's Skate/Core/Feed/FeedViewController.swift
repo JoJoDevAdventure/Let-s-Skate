@@ -50,6 +50,8 @@ final class FeedViewController: UIViewController {
         return UIView()
     }()
     
+    private let loadingSpinner = LightLoadingAnimation()
+    
     // Side Menu
     private let sideMenu = SideMenuView(frame: CGRect(x: -UIScreen.main.bounds.width, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
     
@@ -79,7 +81,6 @@ final class FeedViewController: UIViewController {
         fetchCurrentUser()
         setupAddButton()
         fetchPosts()
-        checkIfThereArePosts()
         setupObserver()
     }
 
@@ -159,6 +160,7 @@ final class FeedViewController: UIViewController {
     
     //fetch all posts
     private func fetchPosts() {
+        loadingSpinner.show(view: view)
         viewModel.fetchAllPosts()
     }
     
@@ -320,6 +322,7 @@ extension FeedViewController: FeedViewModelOutPut {
         self.posts = posts
         self.checkIfThereArePosts()
         DispatchQueue.main.async {
+            self.loadingSpinner.dismiss()
             self.feedTableView.reloadData()
         }
     }

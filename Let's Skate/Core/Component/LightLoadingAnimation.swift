@@ -12,8 +12,9 @@ class LightLoadingAnimation: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(loadingAnimation)
         NSLayoutConstraint.pinToView(self, loadingAnimation, padding: 5)
+        translatesAutoresizingMaskIntoConstraints = false
+        play()
     }
     
     required init?(coder: NSCoder) {
@@ -24,19 +25,29 @@ class LightLoadingAnimation: UIView {
         let animation = AnimationView()
         animation.animation = Animation.named("lightLoadingView")
         animation.translatesAutoresizingMaskIntoConstraints = false
-        animation.heightAnchor.constraint(equalToConstant: 160).isActive = true
-        animation.widthAnchor.constraint(equalToConstant: 160).isActive = true
+        animation.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        animation.widthAnchor.constraint(equalToConstant: 150).isActive = true
         animation.contentMode = .scaleAspectFit
         animation.loopMode = .loop
         return animation
     }()
     
-    public func play() {
+    private func play() {
         loadingAnimation.play()
     }
     
     public func pause() {
         loadingAnimation.pause()
+    }
+    
+    public func show(view: UIView) {
+        view.addSubview(self)
+        self.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        self.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+    
+    public func dismiss() {
+        self.removeFromSuperview()
     }
     
     
