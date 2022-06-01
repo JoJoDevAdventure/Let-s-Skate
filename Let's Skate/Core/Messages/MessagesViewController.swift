@@ -82,6 +82,7 @@ final class MessagesViewController: UIViewController {
     private func setupConversations() {
         loadingSpinner.show(view: view)
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.messagesTableView.isHidden = false
             self.loadingSpinner.dismiss()
         }
     }

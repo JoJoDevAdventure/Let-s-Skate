@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import MessageKit
 
 class ChatViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemMint
+        view.backgroundColor = UIColor().DarkMainColor()
     }
     
 
