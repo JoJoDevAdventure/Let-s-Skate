@@ -113,6 +113,7 @@
 		A3B283E62847FD3200A8E4FC /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A3B283E52847FD3200A8E4FC /* RealmSwift */; };
 		A3B283E8284804CE00A8E4FC /* LightLoadingAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B283E7284804CE00A8E4FC /* LightLoadingAnimation.swift */; };
 		A3B283EA284805B400A8E4FC /* NSLayoutConstraints+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B283E9284805B400A8E4FC /* NSLayoutConstraints+Util.swift */; };
+		A3B283EC2848094A00A8E4FC /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B283EB2848094A00A8E4FC /* ChatViewController.swift */; };
 		A3BB44ED2818FD790076E135 /* LoginAuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BB44EC2818FD790076E135 /* LoginAuthModel.swift */; };
 		A3BB44EF281902BF0076E135 /* TextFieldErrorAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BB44EE281902BF0076E135 /* TextFieldErrorAnimation.swift */; };
 		A3E2289C283EC331008696AB /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E2289B283EC331008696AB /* MessageModel.swift */; };
@@ -244,6 +245,7 @@
 		A3A2F91C280B4D60004234AB /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		A3B283E7284804CE00A8E4FC /* LightLoadingAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightLoadingAnimation.swift; sourceTree = "<group>"; };
 		A3B283E9284805B400A8E4FC /* NSLayoutConstraints+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraints+Util.swift"; sourceTree = "<group>"; };
+		A3B283EB2848094A00A8E4FC /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		A3BB44EC2818FD790076E135 /* LoginAuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAuthModel.swift; sourceTree = "<group>"; };
 		A3BB44EE281902BF0076E135 /* TextFieldErrorAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldErrorAnimation.swift; sourceTree = "<group>"; };
 		A3E2289B283EC331008696AB /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
@@ -758,6 +760,7 @@
 				A3A2F90E280B3803004234AB /* ViewModel */,
 				A3A2F90D280B37FE004234AB /* View */,
 				A3A2F90F280B383C004234AB /* MessagesViewController.swift */,
+				A3B283EB2848094A00A8E4FC /* ChatViewController.swift */,
 			);
 			path = Messages;
 			sourceTree = "<group>";
@@ -1096,6 +1099,7 @@
 				A39CD08828113C580004F73B /* SettingViewModel.swift in Sources */,
 				A39E37EB2810635E00DD600A /* sideViewButtonView.swift in Sources */,
 				A35AF2912845580200FA4477 /* bioTextView.swift in Sources */,
+				A3B283EC2848094A00A8E4FC /* ChatViewController.swift in Sources */,
 				A3A2F913280B3865004234AB /* FeedViewController.swift in Sources */,
 				A32F45C8281BB4C700F7CB8A /* MoreInformationsViewController.swift in Sources */,
 				A35AF28F2845544C00FA4477 /* CancelButton.swift in Sources */,

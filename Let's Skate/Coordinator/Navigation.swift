@@ -70,6 +70,13 @@ final class Navigation: Coordinator {
         viewController.navigationController?.pushViewController(vc, animated: true)
     }
     
+    public func goToChatViewController(from viewController: UIViewController) {
+        let vc = ChatViewController()
+        vc.title = "Jenny Smith"
+        vc.navigationItem.largeTitleDisplayMode = .never
+        viewController.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     // MARK: - Present
     
     public func showCommentsViewController(from viewController: UIViewController, post: Post) {

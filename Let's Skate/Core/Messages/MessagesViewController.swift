@@ -29,6 +29,8 @@ final class MessagesViewController: UIViewController {
         return label
     }()
     
+    private let loadingSpinner = LightLoadingAnimation()
+    
     // MARK: - View Model
     let viewModel: MessagingViewModel
     
@@ -78,7 +80,10 @@ final class MessagesViewController: UIViewController {
     // MARK: - Network Manager calls
     
     private func setupConversations() {
-        
+        loadingSpinner.show(view: view)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.loadingSpinner.dismiss()
+        }
     }
 }
 // MARK: - Extension : TableView
@@ -95,4 +100,10 @@ extension MessagesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 85
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        Navigation.shared.goToChatViewController(from: self)
+    }
+
 }

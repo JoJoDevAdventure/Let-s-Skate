@@ -18,8 +18,11 @@ final class ExploreViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.registerCell(PostCollectionViewCell.self)
         collectionView.backgroundColor = UIColor().DarkMainColor()
+        collectionView.isHidden = true
         return collectionView
     }()
+    
+    private let loadingSpinner = LightLoadingAnimation()
 
     // MARK: - Life cycle
     override func viewDidLoad() {
@@ -68,6 +71,7 @@ final class ExploreViewController: UIViewController {
     // MARK: - Network Manager calls
     
     private func fetchExplorePosts() {
+        loadingSpinner.show(view: view)
         viewModel.fetchAllPosts()
     }
 
@@ -102,7 +106,10 @@ extension ExploreViewController: ExploreViewModelOutPut {
     
     func setExplorePosts(posts: [Post]) {
         self.posts = posts
+        
         DispatchQueue.main.async {
+            self.loadingSpinner.dismiss()
+            self.exploreCollectionView.isHidden = false
             self.exploreCollectionView.reloadData()
         }
     }
