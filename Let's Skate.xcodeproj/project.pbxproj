@@ -25,6 +25,8 @@
 		A334C0CF281F712C00EC694F /* MoreInformationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A334C0CE281F712B00EC694F /* MoreInformationsViewModel.swift */; };
 		A334C0D1281F71DF00EC694F /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A334C0D0281F71DF00EC694F /* DataManager.swift */; };
 		A33846A4282F47EE00166AC7 /* CommentsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33846A3282F47EE00166AC7 /* CommentsManager.swift */; };
+		A345BECF2847C8FC00A46FED /* LaterInformationsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A345BECE2847C8FC00A46FED /* LaterInformationsButton.swift */; };
+		A345BED22847C91E00A46FED /* ConfirmInformationsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A345BED12847C91E00A46FED /* ConfirmInformationsButton.swift */; };
 		A34655712818A31E004EA487 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = A34655702818A31E004EA487 /* FirebaseAnalytics */; };
 		A34655732818A31E004EA487 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = A34655722818A31E004EA487 /* FirebaseAuth */; };
 		A34655752818A31E004EA487 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = A34655742818A31E004EA487 /* FirebaseFirestore */; };
@@ -147,6 +149,8 @@
 		A334C0CE281F712B00EC694F /* MoreInformationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreInformationsViewModel.swift; sourceTree = "<group>"; };
 		A334C0D0281F71DF00EC694F /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		A33846A3282F47EE00166AC7 /* CommentsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsManager.swift; sourceTree = "<group>"; };
+		A345BECE2847C8FC00A46FED /* LaterInformationsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaterInformationsButton.swift; sourceTree = "<group>"; };
+		A345BED12847C91E00A46FED /* ConfirmInformationsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmInformationsButton.swift; sourceTree = "<group>"; };
 		A349900A2816831D00311493 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		A349900C281683AF00311493 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		A349901128173DAB00311493 /* MainWelcomeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWelcomeLabel.swift; sourceTree = "<group>"; };
@@ -299,6 +303,15 @@
 			path = Comments;
 			sourceTree = "<group>";
 		};
+		A345BED02847C90900A46FED /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				A345BECE2847C8FC00A46FED /* LaterInformationsButton.swift */,
+				A345BED12847C91E00A46FED /* ConfirmInformationsButton.swift */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
 		A349901028173D3300311493 /* WelcomeViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -449,6 +462,7 @@
 		A39235592813154F0016C6A3 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A345BED02847C90900A46FED /* Buttons */,
 				A349901028173D3300311493 /* WelcomeViews */,
 				A34990152817424400311493 /* SignIn & SignUp */,
 				A32F45C4281B963500F7CB8A /* Animations */,
@@ -1000,6 +1014,7 @@
 				A3A2F915280B3874004234AB /* ExploreViewController.swift in Sources */,
 				A3E2A455282C8D1F00935484 /* ListTableViewCell.swift in Sources */,
 				A35AF28428451DF700FA4477 /* Navigation.swift in Sources */,
+				A345BED22847C91E00A46FED /* ConfirmInformationsButton.swift in Sources */,
 				A30C38832823633D00907F17 /* ProfileViewModel.swift in Sources */,
 				A3EE8FFD2810D90100500D38 /* ProfileHeaderCollectionReusableView.swift in Sources */,
 				A30C388A28259A9200907F17 /* PostsModel.swift in Sources */,
@@ -1035,6 +1050,7 @@
 				A3950193280BD6BD001257E7 /* mainNavigationBar.swift in Sources */,
 				A35AF27F2842C4C600FA4477 /* CustomSeachViewController.swift in Sources */,
 				A30C387F2823091E00907F17 /* UserManager.swift in Sources */,
+				A345BECF2847C8FC00A46FED /* LaterInformationsButton.swift in Sources */,
 				A3923556281315340016C6A3 /* SignInViewController.swift in Sources */,
 				A35AF28D284552E900FA4477 /* ConfirmButton.swift in Sources */,
 				A3E2289C283EC331008696AB /* MessageModel.swift in Sources */,

@@ -89,37 +89,10 @@ class MoreInformationsViewController: UIViewController {
         tf.layer.cornerRadius = 10
         return tf
     }()
+    // add informations later
+    private let laterButton = LaterInformationsButton()
     
-    private let laterButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Cancel", for: .normal)
-        button.backgroundColor = UIColor().DarkMainColor()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.borderColor = UIColor.white.cgColor
-        button.layer.borderWidth = 1
-        button.layer.cornerRadius = 10
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowRadius = 3
-        button.layer.shadowOpacity = 1
-        button.layer.shadowOffset = CGSize(width: 2, height: 2)
-        return button
-    }()
-    
-    private let confirmButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Confirm", for: .normal)
-        button.setTitleColor(UIColor().DarkMainColor(), for: .normal)
-        button.backgroundColor = UIColor().lightMainColor()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.borderColor = UIColor().DarkMainColor().cgColor
-        button.layer.borderWidth = 1
-        button.layer.cornerRadius = 10
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowRadius = 3
-        button.layer.shadowOpacity = 1
-        button.layer.shadowOffset = CGSize(width: 2, height: 2)
-        return button
-    }()
+    private let confirmButton = ConfirmInformationButton()
     
     private let viewModel : MoreInformationsViewModel
     
@@ -144,14 +117,6 @@ class MoreInformationsViewController: UIViewController {
         setupLibraryConfig()
         setupCamera()
         setupButtons()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        if nickNameTextField.text == "" || bioText.text == nil || bioText.text == "" || bannerImageView.image == UIImage(named: "skateBannerBackground") {
-            // left without context
-            addInformationsLater()
-        }
     }
     
     // MARK: - Set up
