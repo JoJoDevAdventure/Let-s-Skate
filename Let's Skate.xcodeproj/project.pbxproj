@@ -52,6 +52,7 @@
 		A349902C2817C24200311493 /* sendingEmailAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = A349902B2817C24200311493 /* sendingEmailAnimation.json */; };
 		A34990302817DD8200311493 /* AddNewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A349902F2817DD8200311493 /* AddNewPostViewController.swift */; };
 		A34990332817F0A300311493 /* upImageAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = A34990322817F0A300311493 /* upImageAnimation.json */; };
+		A34A826E284A9DE200E0B733 /* AllMessagesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34A826D284A9DE200E0B733 /* AllMessagesViewModel.swift */; };
 		A34A9481282DD3D100DEB58B /* CommentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34A9480282DD3D000DEB58B /* CommentsViewModel.swift */; };
 		A34A9485282DD48200DEB58B /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34A9484282DD48200DEB58B /* CommentsViewController.swift */; };
 		A34A9487282DD73000DEB58B /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34A9486282DD73000DEB58B /* CommentModel.swift */; };
@@ -120,7 +121,6 @@
 		A3BB44EF281902BF0076E135 /* TextFieldErrorAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BB44EE281902BF0076E135 /* TextFieldErrorAnimation.swift */; };
 		A3E2289C283EC331008696AB /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E2289B283EC331008696AB /* MessageModel.swift */; };
 		A3E2289E283EC385008696AB /* MessaginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E2289D283EC385008696AB /* MessaginManager.swift */; };
-		A3E228A0283EC438008696AB /* MessagingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E2289F283EC438008696AB /* MessagingViewModel.swift */; };
 		A3E228A2283EC4B5008696AB /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E228A1283EC4B4008696AB /* MessageTableViewCell.swift */; };
 		A3E2A452282C878D00935484 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E2A451282C878D00935484 /* ListViewController.swift */; };
 		A3E2A455282C8D1F00935484 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3E2A454282C8D1F00935484 /* ListTableViewCell.swift */; };
@@ -189,6 +189,7 @@
 		A349902B2817C24200311493 /* sendingEmailAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sendingEmailAnimation.json; sourceTree = "<group>"; };
 		A349902F2817DD8200311493 /* AddNewPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewPostViewController.swift; sourceTree = "<group>"; };
 		A34990322817F0A300311493 /* upImageAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = upImageAnimation.json; sourceTree = "<group>"; };
+		A34A826D284A9DE200E0B733 /* AllMessagesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMessagesViewModel.swift; sourceTree = "<group>"; };
 		A34A9480282DD3D000DEB58B /* CommentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewModel.swift; sourceTree = "<group>"; };
 		A34A9484282DD48200DEB58B /* CommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		A34A9486282DD73000DEB58B /* CommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
@@ -254,7 +255,6 @@
 		A3BB44EE281902BF0076E135 /* TextFieldErrorAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldErrorAnimation.swift; sourceTree = "<group>"; };
 		A3E2289B283EC331008696AB /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		A3E2289D283EC385008696AB /* MessaginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessaginManager.swift; sourceTree = "<group>"; };
-		A3E2289F283EC438008696AB /* MessagingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingViewModel.swift; sourceTree = "<group>"; };
 		A3E228A1283EC4B4008696AB /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		A3E2A451282C878D00935484 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		A3E2A454282C8D1F00935484 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
@@ -815,8 +815,8 @@
 		A3A2F90E280B3803004234AB /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				A3E2289F283EC438008696AB /* MessagingViewModel.swift */,
 				A3B283ED2848164600A8E4FC /* ChatViewModel.swift */,
+				A34A826D284A9DE200E0B733 /* AllMessagesViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1043,6 +1043,7 @@
 				A349901428173DCD00311493 /* DescWelcomeLabel.swift in Sources */,
 				A35D0B26281251AC00819F8E /* AlertManager.swift in Sources */,
 				A3FF7935280E9FB500253DE4 /* PostCollectionViewCell.swift in Sources */,
+				A34A826E284A9DE200E0B733 /* AllMessagesViewModel.swift in Sources */,
 				A30C387D2823090E00907F17 /* UserModel.swift in Sources */,
 				A3FF7932280E9BE300253DE4 /* FeedViewModel.swift in Sources */,
 				A34A9481282DD3D100DEB58B /* CommentsViewModel.swift in Sources */,
@@ -1053,7 +1054,6 @@
 				A36F0B4F281A0D74009AE289 /* DatabaseErrors.swift in Sources */,
 				A34A9487282DD73000DEB58B /* CommentModel.swift in Sources */,
 				A334C0CF281F712C00EC694F /* MoreInformationsViewModel.swift in Sources */,
-				A3E228A0283EC438008696AB /* MessagingViewModel.swift in Sources */,
 				A3923560281387DA0016C6A3 /* AuthHeaderView.swift in Sources */,
 				A3A2F8DE280B2A50004234AB /* AppDelegate.swift in Sources */,
 				A3E49F382833D0B40009816C /* ExploreViewModel.swift in Sources */,

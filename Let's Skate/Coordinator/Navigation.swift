@@ -40,8 +40,8 @@ final class Navigation: Coordinator {
     }
     
     public func getMessagesViewController() -> UIViewController {
-        let messagingService: MessagingService = MessagingManager()
-        let viewModel = MessagingViewModel(messageService: messagingService)
+        let messagingService: AllMessagesService = MessagingManager()
+        let viewModel = AllMessagesViewModel(allMessagesService: messagingService)
         return AllMessagesViewController(viewModel: viewModel)
     }
     
@@ -96,7 +96,7 @@ final class Navigation: Coordinator {
     }
     
     public func showNewConversationViewController(from viewController: UIViewController) {
-        let vc = NewConversationViewController()
+        let vc = UINavigationController(rootViewController: NewConversationViewController() )
         viewController.present(vc, animated: true)
     }
     
