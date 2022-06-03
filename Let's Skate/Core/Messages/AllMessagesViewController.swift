@@ -131,7 +131,7 @@ extension AllMessagesViewController: UITableViewDelegate, UITableViewDataSource 
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        Navigation.shared.goToChatViewController(from: self)
+        Navigation.shared.goToChatViewController(from: self, user: conversation[indexPath.row])
     }
 
 }
