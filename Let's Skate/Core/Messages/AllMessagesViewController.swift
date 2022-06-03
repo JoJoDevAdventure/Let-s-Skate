@@ -32,9 +32,9 @@ final class AllMessagesViewController: UIViewController {
     private let loadingSpinner = LightLoadingAnimation()
     
     // MARK: - View Model
-    let viewModel: MessagingViewModel
+    let viewModel: AllMessagesViewModel
     
-    init(viewModel: MessagingViewModel) {
+    init(viewModel: AllMessagesViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

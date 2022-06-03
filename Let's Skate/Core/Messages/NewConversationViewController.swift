@@ -9,6 +9,8 @@ import UIKit
 
 class NewConversationViewController: UIViewController {
     
+    // MARK: - Properties
+    
     private let spinner = LightLoadingAnimation()
     
     private let noResultsLabel: UILabel = {
@@ -31,16 +33,34 @@ class NewConversationViewController: UIViewController {
         table.registerCell(SearchUserTableViewCell.self)
         return table
     }()
-
+    
+    // MARK: - View Model
+    
+    
+    // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor().lightMainColor()
+        searchBar.searchTextField.becomeFirstResponder()
+    }
+    
+    // MARK: - Set up
+    
+    private func setupNavBar() {
         navigationController?.navigationBar.topItem?.titleView = searchBar
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel",
                                                             style: .done,
                                                             target: self,
                                                             action: #selector(dismissSelf))
     }
+    
+    // MARK: - Functions
+    
+    
+    // MARK: - Network Manager calls
+    
+    
+    // MARK: - Extensions
     
     @objc private func dismissSelf() {
         dismiss(animated: true, completion: nil)

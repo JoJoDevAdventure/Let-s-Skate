@@ -7,10 +7,14 @@
 
 import Foundation
 
-protocol MessagingService {
+protocol ChatService {
     
 }
 
-class MessagingManager: MessagingService {
+protocol AllMessagesService {
+    
+}
+
+class MessagingManager: ChatService, AllMessagesService {
     
 }
