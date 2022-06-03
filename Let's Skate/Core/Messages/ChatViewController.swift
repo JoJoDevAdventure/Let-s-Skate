@@ -17,6 +17,9 @@ class ChatViewController: MessagesViewController {
     let selfSender = Sender(photoURL: "",
                         senderId: "1",
                         displayName: "Joe Smith")
+    var sender = Sender(photoURL: "",
+                        senderId: "2",
+                        displayName: "Jenny Smith")
     
     // MARK: - View Model
     private let viewModel: ChatViewModel
@@ -24,6 +27,7 @@ class ChatViewController: MessagesViewController {
     init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        self.sender = viewModel.sender
     }
     
     required init?(coder: NSCoder) {
@@ -51,9 +55,6 @@ class ChatViewController: MessagesViewController {
     // MARK: - Functions
     
     private func testMessage() {
-        let sender = Sender(photoURL: "",
-                            senderId: "2",
-                            displayName: "Jenny Smith")
         messages.append(Message(sender: sender,
                                 messageId: "1",
                                 sentDate: Date(),

@@ -815,8 +815,8 @@
 		A3A2F90E280B3803004234AB /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				A3B283ED2848164600A8E4FC /* ChatViewModel.swift */,
 				A34A826D284A9DE200E0B733 /* AllMessagesViewModel.swift */,
+				A3B283ED2848164600A8E4FC /* ChatViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";

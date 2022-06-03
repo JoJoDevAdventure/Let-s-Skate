@@ -6,15 +6,19 @@
 //
 
 import Foundation
+import Network
 
 class ChatViewModel {
     
     private let service: ChatService
     private let chatWith: User
+    let sender: Sender
+    
     
     init(service: ChatService, user: User) {
         self.service = service
         self.chatWith = user
+        self.sender = Sender(photoURL: user.profileImageUrl, senderId: user.id!, displayName: user.username)
     }
     
 }

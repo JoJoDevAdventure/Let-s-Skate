@@ -13,14 +13,17 @@ import RealmSwift
 
 enum MessagesError: Error, CaseIterable {
     case ErrorFetchingMessages
+    case ErrorGettingCurrentUser
 }
 
 protocol ChatService {
-    
+    func getCurrentUser() async throws -> User
 }
 
 protocol AllMessagesService {
     func fetchAllUserConversations() async throws -> [User]
+    
+    
 }
 
 final class MessagingManager: ChatService, AllMessagesService {
@@ -46,6 +49,16 @@ final class MessagingManager: ChatService, AllMessagesService {
             throw error
         }
         return users
+    }
+    
+    public func getCurrentUser() async throws -> User {
+        guard let currentUser = currentUser else { throw MessagesError.ErrorFetchingMessages}
+        do {
+            let currentUser = try await fireRef.collection("users").document(currentUser.uid).getDocument(as: User.self)
+            return currentUser
+        } catch {
+            throw error
+        }
     }
     
 }
