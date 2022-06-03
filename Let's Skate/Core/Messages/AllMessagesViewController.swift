@@ -26,6 +26,7 @@ final class AllMessagesViewController: UIViewController {
         label.text = "No Conversations.\nStart a new one!"
         label.numberOfLines = 2
         label.textColor = .white
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 24, weight: .medium)
         label.isHidden = true
@@ -55,7 +56,6 @@ final class AllMessagesViewController: UIViewController {
         setupSubviews()
         setupTableView()
         setupConstraints()
-        feetchConversations()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,7 +103,11 @@ final class AllMessagesViewController: UIViewController {
     // MARK: - Network Manager calls
     
     private func feetchConversations() {
-        loadingSpinner.show(view: view)
+        if messagesTableView.isHidden {
+            loadingSpinner.show(view: view)
+        }
+        messagesTableView.isHidden = true
+        noConversationsLabel.isHidden = true
         viewModel.fetchAllConversations()
     }
     
@@ -117,7 +121,7 @@ extension AllMessagesViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeResuableCell(for: MessageTableViewCell.self, for: indexPath)
         guard !conversation.isEmpty else { return cell}
-        cell.configure(
+        cell.configure(user: conversation[indexPath.row])
         return cell
     }
     
@@ -141,6 +145,8 @@ extension AllMessagesViewController: AllMessagesViewModelOutPut {
                 self.noConversationsLabel.isHidden = false
             } else {
                 self.conversation = conversations
+                self.messagesTableView.isHidden = false
+                self.messagesTableView.reloadData()
             }
         }
     }

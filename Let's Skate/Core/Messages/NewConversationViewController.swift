@@ -41,7 +41,8 @@ class NewConversationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor().lightMainColor()
-        searchBar.searchTextField.becomeFirstResponder()
+
+        setupNavBar()
     }
     
     // MARK: - Set up
@@ -52,6 +53,7 @@ class NewConversationViewController: UIViewController {
                                                             style: .done,
                                                             target: self,
                                                             action: #selector(dismissSelf))
+        searchBar.searchTextField.becomeFirstResponder()
     }
     
     // MARK: - Functions
