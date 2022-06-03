@@ -15,4 +15,6 @@ class AllMessagesViewModel {
         self.allMessagesService = allMessagesService
     }
     
+    
+    
 }
