@@ -7,7 +7,14 @@
 
 import Foundation
 
-class AllMessagesViewModel {
+protocol AllMessagesViewModelOutPut: AnyObject {
+    func fetchedConversations(conversations: [User])
+    func showError(conversation: Error)
+}
+
+final class AllMessagesViewModel {
+    
+    weak var output: AllMessagesViewModelOutPut?
     
     let allMessagesService: AllMessagesService
     
@@ -15,6 +22,15 @@ class AllMessagesViewModel {
         self.allMessagesService = allMessagesService
     }
     
-    
+    public func fetchAllConversations() {
+        Task {
+            do {
+                let users = try await allMessagesService.fetchAllUserConversations()
+                output?.fetchedConversations(conversations: users)
+            } catch {
+                output?.showError(conversation: error)
+            }
+        }
+    }
     
 }

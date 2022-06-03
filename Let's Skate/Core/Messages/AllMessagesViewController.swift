@@ -9,6 +9,8 @@ import UIKit
 
 final class AllMessagesViewController: UIViewController {
     
+    private var conversation = [User]()
+    
     // MARK: - Properties
     private let messagesTableView: UITableView = {
         let tableView = UITableView()
@@ -21,7 +23,8 @@ final class AllMessagesViewController: UIViewController {
     
     private let noConversationsLabel: UILabel = {
         let label = UILabel()
-        label.text = "No Conversations!"
+        label.text = "No Conversations.\nStart a new one!"
+        label.numberOfLines = 2
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 24, weight: .medium)
@@ -37,6 +40,7 @@ final class AllMessagesViewController: UIViewController {
     init(viewModel: AllMessagesViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        viewModel.output = self
     }
     
     required init?(coder: NSCoder) {
@@ -50,9 +54,14 @@ final class AllMessagesViewController: UIViewController {
         setupNavBar()
         setupSubviews()
         setupTableView()
-        setupConversations()
+        setupConstraints()
+        feetchConversations()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        feetchConversations()
+    }
     // MARK: - Set up
     private func setupNavBar() {
         title = "Messages"
@@ -64,6 +73,7 @@ final class AllMessagesViewController: UIViewController {
     //adding subviews
     private func setupSubviews() {
         view.addSubview(messagesTableView)
+        view.addSubview(noConversationsLabel)
     }
     
     //tableView delegate and datasource
@@ -76,6 +86,14 @@ final class AllMessagesViewController: UIViewController {
         messagesTableView.frame = view.bounds
     }
     
+    private func setupConstraints() {
+        let constraints = [
+            noConversationsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noConversationsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ]
+        NSLayoutConstraint.activate(constraints)
+    }
+    
     // MARK: - Functions
     
     @objc private func didTapComposeButton() {
@@ -84,22 +102,22 @@ final class AllMessagesViewController: UIViewController {
     
     // MARK: - Network Manager calls
     
-    private func setupConversations() {
+    private func feetchConversations() {
         loadingSpinner.show(view: view)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.messagesTableView.isHidden = false
-            self.loadingSpinner.dismiss()
-        }
+        viewModel.fetchAllConversations()
     }
+    
 }
 // MARK: - Extension : TableView
 extension AllMessagesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return conversation.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeResuableCell(for: MessageTableViewCell.self, for: indexPath)
+        guard !conversation.isEmpty else { return cell}
+        cell.configure(
         return cell
     }
     
@@ -112,4 +130,22 @@ extension AllMessagesViewController: UITableViewDelegate, UITableViewDataSource 
         Navigation.shared.goToChatViewController(from: self)
     }
 
+}
+
+extension AllMessagesViewController: AllMessagesViewModelOutPut {
+    func fetchedConversations(conversations: [User]) {
+
+        DispatchQueue.main.async {
+            self.loadingSpinner.dismiss()
+            if conversations.isEmpty {
+                self.noConversationsLabel.isHidden = false
+            } else {
+                self.conversation = conversations
+            }
+        }
+    }
+    
+    func showError(conversation: Error) {
+        AlertManager().showErrorAlert(viewcontroller: self, error: conversation.localizedDescription)
+    }
 }
