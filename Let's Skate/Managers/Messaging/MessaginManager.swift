@@ -43,7 +43,7 @@ final class MessagingManager: ChatService, AllMessagesService {
                 users.append(user)
             }
         } catch {
-            
+            throw error
         }
         return users
     }

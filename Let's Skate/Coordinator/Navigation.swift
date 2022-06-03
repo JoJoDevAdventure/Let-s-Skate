@@ -70,9 +70,11 @@ final class Navigation: Coordinator {
         viewController.navigationController?.pushViewController(vc, animated: true)
     }
     
-    public func goToChatViewController(from viewController: UIViewController) {
-        let vc = ChatViewController()
-        vc.title = "Jenny Smith"
+    public func goToChatViewController(from viewController: UIViewController, user: User) {
+        let service : ChatService = MessagingManager()
+        let viewModel = ChatViewModel(service: service , user: user)
+        let vc = ChatViewController(viewModel: viewModel)
+        vc.title = user.nickname
         vc.navigationItem.largeTitleDisplayMode = .never
         viewController.navigationController?.pushViewController(vc, animated: true)
     }
@@ -100,4 +102,5 @@ final class Navigation: Coordinator {
         viewController.present(vc, animated: true)
     }
     
+
 }
