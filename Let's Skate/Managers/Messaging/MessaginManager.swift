@@ -10,10 +10,13 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseAuth
 import RealmSwift
+import MessageKit
 
 enum MessagesError: Error, CaseIterable {
     case ErrorFetchingMessages
     case ErrorGettingCurrentUser
+    case ErrorNotValidUser
+    case NoMessages
 }
 
 protocol ChatService {
@@ -56,6 +59,30 @@ final class MessagingManager: ChatService, AllMessagesService {
         do {
             let currentUser = try await fireRef.collection("users").document(currentUser.uid).getDocument(as: User.self)
             return currentUser
+        } catch {
+            throw error
+        }
+    }
+    
+    public func fetchAllMessages(forUser: User) async throws -> [Message] {
+        guard let currentUser = currentUser else { throw MessagesError.ErrorFetchingMessages }
+        guard let userID = forUser.id else { throw MessagesError.ErrorNotValidUser }
+        var messages: [MessageDB]?
+        var finalMessages = [Message]()
+        do {
+            fireRef.collection("users").document(currentUser.uid).collection(userID).addSnapshotListener({ snapshot, error in
+                messages = snapshot?.documents.map({try! $0.data(as: MessageDB.self)})
+            })
+            guard let messages = messages else {
+                throw MessagesError.ErrorFetchingMessages
+            }
+            for message in messages {
+                let user = try await fireRef.collection("users").document(message.senderID).getDocument(as: User.self)
+                let sender = Sender(photoURL: user.profileImageUrl, senderId: user.id!, displayName: user.nickname)
+                let fMessage = Message(messageId: message.id!, sender: sender , sentDate: message.date, kind: .text(message.content))
+                finalMessages.append(fMessage)
+            }
+            return finalMessages
         } catch {
             throw error
         }

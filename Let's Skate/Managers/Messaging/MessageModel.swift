@@ -7,10 +7,19 @@
 
 import Foundation
 import MessageKit
+import FirebaseFirestoreSwift
+
+struct MessageDB: Decodable {
+    @DocumentID var id: String?
+    var senderID: String
+    var senderUser: User?
+    var date: Date
+    var content: String
+}
 
 struct Message: MessageType {
-    var sender: SenderType
     var messageId: String
+    var sender: SenderType
     var sentDate: Date
     var kind: MessageKind
 }
