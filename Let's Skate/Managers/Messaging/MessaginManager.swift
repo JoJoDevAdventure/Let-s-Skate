@@ -17,6 +17,7 @@ enum MessagesError: Error, CaseIterable {
     case ErrorGettingCurrentUser
     case ErrorNotValidUser
     case NoMessages
+    case ErrorMessageIsNotString
 }
 
 protocol ChatService {
@@ -74,7 +75,7 @@ final class MessagingManager: ChatService, AllMessagesService {
                 messages = snapshot?.documents.map({try! $0.data(as: MessageDB.self)})
             })
             guard let messages = messages else {
-                throw MessagesError.ErrorFetchingMessages
+                throw MessagesError.NoMessages
             }
             for message in messages {
                 let user = try await fireRef.collection("users").document(message.senderID).getDocument(as: User.self)
@@ -86,6 +87,28 @@ final class MessagingManager: ChatService, AllMessagesService {
         } catch {
             throw error
         }
+    }
+    
+    public func sendMessageTo(to user: User, message: Message) async throws {
+        guard let userID = currentUser?.uid else { throw MessagesError.ErrorNotValidUser }
+        guard let reciverID = user.id else { throw MessagesError.ErrorNotValidUser }
+        // transform Message to MessageDB
+        guard let messageText = message.kind as? String else { throw MessagesError.ErrorMessageIsNotString }
+        let messageDB = MessageDB(id: nil, senderID: userID, senderUser: nil, date: message.sentDate, content: messageText)
+        
+        let data = 
+            ["senderID":userID,
+            "date":messageDB.date,
+             "content":messageDB] as [String : Any]
+        do {
+            // insert in current user conversation
+            try await fireRef.collection("users").document(userID).collection("conversations").document().setData(data)
+            // insert in reciver collection
+            try await fireRef.collection("users").document(reciverID).collection("conversations").document().setData(data)
+        }
+        
+        
+        
     }
     
 }
