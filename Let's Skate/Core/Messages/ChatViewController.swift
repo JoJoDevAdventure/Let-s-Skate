@@ -17,17 +17,16 @@ class ChatViewController: MessagesViewController {
     let selfSender = Sender(photoURL: "",
                         senderId: "1",
                         displayName: "Joe Smith")
-    var sender = Sender(photoURL: "",
-                        senderId: "2",
-                        displayName: "Jenny Smith")
+    var sender: Sender
     
     // MARK: - View Model
     private let viewModel: ChatViewModel
     
     init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
         self.sender = viewModel.sender
+        super.init(nibName: nil, bundle: nil)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -40,6 +39,7 @@ class ChatViewController: MessagesViewController {
         view.backgroundColor = UIColor().DarkMainColor()
         testMessage()
         setupCollectionView()
+        
     }
     
     // MARK: - Set up
@@ -48,8 +48,19 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.messagesDisplayDelegate = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.backgroundColor = UIColor().DarkMainColor()
-        messageInputBar.backgroundColor = UIColor().lightMainColor()
-        messageInputBar.tintColor = UIColor().DarkMainColor()
+        
+        messageInputBar.contentView.backgroundColor = UIColor().lightMainColor()
+        messageInputBar.backgroundView.backgroundColor = UIColor().lightMainColor()
+        messageInputBar.inputAccessoryView?.tintColor = UIColor().DarkMainColor()
+        messageInputBar.inputTextView.placeholderTextColor = UIColor().DarkMainColor()
+        messageInputBar.inputTextView.textColor = .black
+        messageInputBar.sendButton.tintColor = UIColor().DarkMainColor()
+        if let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout {
+            layout.textMessageSizeCalculator.outgoingAvatarSize = .zero
+            layout.setMessageIncomingMessagePadding(UIEdgeInsets(top: 0, left: 4, bottom: 10, right: 50))
+            layout.setMessageOutgoingMessagePadding(UIEdgeInsets(top: 0, left: 60, bottom: 10, right: 4))
+        }
+        
     }
     
     // MARK: - Functions
@@ -60,23 +71,23 @@ class ChatViewController: MessagesViewController {
                                 sentDate: Date(),
                                 kind: .text("Hello World Message")))
         messages.append(Message(sender: selfSender,
-                                messageId: "1",
+                                messageId: "2",
                                 sentDate: Date(),
                                 kind: .text("Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message")))
         messages.append(Message(sender: sender,
-                                messageId: "1",
+                                messageId: "3",
                                 sentDate: Date(),
                                 kind: .text("Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message ")))
         messages.append(Message(sender: sender,
-                                messageId: "1",
+                                messageId: "4",
                                 sentDate: Date(),
                                 kind: .text("Hello")))
         messages.append(Message(sender: selfSender,
-                                messageId: "1",
+                                messageId: "5",
                                 sentDate: Date(),
                                 kind: .text("Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message")))
         messages.append(Message(sender: selfSender,
-                                messageId: "1",
+                                messageId: "6",
                                 sentDate: Date(),
                                 kind: .text("Hello World Message Hello World Message Hello World Message")))
         
@@ -89,6 +100,15 @@ class ChatViewController: MessagesViewController {
 
 // MARK: - Extension : Messages
 extension ChatViewController: MessagesDataSource, MessagesDisplayDelegate, MessagesLayoutDelegate {
+    
+    func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
+        if message.sender.senderId == selfSender.senderId {
+            return .bubbleTail(MessageStyle.TailCorner.bottomRight, MessageStyle.TailStyle.pointedEdge)
+        } else {
+            return .bubbleTail(MessageStyle.TailCorner.bottomLeft, MessageStyle.TailStyle.pointedEdge)
+        }
+        
+    }
     
     func currentSender() -> SenderType {
         return selfSender
@@ -115,6 +135,15 @@ extension ChatViewController: MessagesDataSource, MessagesDisplayDelegate, Messa
             return .black
         } else {
             return .black
+        }
+    }
+    
+    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        if message.sender.senderId == selfSender.senderId {
+            avatarView.isHidden = true
+        } else {
+            avatarView.isHidden = false
+            avatarView.sd_setImage(with: URL(string: sender.photoURL))
         }
     }
 }
