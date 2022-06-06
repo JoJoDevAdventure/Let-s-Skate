@@ -12,15 +12,6 @@ import FirebaseAuth
 import RealmSwift
 import MessageKit
 
-enum MessagesError: Error, CaseIterable {
-    case ErrorFetchingMessages
-    case ErrorGettingCurrentUser
-    case ErrorNotValidUser
-    case NoMessages
-    case ErrorMessageIsNotString
-    
-}
-
 protocol ChatService {
     func fetchAllMessages(forUser: User, completion: @escaping (Result<[Message], Error>) -> Void)
     func sendMessageTo(to user: User, message: Message) async throws
@@ -57,6 +48,7 @@ final class MessagingManager: ChatService, AllMessagesService {
         }
     }
     
+    /// Fetch all conversasion messages
     public func fetchAllMessages(forUser: User, completion: @escaping (Result<[Message], Error>) -> Void) {
         
         guard let currentUser = currentUser else {
@@ -96,7 +88,7 @@ final class MessagingManager: ChatService, AllMessagesService {
         }
     }
 
-
+    /// Send message to a user
     public func sendMessageTo(to user: User, message: Message) async throws {
         guard let userID = currentUser?.uid else { throw MessagesError.ErrorNotValidUser }
         guard let reciverID = user.id else { throw MessagesError.ErrorNotValidUser }
