@@ -50,7 +50,6 @@ class ChatViewController: MessagesViewController {
         view.backgroundColor = UIColor().DarkMainColor()
         setupCollectionView()
         fetchAllMessages()
-        
     }
     
     // MARK: - Set up
@@ -68,8 +67,8 @@ class ChatViewController: MessagesViewController {
         messageInputBar.sendButton.tintColor = UIColor().DarkMainColor()
         if let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout {
             layout.textMessageSizeCalculator.outgoingAvatarSize = .zero
-            layout.setMessageIncomingMessagePadding(UIEdgeInsets(top: 0, left: 4, bottom: 10, right: 50))
-            layout.setMessageOutgoingMessagePadding(UIEdgeInsets(top: 0, left: 60, bottom: 10, right: 4))
+            layout.setMessageIncomingMessagePadding(UIEdgeInsets(top: 0, left: 4, bottom: 1, right: 50))
+            layout.setMessageOutgoingMessagePadding(UIEdgeInsets(top: 0, left: 60, bottom: 1, right: 4))
         }
         messageInputBar.inputTextView.inputBarAccessoryView?.delegate = self
         view.addSubview(noConversationsWithUserLabel)
@@ -91,11 +90,20 @@ class ChatViewController: MessagesViewController {
 // MARK: - Extension : Messages
 extension ChatViewController: MessagesDataSource, MessagesDisplayDelegate, MessagesLayoutDelegate {
     
+    
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
         if message.sender.senderId == selfSender.senderId {
-            return .bubbleTail(MessageStyle.TailCorner.bottomRight, MessageStyle.TailStyle.pointedEdge)
+            if isNextMessageSameSender(at: indexPath) {
+                return .bubble
+            } else {
+                return .bubbleTail(MessageStyle.TailCorner.bottomRight, MessageStyle.TailStyle.pointedEdge)
+            }
         } else {
-            return .bubbleTail(MessageStyle.TailCorner.bottomLeft, MessageStyle.TailStyle.pointedEdge)
+            if isNextMessageSameSender(at: indexPath) {
+                return .bubble
+            } else {
+                return .bubbleTail(MessageStyle.TailCorner.bottomLeft, MessageStyle.TailStyle.pointedEdge)
+            }
         }
         
     }
@@ -130,14 +138,19 @@ extension ChatViewController: MessagesDataSource, MessagesDisplayDelegate, Messa
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
         if message.sender.senderId == selfSender.senderId {
+            
             avatarView.isHidden = true
         } else {
-            avatarView.isHidden = false
+            avatarView.isHidden = isNextMessageSameSender(at: indexPath)
             avatarView.sd_setImage(with: URL(string: sender.photoURL))
         }
     }
     
-    
+    func isNextMessageSameSender(at indexPath: IndexPath) -> Bool {
+        guard indexPath.section + 1 < messages.count else { return false }
+        return messages[indexPath.section].sender.displayName == messages[indexPath.section + 1].sender.displayName
+    }
+
 }
 
 extension ChatViewController: InputBarAccessoryViewDelegate {
