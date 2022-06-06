@@ -137,6 +137,11 @@ extension AllMessagesViewController: UITableViewDelegate, UITableViewDataSource 
 }
 
 extension AllMessagesViewController: AllMessagesViewModelOutPut {
+    
+    func noMessagesWithThisUser() {
+        
+    }
+    
     func fetchedConversations(conversations: [User]) {
 
         DispatchQueue.main.async {

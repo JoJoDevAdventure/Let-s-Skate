@@ -226,7 +226,7 @@ extension ProfileViewController: ProfileHeaderCollectionReusableViewDelegate {
     }
     
     func didTapMessage() {
-        print("MESSAGE")
+        Navigation.shared.goToChatViewController(from: self, user: self.user)
     }
     
     func didTapSubUnsub() {

@@ -11,6 +11,7 @@ import Network
 protocol ChatViewModelOutPut: AnyObject{
     func fetchMessages(messages: [Message])
     func showError(error: Error)
+    func noMessagesWithThisUser()
 }
 
 class ChatViewModel {
@@ -34,7 +35,11 @@ class ChatViewModel {
         service.fetchAllMessages(forUser: chatWith) {[weak self] results in
             switch results {
             case .failure(let error) :
-                self?.output?.showError(error: error)
+                guard error as! MessagesError == MessagesError.NoMessages else {
+                    self?.output?.showError(error: error)
+                    return
+                }
+                self?.output?.noMessagesWithThisUser()
             case .success(let messages) :
                 self?.output?.fetchMessages(messages: messages)
             }

@@ -20,6 +20,15 @@ class ChatViewController: MessagesViewController {
                         displayName: "")
     var sender: Sender
     
+    private let noConversationsWithUserLabel: UILabel = {
+        let label = UILabel()
+        label.text = "No messages yet.\nDo the first step !"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 20, weight: .semibold)
+        label.isHidden = true
+        return label
+    }()
+    
     // MARK: - View Model
     private let viewModel: ChatViewModel
     
@@ -63,7 +72,9 @@ class ChatViewController: MessagesViewController {
             layout.setMessageOutgoingMessagePadding(UIEdgeInsets(top: 0, left: 60, bottom: 10, right: 4))
         }
         messageInputBar.inputTextView.inputBarAccessoryView?.delegate = self
-        
+        view.addSubview(noConversationsWithUserLabel)
+        noConversationsWithUserLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        noConversationsWithUserLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
     
     // MARK: - Functions
@@ -153,9 +164,14 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
 
 extension ChatViewController: ChatViewModelOutPut {
     
+    func noMessagesWithThisUser() {
+        noConversationsWithUserLabel.isHidden = false
+    }
+    
     func fetchMessages(messages: [Message]) {
         self.messages = messages
         DispatchQueue.main.async {
+            self.noConversationsWithUserLabel.isHidden = true
             self.messagesCollectionView.reloadData()
         }
     }
