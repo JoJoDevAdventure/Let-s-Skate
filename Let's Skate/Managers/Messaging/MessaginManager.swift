@@ -22,7 +22,7 @@ enum MessagesError: Error, CaseIterable {
 }
 
 protocol ChatService {
-    func fetchAllMessages(forUser: User, completion: (Result<[Message], Error>) -> Void) async
+    func fetchAllMessages(forUser: User, completion: @escaping (Result<[Message], Error>) -> Void)
     func sendMessageTo(to user: User, message: Message) async throws
 }
 
@@ -37,7 +37,7 @@ final class MessagingManager: ChatService, AllMessagesService {
     let fireRef = Firestore.firestore()
     let currentUser = Auth.auth().currentUser
     
-    /// fetch all users that
+    /// fetch all users with who current user have conversation
     public func fetchAllUserConversations() async throws -> [User] {
         guard let currentUser = currentUser else { throw MessagesError.ErrorFetchingMessages }
         var users = [User]()
@@ -49,10 +49,10 @@ final class MessagingManager: ChatService, AllMessagesService {
                 let user = try await fireRef.collection("users").document(document.documentID).getDocument(as: User.self)
                 users.append(user)
             }
+            return users
         } catch {
             throw error
         }
-        return users
     }
     
     public func fetchAllMessages(forUser: User, completion: @escaping (Result<[Message], Error>) -> Void) {
@@ -67,7 +67,10 @@ final class MessagingManager: ChatService, AllMessagesService {
         }
         
         var messages: [MessageDB]?
-        fireRef.collection("users").document(currentUser.uid).collection("conversations").document(userID).collection("messages").addSnapshotListener { snapshot, error in
+        var fMessages = [Message]()
+        fireRef.collection("users").document(currentUser.uid).collection("conversations").document(userID).collection("messages")
+            .order(by: "date", descending: false)
+            .addSnapshotListener { snapshot, error in
             messages = snapshot?.documents.map({try! $0.data(as: MessageDB.self)})
             
             guard let messages = messages else {
@@ -75,7 +78,19 @@ final class MessagingManager: ChatService, AllMessagesService {
                 return
             }
             
-            
+            for message in messages {
+                if !fMessages.contains(where: {$0.messageId == message.id}) {
+                    var sender = Sender(photoURL: "", senderId: "", displayName: "")
+                    if message.senderID == currentUser.uid {
+                        sender = Sender(photoURL: "", senderId: currentUser.uid, displayName: "")
+                    } else {
+                        sender = Sender(photoURL: forUser.profileImageUrl, senderId: forUser.id!, displayName: forUser.nickname)
+                    }
+                    let fMessage = Message(messageId: message.id!, sender: sender, sentDate: message.date, kind: .text(message.content))
+                    fMessages.append(fMessage)
+                }
+            }
+            completion(.success(fMessages))
         }
     }
 

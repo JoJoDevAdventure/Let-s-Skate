@@ -15,6 +15,8 @@ protocol ChatViewModelOutPut: AnyObject{
 
 class ChatViewModel {
     
+    var currentUID = UserManager().getCurrentUser()
+    
     weak var output: ChatViewModelOutPut?
     
     private let service: ChatService
@@ -29,14 +31,12 @@ class ChatViewModel {
     }
     
     public func fetchMessages() {
-        Task {
-            await service.fetchAllMessages(forUser: chatWith) {[weak self] results in
-                switch results {
-                case .failure(let error) :
-                    self?.output?.showError(error: error)
-                case .success(let messages) :
-                    self?.output?.fetchMessages(messages: messages)
-                }
+        service.fetchAllMessages(forUser: chatWith) {[weak self] results in
+            switch results {
+            case .failure(let error) :
+                self?.output?.showError(error: error)
+            case .success(let messages) :
+                self?.output?.fetchMessages(messages: messages)
             }
         }
     }

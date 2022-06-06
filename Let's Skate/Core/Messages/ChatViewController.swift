@@ -15,8 +15,8 @@ class ChatViewController: MessagesViewController {
     
     // MARK: - Properties
     private var messages = [Message]()
-    let selfSender = Sender(photoURL: "",
-                        senderId: "1",
+    var selfSender = Sender(photoURL: "",
+                            senderId: "",
                         displayName: "")
     var sender: Sender
     
@@ -27,6 +27,7 @@ class ChatViewController: MessagesViewController {
         self.viewModel = viewModel
         self.sender = viewModel.sender
         super.init(nibName: nil, bundle: nil)
+        self.selfSender = Sender(photoURL: "", senderId: viewModel.currentUID!, displayName: "")
         viewModel.output = self
     }
     
@@ -39,11 +40,8 @@ class ChatViewController: MessagesViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor().DarkMainColor()
         setupCollectionView()
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
         fetchAllMessages()
+        
     }
     
     // MARK: - Set up
