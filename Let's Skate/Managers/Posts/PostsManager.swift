@@ -43,7 +43,7 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService, Explo
     
     let currentUserUid = Auth.auth().currentUser?.uid
     
-    // get current user nickname
+    /// get current user nickname
     func getCurrentUserNickname(completion: @escaping (Result<String, Error>) -> Void ){
         
         guard let uid = currentUserUid else {
@@ -58,7 +58,7 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService, Explo
         }
     }
     
-    //upload new post to database
+    /// upload new post to database
     func uploadNewPost(post: UIImage, bio: String, completion: @escaping (Result<Void, Error>) -> Void) {
         imageUploaderService.uploadNewPostImage(image: post) {[weak self] results in
             //upload the image
@@ -90,7 +90,7 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService, Explo
         }
     }
     
-    //fetch user with uid
+    /// fetch user with uid
     func fetchUser(withUid uid: String) async throws -> User {
         do {
             let document = try await storeRef.collection("users")
@@ -106,7 +106,7 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService, Explo
         }
     }
     
-    // get all posts for feed
+    /// get all posts for feed
     func fetchAllPosts(completion: @escaping (Result<[Post], Error>) -> Void) {
         Task(priority: .medium) {
             do {
@@ -130,6 +130,7 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService, Explo
         
     }
     
+    /// fetch posts for a user
     func fetchUserPosts(uid: String, completion: @escaping (Result<User,Error>) -> Void) {
         storeRef.collection("posts").whereField("uid", isEqualTo: uid).getDocuments {[weak self] snapshot, error in
             if error != nil {
@@ -156,6 +157,7 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService, Explo
         }
     }
     
+    /// delete post from database
     func deletePost(post: Post, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let postId = post.id else { return  }
         storeRef.collection("posts").document(postId).delete { error in
@@ -167,6 +169,7 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService, Explo
         }
     }
     
+    /// like unlike a post from database
     func likeUnlikePost(post: Post, completion: @escaping(Result<Post,Error>) -> Void) {
         guard let currentUserUid = currentUserUid else { return }
         guard let postId = post.id else { return }
@@ -186,6 +189,7 @@ class PostsManager: NewPostService, FeedPostsService, ProfilePostsService, Explo
         }
     }
     
+    /// check if post is liked 
     func checkLikedPost(post: Post) async throws -> Post {
         guard let currentUid = currentUserUid else { throw LoginErrors.FIRAuthErrorCodeWrongPassword }
         guard let postId = post.id else { throw LoginErrors.FIRAuthErrorCodeWrongPassword }
