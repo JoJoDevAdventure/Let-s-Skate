@@ -41,11 +41,7 @@ class AuthManager: LoginService, RegistrationService, UserVerificationService, U
     var userSesstion: FirebaseAuth.User?
     
     init() {
-//        do {
-//            try AuthRef.signOut()
-//        } catch {
-//            
-//        }
+
         self.userSesstion = Auth.auth().currentUser
     }
     
