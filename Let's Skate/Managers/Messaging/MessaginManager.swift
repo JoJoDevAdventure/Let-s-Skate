@@ -18,16 +18,16 @@ enum MessagesError: Error, CaseIterable {
     case ErrorNotValidUser
     case NoMessages
     case ErrorMessageIsNotString
+    
 }
 
 protocol ChatService {
-    func getCurrentUser() async throws -> User
+    func fetchAllMessages(forUser: User, completion: @escaping (Result<[Message], Error>) -> Void)
+    func sendMessageTo(to user: User, message: Message) async throws
 }
 
 protocol AllMessagesService {
     func fetchAllUserConversations() async throws -> [User]
-    
-    
 }
 
 final class MessagingManager: ChatService, AllMessagesService {
@@ -37,7 +37,7 @@ final class MessagingManager: ChatService, AllMessagesService {
     let fireRef = Firestore.firestore()
     let currentUser = Auth.auth().currentUser
     
-    /// fetch all users that
+    /// fetch all users with who current user have conversation
     public func fetchAllUserConversations() async throws -> [User] {
         guard let currentUser = currentUser else { throw MessagesError.ErrorFetchingMessages }
         var users = [User]()
@@ -49,65 +49,77 @@ final class MessagingManager: ChatService, AllMessagesService {
                 let user = try await fireRef.collection("users").document(document.documentID).getDocument(as: User.self)
                 users.append(user)
             }
-        } catch {
-            throw error
-        }
-        return users
-    }
-    
-    public func getCurrentUser() async throws -> User {
-        guard let currentUser = currentUser else { throw MessagesError.ErrorFetchingMessages}
-        do {
-            let currentUser = try await fireRef.collection("users").document(currentUser.uid).getDocument(as: User.self)
-            return currentUser
+            return users
         } catch {
             throw error
         }
     }
     
-    public func fetchAllMessages(forUser: User) async throws -> [Message] {
-        guard let currentUser = currentUser else { throw MessagesError.ErrorFetchingMessages }
-        guard let userID = forUser.id else { throw MessagesError.ErrorNotValidUser }
+    public func fetchAllMessages(forUser: User, completion: @escaping (Result<[Message], Error>) -> Void) {
+        
+        guard let currentUser = currentUser else {
+            completion(.failure(MessagesError.ErrorFetchingMessages))
+            return
+        }
+        guard let userID = forUser.id else {
+            completion(.failure(MessagesError.ErrorNotValidUser))
+            return
+        }
+        
         var messages: [MessageDB]?
-        var finalMessages = [Message]()
-        do {
-            fireRef.collection("users").document(currentUser.uid).collection(userID).addSnapshotListener({ snapshot, error in
-                messages = snapshot?.documents.map({try! $0.data(as: MessageDB.self)})
-            })
+        var fMessages = [Message]()
+        fireRef.collection("users").document(currentUser.uid).collection("conversations").document(userID).collection("messages")
+            .order(by: "date", descending: false)
+            .addSnapshotListener { snapshot, error in
+            messages = snapshot?.documents.map({try! $0.data(as: MessageDB.self)})
+            
             guard let messages = messages else {
-                throw MessagesError.NoMessages
+                completion(.failure(MessagesError.NoMessages))
+                return
             }
+            
             for message in messages {
-                let user = try await fireRef.collection("users").document(message.senderID).getDocument(as: User.self)
-                let sender = Sender(photoURL: user.profileImageUrl, senderId: user.id!, displayName: user.nickname)
-                let fMessage = Message(messageId: message.id!, sender: sender , sentDate: message.date, kind: .text(message.content))
-                finalMessages.append(fMessage)
+                if !fMessages.contains(where: {$0.messageId == message.id}) {
+                    var sender = Sender(photoURL: "", senderId: "", displayName: "")
+                    if message.senderID == currentUser.uid {
+                        sender = Sender(photoURL: "", senderId: currentUser.uid, displayName: "")
+                    } else {
+                        sender = Sender(photoURL: forUser.profileImageUrl, senderId: forUser.id!, displayName: forUser.nickname)
+                    }
+                    let fMessage = Message(messageId: message.id!, sender: sender, sentDate: message.date, kind: .text(message.content))
+                    fMessages.append(fMessage)
+                }
             }
-            return finalMessages
-        } catch {
-            throw error
+            completion(.success(fMessages))
         }
     }
-    
+
+
     public func sendMessageTo(to user: User, message: Message) async throws {
         guard let userID = currentUser?.uid else { throw MessagesError.ErrorNotValidUser }
         guard let reciverID = user.id else { throw MessagesError.ErrorNotValidUser }
         // transform Message to MessageDB
-        guard let messageText = message.kind as? String else { throw MessagesError.ErrorMessageIsNotString }
+        var messageText = ""
+        switch message.kind {
+        case .text(let text) :
+            messageText = text
+        default :
+            break
+        }
         let messageDB = MessageDB(id: nil, senderID: userID, senderUser: nil, date: message.sentDate, content: messageText)
         
-        let data = 
-            ["senderID":userID,
-            "date":messageDB.date,
-             "content":messageDB] as [String : Any]
+        let data =
+        ["senderID":userID,
+         "date":messageDB.date,
+         "content":messageText] as [String : Any]
         do {
             // insert in current user conversation
-            try await fireRef.collection("users").document(userID).collection("conversations").document().setData(data)
+            try await fireRef.collection("users").document(userID).collection("conversations").document(reciverID).collection("messages").document().setData(data)
             // insert in reciver collection
-            try await fireRef.collection("users").document(reciverID).collection("conversations").document().setData(data)
+            try await fireRef.collection("users").document(reciverID).collection("conversations").document(userID).collection("messages").document().setData(data)
+        } catch {
+            
         }
-        
-        
         
     }
     

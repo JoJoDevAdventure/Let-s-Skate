@@ -8,15 +8,16 @@
 import UIKit
 import MessageKit
 import MessageUI
+import InputBarAccessoryView
 
 class ChatViewController: MessagesViewController {
     
     
     // MARK: - Properties
     private var messages = [Message]()
-    let selfSender = Sender(photoURL: "",
-                        senderId: "1",
-                        displayName: "Joe Smith")
+    var selfSender = Sender(photoURL: "",
+                            senderId: "",
+                        displayName: "")
     var sender: Sender
     
     // MARK: - View Model
@@ -26,7 +27,8 @@ class ChatViewController: MessagesViewController {
         self.viewModel = viewModel
         self.sender = viewModel.sender
         super.init(nibName: nil, bundle: nil)
-        
+        self.selfSender = Sender(photoURL: "", senderId: viewModel.currentUID!, displayName: "")
+        viewModel.output = self
     }
     
     required init?(coder: NSCoder) {
@@ -37,8 +39,8 @@ class ChatViewController: MessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor().DarkMainColor()
-        testMessage()
         setupCollectionView()
+        fetchAllMessages()
         
     }
     
@@ -60,41 +62,18 @@ class ChatViewController: MessagesViewController {
             layout.setMessageIncomingMessagePadding(UIEdgeInsets(top: 0, left: 4, bottom: 10, right: 50))
             layout.setMessageOutgoingMessagePadding(UIEdgeInsets(top: 0, left: 60, bottom: 10, right: 4))
         }
+        messageInputBar.inputTextView.inputBarAccessoryView?.delegate = self
         
     }
     
     // MARK: - Functions
-    
-    private func testMessage() {
-        messages.append(Message(sender: sender,
-                                messageId: "1",
-                                sentDate: Date(),
-                                kind: .text("Hello World Message")))
-        messages.append(Message(sender: selfSender,
-                                messageId: "2",
-                                sentDate: Date(),
-                                kind: .text("Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message")))
-        messages.append(Message(sender: sender,
-                                messageId: "3",
-                                sentDate: Date(),
-                                kind: .text("Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message ")))
-        messages.append(Message(sender: sender,
-                                messageId: "4",
-                                sentDate: Date(),
-                                kind: .text("Hello")))
-        messages.append(Message(sender: selfSender,
-                                messageId: "5",
-                                sentDate: Date(),
-                                kind: .text("Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message Hello World Message")))
-        messages.append(Message(sender: selfSender,
-                                messageId: "6",
-                                sentDate: Date(),
-                                kind: .text("Hello World Message Hello World Message Hello World Message")))
-        
-    }
+
     
     // MARK: - Network Manager calls
     
+    private func fetchAllMessages() {
+        viewModel.fetchMessages()
+    }
     
 }
 
@@ -146,5 +125,43 @@ extension ChatViewController: MessagesDataSource, MessagesDisplayDelegate, Messa
             avatarView.sd_setImage(with: URL(string: sender.photoURL))
         }
     }
+    
+    
 }
 
+extension ChatViewController: InputBarAccessoryViewDelegate {
+    
+    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
+        let message = Message(messageId: "", sender: selfSender, sentDate: Date(), kind: .text(text))
+        viewModel.sendMessage(message: message)
+        inputBar.inputTextView.text = ""
+    }
+    
+    func inputBar(_ inputBar: InputBarAccessoryView, didChangeIntrinsicContentTo size: CGSize) {
+        //
+    }
+    
+    func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
+        //
+    }
+    
+    func inputBar(_ inputBar: InputBarAccessoryView, didSwipeTextViewWith gesture: UISwipeGestureRecognizer) {
+        //
+    }
+    
+}
+
+extension ChatViewController: ChatViewModelOutPut {
+    
+    func fetchMessages(messages: [Message]) {
+        self.messages = messages
+        DispatchQueue.main.async {
+            self.messagesCollectionView.reloadData()
+        }
+    }
+    
+    func showError(error: Error) {
+        AlertManager().showErrorAlert(viewcontroller: self, error: error.localizedDescription)
+    }
+    
+}
