@@ -48,6 +48,7 @@ class AuthManager: LoginService, RegistrationService, UserVerificationService, U
     let AuthRef = Auth.auth()
     let StoreRef = Firestore.firestore()
     
+    /// login with email and password
     func loginUserWith(email: String, password: String, completion: @escaping (Result<Void ,LoginErrors>) -> Void) {
         AuthRef.signIn(withEmail: email, password: password) {[weak self] results, error in
             if let error = error {
@@ -63,6 +64,8 @@ class AuthManager: LoginService, RegistrationService, UserVerificationService, U
         }
     }
     
+    
+    /// register new user with email and password
     func registerUserWith(email: String, username:String, password: String, completion: @escaping (Result<Void ,RegistrationErrors>) -> Void) {
         //Register Auth
         AuthRef.createUser(withEmail: email, password: password) {[weak self] results, error in
@@ -88,6 +91,7 @@ class AuthManager: LoginService, RegistrationService, UserVerificationService, U
         }
     }
     
+    /// check if user is logged in
     func checkIfUserIsLoggedIn() -> Bool {
         if userSesstion == nil {
             return false
@@ -95,6 +99,7 @@ class AuthManager: LoginService, RegistrationService, UserVerificationService, U
         return true
     }
     
+    /// send email verification
     func sendEmailVerification(completion: @escaping (Result<String,EmailVerificationError>) -> Void) {
         AuthRef.currentUser?.sendEmailVerification(completion: {[weak self] error in
             guard error == nil else {
@@ -107,6 +112,7 @@ class AuthManager: LoginService, RegistrationService, UserVerificationService, U
         })
     }
     
+    /// check if user is verified
     func checkIfUserIfVerified() -> Bool {
         AuthRef.currentUser?.reload(completion: nil)
         guard let user = AuthRef.currentUser else {
@@ -120,6 +126,7 @@ class AuthManager: LoginService, RegistrationService, UserVerificationService, U
         }
     }
     
+    /// log out user
     func logOutUser() {
         do {
             try AuthRef.signOut()
