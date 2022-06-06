@@ -42,7 +42,9 @@ final class MessagingManager: ChatService, AllMessagesService {
         guard let currentUser = currentUser else { throw MessagesError.ErrorFetchingMessages }
         var users = [User]()
         do {
-            let snapshot = try await fireRef.collection("users").document(currentUser.uid).collection("conversations").getDocuments()
+            let snapshot = try await fireRef.collection("users").document(currentUser.uid).collection("conversations")
+                .order(by: "last-updated",descending: true )
+                .getDocuments()
             let documents = snapshot.documents
             guard !documents.isEmpty else { return []}
             for document in documents {
@@ -114,8 +116,10 @@ final class MessagingManager: ChatService, AllMessagesService {
          "content":messageText] as [String : Any]
         do {
             // insert in current user conversation
+            try await fireRef.collection("users").document(userID).collection("conversations").document(reciverID).setData(["last-updated":messageDB.date])
             try await fireRef.collection("users").document(userID).collection("conversations").document(reciverID).collection("messages").document().setData(data)
             // insert in reciver collection
+            try await fireRef.collection("users").document(reciverID).collection("conversations").document(userID).setData(["last-updated":messageDB.date])
             try await fireRef.collection("users").document(reciverID).collection("conversations").document(userID).collection("messages").document().setData(data)
         } catch {
             
