@@ -24,6 +24,7 @@ class CommentsManager: CommentService {
     
     let storeRef = Firestore.firestore()
     
+    /// send a comment to a post
     func uploadComment(comment: String, post: Post, completion: @escaping (Result<Void,Error>)->Void) {
         guard let postId = post.id else { return }
         guard let userId = Auth.auth().currentUser?.uid else { return }
@@ -36,6 +37,7 @@ class CommentsManager: CommentService {
         completion(.success(()))
     }
     
+    /// delete comment
     func deleteComment(comment: Comment, post: Post, completion: @escaping (Result<Void,Error>)->Void) {
         guard let commentID = comment.id else { return }
         guard let postID = post.id else { return }
@@ -48,6 +50,7 @@ class CommentsManager: CommentService {
         }
     }
     
+    /// fetch all comments for a post
     func fetchAllCommentForPost(post: Post, completion: @escaping (Result<[Comment],Error>)->Void) {
         guard let postID = post.id else { return }
         var finalComments: [Comment] = []
