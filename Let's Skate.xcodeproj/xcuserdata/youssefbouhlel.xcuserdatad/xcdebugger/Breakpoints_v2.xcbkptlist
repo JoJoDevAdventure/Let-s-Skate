@@ -164,7 +164,7 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "05B018D6-200F-4BC1-ABE7-C037380D2B88 - ecf28efd09cc2c8f"
+                  uuid = "05B018D6-200F-4BC1-ABE7-C037380D2B88 - ecf28efd09cc2ccd"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -174,12 +174,12 @@
                   urlString = "file:///Users/youssefbouhlel/projets/Swift/Lets%20Skate/Let&apos;s%20Skate/Managers/Auth/AuthManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "64"
-                  endingLineNumber = "64"
+                  startingLineNumber = "62"
+                  endingLineNumber = "62"
                   offsetFromSymbolStart = "1196">
                </Location>
                <Location
-                  uuid = "05B018D6-200F-4BC1-ABE7-C037380D2B88 - ed9e0ee8e2310dfb"
+                  uuid = "05B018D6-200F-4BC1-ABE7-C037380D2B88 - ed9e0ee8e2310db9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -189,8 +189,8 @@
                   urlString = "file:///Users/youssefbouhlel/projets/Swift/Lets%20Skate/Let&apos;s%20Skate/Managers/Auth/AuthManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "64"
-                  endingLineNumber = "64"
+                  startingLineNumber = "62"
+                  endingLineNumber = "62"
                   offsetFromSymbolStart = "248">
                </Location>
             </Locations>
