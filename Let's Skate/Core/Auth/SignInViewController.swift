@@ -144,12 +144,16 @@ class SignInViewController: UIViewController {
     
     // sign in action
     private func setupSignInButton() {
-        signinButton.addAction(UIAction(handler: {[weak self] _ in
-            guard let email = self?.emailTextField.text else { return }
-            guard let password = self?.passwordTextField.text else { return }
-            guard let strongSelf = self else { return }
-            self?.resignKeyboard()
-            self?.viewModel.logInUser(email: email, emailTF: strongSelf.emailTextField, emailErrorLabel: strongSelf.emailErrorLabel, password: password, passwordTF: strongSelf.passwordTextField, passwordErrorLabel: strongSelf.passwordErrorLabel, viewController: strongSelf)
+        signinButton.addAction(UIAction(handler: { _ in
+            self.emailErrorLabel.isHidden = true
+            self.passwordErrorLabel.isHidden = true
+            guard let email = self.emailTextField.text else { return }
+            guard let password = self.passwordTextField.text else { return }
+            self.resignKeyboard()
+            let valid = self.viewModel.validateTextField(emailTF: self.emailTextField, passwordTF: self.passwordTextField)
+            if valid {
+                self.viewModel.logInUser(email: email,password: password)
+            }
         }), for: .touchUpInside)
     }
     
@@ -230,6 +234,38 @@ extension SignInViewController: LoginViewModelOutPut {
         let vc = mainNavigationBar()
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
+    }
+    
+    func LoginError(error: LoginErrors) {
+        DispatchQueue.main.async {[self] in
+            switch error {
+                // badly formated email
+            case .emailNotFormated:
+                TextFieldErrorAnimation().textfieldAnimation(textfield: emailTextField)
+                emailErrorLabel.isHidden = false
+                emailErrorLabel.text = error.description
+                
+                // email doesn't exists
+            case .FIRAuthErrorCodeInvalidEmail:
+                TextFieldErrorAnimation().textfieldAnimation(textfield: emailTextField)
+                emailErrorLabel.isHidden = false
+                emailErrorLabel.text = error.description
+                
+                // user disabled
+            case .FIRAuthErrorCodeUserDisabled:
+                AlertManager().showErrorAlert(viewcontroller: self, error: error.description)
+                
+                // wrond password
+            case .FIRAuthErrorCodeWrongPassword:
+                TextFieldErrorAnimation().textfieldAnimation(textfield: passwordTextField)
+                passwordErrorLabel.isHidden = false
+                passwordErrorLabel.text = error.description
+                
+                // unknown error
+            case .FIRAuthErrorCodeUnkown:
+                AlertManager().showErrorAlert(viewcontroller: self, error: error.description)
+            }
+        }
     }
 }
 

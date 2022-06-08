@@ -3,4 +3,293 @@
    uuid = "0D69ACC7-7571-413F-AF4B-42F282D580DF"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1C65B8E8-82F6-4254-8E37-970F639BAF9A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Let&apos;s Skate/Managers/Auth/AuthManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "loginUserWith(email:password:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "1C65B8E8-82F6-4254-8E37-970F639BAF9A - ecf28efd09cc2c49"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Let_s_Skate.AuthManager.loginUserWith(email: Swift.String, password: Swift.String) async throws -&gt; ()"
+                  moduleName = "Let&apos;s Skate"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youssefbouhlel/projets/Swift/Lets%20Skate/Let&apos;s%20Skate/Managers/Auth/AuthManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "996">
+               </Location>
+               <Location
+                  uuid = "1C65B8E8-82F6-4254-8E37-970F639BAF9A - ed9e0ee8e2310d3d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) await resume partial function for Let_s_Skate.AuthManager.loginUserWith(email: Swift.String, password: Swift.String) async throws -&gt; ()"
+                  moduleName = "Let&apos;s Skate"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youssefbouhlel/projets/Swift/Lets%20Skate/Let&apos;s%20Skate/Managers/Auth/AuthManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "424">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D0E74EEC-4A6B-435A-B70F-C473518ABA66"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Let&apos;s Skate/Managers/Auth/AuthManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "loginUserWith(email:password:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D0E74EEC-4A6B-435A-B70F-C473518ABA66 - ecf28efd09cc2c2a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Let_s_Skate.AuthManager.loginUserWith(email: Swift.String, password: Swift.String) async throws -&gt; ()"
+                  moduleName = "Let&apos;s Skate"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youssefbouhlel/projets/Swift/Lets%20Skate/Let&apos;s%20Skate/Managers/Auth/AuthManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "59"
+                  endingLineNumber = "59"
+                  offsetFromSymbolStart = "1000">
+               </Location>
+               <Location
+                  uuid = "D0E74EEC-4A6B-435A-B70F-C473518ABA66 - ed9e0ee8e2310d5e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) await resume partial function for Let_s_Skate.AuthManager.loginUserWith(email: Swift.String, password: Swift.String) async throws -&gt; ()"
+                  moduleName = "Let&apos;s Skate"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youssefbouhlel/projets/Swift/Lets%20Skate/Let&apos;s%20Skate/Managers/Auth/AuthManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "59"
+                  endingLineNumber = "59"
+                  offsetFromSymbolStart = "428">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B6DFE7F9-F15E-4132-9394-C8AF63A7B5FE"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Let&apos;s Skate/Managers/Auth/AuthManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "loginUserWith(email:password:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C1679DEC-F090-4972-B5B6-AAE19CCE0A16"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Let&apos;s Skate/Managers/Auth/AuthManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "loginUserWith(email:password:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "349C43EE-7C52-4AA1-94EE-E2797F03FC9D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Let&apos;s Skate/Managers/Auth/AuthManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "loginUserWith(email:password:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "05B018D6-200F-4BC1-ABE7-C037380D2B88"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Let&apos;s Skate/Managers/Auth/AuthManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "loginUserWith(email:password:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "05B018D6-200F-4BC1-ABE7-C037380D2B88 - ecf28efd09cc2c8f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Let_s_Skate.AuthManager.loginUserWith(email: Swift.String, password: Swift.String) async throws -&gt; ()"
+                  moduleName = "Let&apos;s Skate"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youssefbouhlel/projets/Swift/Lets%20Skate/Let&apos;s%20Skate/Managers/Auth/AuthManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "1196">
+               </Location>
+               <Location
+                  uuid = "05B018D6-200F-4BC1-ABE7-C037380D2B88 - ed9e0ee8e2310dfb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) await resume partial function for Let_s_Skate.AuthManager.loginUserWith(email: Swift.String, password: Swift.String) async throws -&gt; ()"
+                  moduleName = "Let&apos;s Skate"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youssefbouhlel/projets/Swift/Lets%20Skate/Let&apos;s%20Skate/Managers/Auth/AuthManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "248">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D228EA43-9A21-483D-830C-79EBBBD8EF35"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Let&apos;s Skate/Managers/Auth/AuthManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "loginUserWith(email:password:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B720312F-1F88-4083-AABD-2EDACB352F86"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Let&apos;s Skate/Managers/Auth/AuthManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "loginUserWith(email:password:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9BD0982A-E58A-4C91-A6F7-A446487A7F8B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Let&apos;s Auth SkateTests/SignIn_UTest.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "test_email_correct_but_doesnt_exsist()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "9BD0982A-E58A-4C91-A6F7-A446487A7F8B - fd69b8fda45994f2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) await resume partial function for Let_s_SkateTests.SignIn_UTest.test_email_doesnt_exsist() async -&gt; ()"
+                  moduleName = "Let&apos;s SkateTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youssefbouhlel/projets/Swift/Lets%20Skate/Let&apos;s%20Auth%20SkateTests/SignIn_UTest.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "628">
+               </Location>
+               <Location
+                  uuid = "9BD0982A-E58A-4C91-A6F7-A446487A7F8B - 349f5487810ef158"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) await resume partial function for Let_s_SkateTests.SignIn_UTest.test_email_correct_but_doesnt_exsist() async -&gt; ()"
+                  moduleName = "Let&apos;s SkateTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youssefbouhlel/projets/Swift/Lets%20Skate/Let&apos;s%20Auth%20SkateTests/SignIn_UTest.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "52"
+                  endingLineNumber = "52"
+                  offsetFromSymbolStart = "412">
+               </Location>
+               <Location
+                  uuid = "9BD0982A-E58A-4C91-A6F7-A446487A7F8B - 349f5487810ef17b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) await resume partial function for Let_s_SkateTests.SignIn_UTest.test_email_correct_but_doesnt_exsist() async -&gt; ()"
+                  moduleName = "Let&apos;s SkateTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/youssefbouhlel/projets/Swift/Lets%20Skate/Let&apos;s%20Auth%20SkateTests/SignIn_UTest.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "412">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

@@ -15,7 +15,7 @@ import FirebaseFirestoreSwift
 
 
 protocol LoginService {
-    func loginUserWith(email: String, password: String, completion: @escaping (Result<Void ,LoginErrors>) -> Void)
+    func loginUserWith(email: String, password: String) async throws
 }
 
 protocol RegistrationService {
@@ -41,7 +41,6 @@ class AuthManager: LoginService, RegistrationService, UserVerificationService, U
     var userSesstion: FirebaseAuth.User?
     
     init() {
-
         self.userSesstion = Auth.auth().currentUser
     }
     
@@ -49,18 +48,18 @@ class AuthManager: LoginService, RegistrationService, UserVerificationService, U
     let StoreRef = Firestore.firestore()
     
     /// login with email and password
-    func loginUserWith(email: String, password: String, completion: @escaping (Result<Void ,LoginErrors>) -> Void) {
-        AuthRef.signIn(withEmail: email, password: password) {[weak self] results, error in
-            if let error = error {
-                print("DEBUG: " + error.localizedDescription)
-                LoginErrors.allCases.forEach({ loginError in
-                    if loginError.LocalizedDesc == error.localizedDescription { completion(.failure(loginError))}
-                })
-            } else {
-                completion(.success(()))
-                guard let user = results?.user else { return }
-                self?.userSesstion = user
-            }
+    func loginUserWith(email: String, password: String) async throws {
+        do {
+            
+            guard email.contains("@") && email.contains(".")  else { throw LoginErrors.emailNotFormated }
+            guard password.count > 5 else { throw LoginErrors.FIRAuthErrorCodeWrongPassword }
+            
+            try await AuthRef.signIn(withEmail: email, password: password)
+        } catch {
+            try LoginErrors.allCases.forEach({ loginError in
+                if loginError.LocalizedDesc == error.localizedDescription { throw loginError }
+            })
+            throw LoginErrors.FIRAuthErrorCodeUnkown
         }
     }
     

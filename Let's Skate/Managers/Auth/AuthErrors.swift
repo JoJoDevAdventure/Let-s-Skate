@@ -32,7 +32,7 @@ enum LoginErrors : Error, CaseIterable {
     var LocalizedDesc : String {
         switch self {
         case .emailNotFormated:
-            return "The email address is badly formatted."
+            return "The operation couldn’t be completed. (Let_s_Skate.LoginErrors error 0.)"
         case .FIRAuthErrorCodeInvalidEmail:
             return "There is no user record corresponding to this identifier. The user may have been deleted."
         case .FIRAuthErrorCodeUserDisabled:
