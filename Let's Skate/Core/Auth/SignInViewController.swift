@@ -237,32 +237,34 @@ extension SignInViewController: LoginViewModelOutPut {
     }
     
     func LoginError(error: LoginErrors) {
-        switch error {
-            // badly formated email
-        case .emailNotFormated:
-            TextFieldErrorAnimation().textfieldAnimation(textfield: emailTextField)
-            emailErrorLabel.isHidden = false
-            emailErrorLabel.text = error.description
-            
-            // email doesn't exists
-        case .FIRAuthErrorCodeInvalidEmail:
-            TextFieldErrorAnimation().textfieldAnimation(textfield: emailTextField)
-            emailErrorLabel.isHidden = false
-            emailErrorLabel.text = error.description
-            
-            // user disabled
-        case .FIRAuthErrorCodeUserDisabled:
-            AlertManager().showErrorAlert(viewcontroller: self, error: error.description)
-            
-            // wrond password
-        case .FIRAuthErrorCodeWrongPassword:
-            TextFieldErrorAnimation().textfieldAnimation(textfield: passwordTextField)
-            passwordErrorLabel.isHidden = false
-            passwordErrorLabel.text = error.description
-            
-            // unknown error
-        case .FIRAuthErrorCodeUnkown:
-            AlertManager().showErrorAlert(viewcontroller: self, error: error.description)
+        DispatchQueue.main.async {[self] in
+            switch error {
+                // badly formated email
+            case .emailNotFormated:
+                TextFieldErrorAnimation().textfieldAnimation(textfield: emailTextField)
+                emailErrorLabel.isHidden = false
+                emailErrorLabel.text = error.description
+                
+                // email doesn't exists
+            case .FIRAuthErrorCodeInvalidEmail:
+                TextFieldErrorAnimation().textfieldAnimation(textfield: emailTextField)
+                emailErrorLabel.isHidden = false
+                emailErrorLabel.text = error.description
+                
+                // user disabled
+            case .FIRAuthErrorCodeUserDisabled:
+                AlertManager().showErrorAlert(viewcontroller: self, error: error.description)
+                
+                // wrond password
+            case .FIRAuthErrorCodeWrongPassword:
+                TextFieldErrorAnimation().textfieldAnimation(textfield: passwordTextField)
+                passwordErrorLabel.isHidden = false
+                passwordErrorLabel.text = error.description
+                
+                // unknown error
+            case .FIRAuthErrorCodeUnkown:
+                AlertManager().showErrorAlert(viewcontroller: self, error: error.description)
+            }
         }
     }
 }
