@@ -57,6 +57,8 @@ class AuthManager: LoginService, RegistrationService, UserVerificationService, U
             try await AuthRef.signIn(withEmail: email, password: password)
         } catch {
             try LoginErrors.allCases.forEach({ loginError in
+                print(loginError.LocalizedDesc)
+                print(error.localizedDescription)
                 if loginError.LocalizedDesc == error.localizedDescription { throw loginError }
             })
             throw LoginErrors.FIRAuthErrorCodeUnkown
