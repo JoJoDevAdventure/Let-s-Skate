@@ -59,7 +59,7 @@ class AuthManager: LoginService, RegistrationService, UserVerificationService, U
             try LoginErrors.allCases.forEach({ loginError in
                 if loginError.LocalizedDesc == error.localizedDescription { throw loginError }
             })
-            throw error
+            throw LoginErrors.FIRAuthErrorCodeUnkown
         }
     }
     

@@ -10,6 +10,7 @@ import UIKit
 
 protocol LoginViewModelOutPut: AnyObject {
     func switchToFeedViewController()
+    func LoginError(error: LoginErrors)
 }
 
 class LoginViewModel {
@@ -22,7 +23,7 @@ class LoginViewModel {
         self.loginService = loginService
     }
     
-    func logInUser(email: String, emailTF: UITextField, emailErrorLabel: UILabel, password: String, passwordTF: UITextField, passwordErrorLabel: UILabel, viewController: UIViewController) {
+    func logInUser(email: String, password: String) async {
         
         //hide error until verify
         emailErrorLabel.isHidden = true
@@ -32,32 +33,46 @@ class LoginViewModel {
         if emailTF.text == "" { TextFieldErrorAnimation().textfieldAnimation(textfield: emailTF) }
         if passwordTF.text == "" { TextFieldErrorAnimation().textfieldAnimation(textfield: passwordTF) }
         
-        
-        loginService.loginUserWith(email: email, password: password) {[weak self] results in
-            switch results {
-            case .success(()) : self?.output?.switchToFeedViewController()
-            case .failure(let error):
-                switch error {
-                    //animate the textfield
-                    //show the error under the textfield
-                case .emailNotFormated:
-                    TextFieldErrorAnimation().textfieldAnimation(textfield: emailTF)
-                    emailErrorLabel.isHidden = false
-                    emailErrorLabel.text = error.description
-                case .FIRAuthErrorCodeInvalidEmail:
-                    TextFieldErrorAnimation().textfieldAnimation(textfield: emailTF)
-                    emailErrorLabel.isHidden = false
-                    emailErrorLabel.text = error.description
-                case .FIRAuthErrorCodeUserDisabled:
-                    AlertManager().showErrorAlert(viewcontroller: viewController, error: error.description)
-                case .FIRAuthErrorCodeWrongPassword:
-                    TextFieldErrorAnimation().textfieldAnimation(textfield: passwordTF)
-                    passwordErrorLabel.isHidden = false
-                    passwordErrorLabel.text = error.description
-                case .FIRAuthErrorCodeUnkown:
-                    AlertManager().showErrorAlert(viewcontroller: viewController, error: error.description)
-                }
+        do {
+            try await loginService.loginUserWith(email: email, password: password)
+        } catch {
+            guard let loginError = error as? LoginErrors else { return }
+            output?.LoginError(error: loginError )
+            switch error {
+                // badly formated email
+            case .emailNotFormated:
+                TextFieldErrorAnimation().textfieldAnimation(textfield: emailTF)
+                emailErrorLabel.isHidden = false
+                emailErrorLabel.text = error.description
+                self.output?.emailNotFormatedError(error: LoginErrors.emailNotFormated)
+                
+                // email doesn't exists
+            case .FIRAuthErrorCodeInvalidEmail:
+                TextFieldErrorAnimation().textfieldAnimation(textfield: emailTF)
+                emailErrorLabel.isHidden = false
+                emailErrorLabel.text = error.description
+                self.output?.invalidEmailError(error: LoginErrors.FIRAuthErrorCodeInvalidEmail)
+                
+                // user disabled
+            case .FIRAuthErrorCodeUserDisabled:
+                AlertManager().showErrorAlert(viewcontroller: viewController, error: error.description)
+                self.output?.userDisabledError(error: LoginErrors.FIRAuthErrorCodeUserDisabled)
+                
+                // wrond password
+            case .FIRAuthErrorCodeWrongPassword:
+                TextFieldErrorAnimation().textfieldAnimation(textfield: passwordTF)
+                passwordErrorLabel.isHidden = false
+                passwordErrorLabel.text = error.description
+                
+                // unknown error
+            case .FIRAuthErrorCodeUnkown:
+                AlertManager().showErrorAlert(viewcontroller: viewController, error: error.description)
             }
         }
     }
+    
+    public func validateTextField() {
+        
+    }
+    
 }
