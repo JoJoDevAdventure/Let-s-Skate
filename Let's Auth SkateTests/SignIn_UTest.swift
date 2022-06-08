@@ -65,7 +65,7 @@ class SignIn_UTest: XCTestCase {
     
     func test_login_to_disabled_account() async {
         do {
-            try await signUp.loginUserWith(email: "jojonoah@gmail.com", password: "12341234")
+            try await signUp.loginUserWith(email: "youssef.b.air3@gmail.com", password: "12341234")
             XCTAssert(user == nil)
         } catch {
             // verify that we got the correct error
@@ -74,7 +74,7 @@ class SignIn_UTest: XCTestCase {
         }
     }
     
-    // Turn of mac connection
+    /// Turn off mac connection
     func test_no_connection_while_login() async {
         do {
             try await signUp.loginUserWith(email: "youssef.b.air2@gmail.com", password: "12341234")
