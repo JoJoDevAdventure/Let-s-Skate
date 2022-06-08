@@ -50,6 +50,10 @@ class AuthManager: LoginService, RegistrationService, UserVerificationService, U
     /// login with email and password
     func loginUserWith(email: String, password: String) async throws {
         do {
+            
+            guard email.contains("@") && email.contains(".")  else { throw LoginErrors.emailNotFormated }
+            guard password.count > 5 else { throw LoginErrors.FIRAuthErrorCodeWrongPassword }
+            
             try await AuthRef.signIn(withEmail: email, password: password)
         } catch {
             try LoginErrors.allCases.forEach({ loginError in

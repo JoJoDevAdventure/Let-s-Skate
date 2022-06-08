@@ -32,6 +32,7 @@ class LoginViewModel {
         if emailTF.text == "" { TextFieldErrorAnimation().textfieldAnimation(textfield: emailTF) }
         if passwordTF.text == "" { TextFieldErrorAnimation().textfieldAnimation(textfield: passwordTF) }
         
+        
         loginService.loginUserWith(email: email, password: password) {[weak self] results in
             switch results {
             case .success(()) : self?.output?.switchToFeedViewController()
